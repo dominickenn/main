@@ -19,14 +19,14 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Address;
 import seedu.address.model.task.Email;
 import seedu.address.model.task.Name;
-import seedu.address.model.task.Task;
 import seedu.address.model.task.Phone;
+import seedu.address.model.task.Task;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
-import seedu.address.model.tag.Tag;
 
 /**
  * Edits the details of an existing task in the address book.
@@ -59,7 +59,7 @@ public class EditCommand extends UndoableCommand {
     private Task editedTask;
 
     /**
-     * @param index of the task in the filtered task list to edit
+     * @param index                of the task in the filtered task list to edit
      * @param editPersonDescriptor details to edit the task with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -141,7 +141,8 @@ public class EditCommand extends UndoableCommand {
         private Address address;
         private Set<Tag> tags;
 
-        public EditPersonDescriptor() {}
+        public EditPersonDescriptor() {
+        }
 
         /**
          * Copy constructor.

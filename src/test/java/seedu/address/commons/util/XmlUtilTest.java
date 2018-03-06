@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.Organizer;
-import seedu.address.storage.XmlAdaptedTask;
 import seedu.address.storage.XmlAdaptedTag;
+import seedu.address.storage.XmlAdaptedTask;
 import seedu.address.storage.XmlSerializableOrganizer;
 import seedu.address.testutil.OrganizerBuilder;
 import seedu.address.testutil.TaskBuilder;

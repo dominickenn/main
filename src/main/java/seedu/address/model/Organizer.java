@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
 import seedu.address.model.task.exceptions.TaskNotFoundException;
-import seedu.address.model.tag.Tag;
-import seedu.address.model.tag.UniqueTagList;
 
 /**
  * Wraps all data at the address-book level
@@ -34,12 +34,14 @@ public class Organizer implements ReadOnlyOrganizer {
      * Note that non-static init blocks are not recommended to use. There are other ways to avoid duplication
      *   among constructors.
      */
+
     {
         persons = new UniqueTaskList();
         tags = new UniqueTagList();
     }
 
-    public Organizer() {}
+    public Organizer() {
+    }
 
     /**
      * Creates an Organizer using the Persons and Tags in the {@code toBeCopied}
@@ -98,9 +100,8 @@ public class Organizer implements ReadOnlyOrganizer {
      * {@code Organizer}'s tag list will be updated with the tags of {@code editedTask}.
      *
      * @throws DuplicateTaskException if updating the task's details causes the task to be equivalent to
-     *      another existing task in the list.
-     * @throws TaskNotFoundException if {@code target} could not be found in the list.
-     *
+     *                                another existing task in the list.
+     * @throws TaskNotFoundException  if {@code target} could not be found in the list.
      * @see #syncWithMasterTagList(Task)
      */
     public void updatePerson(Task target, Task editedTask)
@@ -115,9 +116,10 @@ public class Organizer implements ReadOnlyOrganizer {
     }
 
     /**
-     *  Updates the master tag list to include tags in {@code task} that are not in the list.
-     *  @return a copy of this {@code task} such that every tag in this task points to a Tag object in the master
-     *  list.
+     * Updates the master tag list to include tags in {@code task} that are not in the list.
+     *
+     * @return a copy of this {@code task} such that every tag in this task points to a Tag object in the master
+     * list.
      */
     private Task syncWithMasterTagList(Task task) {
         final UniqueTagList personTags = new UniqueTagList(task.getTags());
@@ -137,6 +139,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
     /**
      * Removes {@code key} from this {@code Organizer}.
+     *
      * @throws TaskNotFoundException if the {@code key} is not in this {@code Organizer}.
      */
     public boolean removePerson(Task key) throws TaskNotFoundException {
@@ -157,7 +160,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
     @Override
     public String toString() {
-        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() +  " tags";
+        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() + " tags";
         // TODO: refine later
     }
 

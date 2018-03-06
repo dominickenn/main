@@ -2,9 +2,9 @@ package seedu.address.testutil;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.Organizer;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.exceptions.DuplicateTaskException;
-import seedu.address.model.tag.Tag;
 
 /**
  * A utility class to help with building Addressbook objects.

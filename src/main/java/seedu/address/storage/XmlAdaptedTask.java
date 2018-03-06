@@ -9,12 +9,12 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Address;
 import seedu.address.model.task.Email;
 import seedu.address.model.task.Name;
-import seedu.address.model.task.Task;
 import seedu.address.model.task.Phone;
-import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Task;
 
 /**
  * JAXB-friendly version of the Task.
@@ -39,7 +39,8 @@ public class XmlAdaptedTask {
      * Constructs an XmlAdaptedTask.
      * This is the no-arg constructor that is required by JAXB.
      */
-    public XmlAdaptedTask() {}
+    public XmlAdaptedTask() {
+    }
 
     /**
      * Constructs an {@code XmlAdaptedTask} with the given task details.
