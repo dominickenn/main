@@ -8,17 +8,17 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.Organizer;
+import seedu.address.model.ReadOnlyOrganizer;
 
 /**
- * An Immutable AddressBook that is serializable to XML format
+ * An Immutable Organizer that is serializable to XML format
  */
 @XmlRootElement(name = "addressbook")
 public class XmlSerializableOrganizer {
 
     @XmlElement
-    private List<XmlAdaptedTask> persons;
+    private List<XmlAdaptedTask> tasks;
     @XmlElement
     private List<XmlAdaptedTag> tags;
 
@@ -27,34 +27,34 @@ public class XmlSerializableOrganizer {
      * This empty constructor is required for marshalling.
      */
     public XmlSerializableOrganizer() {
-        persons = new ArrayList<>();
+        tasks = new ArrayList<>();
         tags = new ArrayList<>();
     }
 
     /**
      * Conversion
      */
-    public XmlSerializableOrganizer(ReadOnlyAddressBook src) {
+    public XmlSerializableOrganizer(ReadOnlyOrganizer src) {
         this();
-        persons.addAll(src.getPersonList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
+        tasks.addAll(src.getPersonList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
         tags.addAll(src.getTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
     }
 
     /**
-     * Converts this addressbook into the model's {@code AddressBook} object.
+     * Converts this addressbook into the model's {@code Organizer} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      * {@code XmlAdaptedTask} or {@code XmlAdaptedTag}.
      */
-    public AddressBook toModelType() throws IllegalValueException {
-        AddressBook addressBook = new AddressBook();
+    public Organizer toModelType() throws IllegalValueException {
+        Organizer organizer = new Organizer();
         for (XmlAdaptedTag t : tags) {
-            addressBook.addTag(t.toModelType());
+            organizer.addTag(t.toModelType());
         }
-        for (XmlAdaptedTask p : persons) {
-            addressBook.addPerson(p.toModelType());
+        for (XmlAdaptedTask p : tasks) {
+            organizer.addPerson(p.toModelType());
         }
-        return addressBook;
+        return organizer;
     }
 
     @Override
@@ -68,6 +68,6 @@ public class XmlSerializableOrganizer {
         }
 
         XmlSerializableOrganizer otherAb = (XmlSerializableOrganizer) other;
-        return persons.equals(otherAb.persons) && tags.equals(otherAb.tags);
+        return tasks.equals(otherAb.tasks) && tags.equals(otherAb.tags);
     }
 }

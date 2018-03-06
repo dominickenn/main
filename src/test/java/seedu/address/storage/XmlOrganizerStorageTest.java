@@ -16,8 +16,8 @@ import org.junit.rules.TemporaryFolder;
 
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.FileUtil;
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.Organizer;
+import seedu.address.model.ReadOnlyOrganizer;
 
 public class XmlOrganizerStorageTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlOrganizerStorageTest/");
@@ -34,7 +34,7 @@ public class XmlOrganizerStorageTest {
         readAddressBook(null);
     }
 
-    private java.util.Optional<ReadOnlyAddressBook> readAddressBook(String filePath) throws Exception {
+    private java.util.Optional<ReadOnlyOrganizer> readAddressBook(String filePath) throws Exception {
         return new XmlOrganizerStorage(filePath).readAddressBook(addToTestDataPathIfNotNull(filePath));
     }
 
@@ -75,26 +75,26 @@ public class XmlOrganizerStorageTest {
     @Test
     public void readAndSaveAddressBook_allInOrder_success() throws Exception {
         String filePath = testFolder.getRoot().getPath() + "TempAddressBook.xml";
-        AddressBook original = getTypicalAddressBook();
+        Organizer original = getTypicalAddressBook();
         XmlOrganizerStorage xmlAddressBookStorage = new XmlOrganizerStorage(filePath);
 
         //Save in new file and read back
         xmlAddressBookStorage.saveAddressBook(original, filePath);
-        ReadOnlyAddressBook readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
-        assertEquals(original, new AddressBook(readBack));
+        ReadOnlyOrganizer readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
+        assertEquals(original, new Organizer(readBack));
 
         //Modify data, overwrite exiting file, and read back
         original.addPerson(HOON);
         original.removePerson(ALICE);
         xmlAddressBookStorage.saveAddressBook(original, filePath);
         readBack = xmlAddressBookStorage.readAddressBook(filePath).get();
-        assertEquals(original, new AddressBook(readBack));
+        assertEquals(original, new Organizer(readBack));
 
         //Save and read without specifying file path
         original.addPerson(IDA);
         xmlAddressBookStorage.saveAddressBook(original); //file path not specified
         readBack = xmlAddressBookStorage.readAddressBook().get(); //file path not specified
-        assertEquals(original, new AddressBook(readBack));
+        assertEquals(original, new Organizer(readBack));
 
     }
 
@@ -107,7 +107,7 @@ public class XmlOrganizerStorageTest {
     /**
      * Saves {@code addressBook} at the specified {@code filePath}.
      */
-    private void saveAddressBook(ReadOnlyAddressBook addressBook, String filePath) {
+    private void saveAddressBook(ReadOnlyOrganizer addressBook, String filePath) {
         try {
             new XmlOrganizerStorage(filePath).saveAddressBook(addressBook, addToTestDataPathIfNotNull(filePath));
         } catch (IOException ioe) {
@@ -118,7 +118,7 @@ public class XmlOrganizerStorageTest {
     @Test
     public void saveAddressBook_nullFilePath_throwsNullPointerException() throws IOException {
         thrown.expect(NullPointerException.class);
-        saveAddressBook(new AddressBook(), null);
+        saveAddressBook(new Organizer(), null);
     }
 
 

@@ -11,7 +11,7 @@ import org.junit.rules.ExpectedException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.XmlUtil;
-import seedu.address.model.AddressBook;
+import seedu.address.model.Organizer;
 import seedu.address.testutil.TypicalPersons;
 
 public class XmlSerializableOrganizerTest {
@@ -28,9 +28,9 @@ public class XmlSerializableOrganizerTest {
     public void toModelType_typicalPersonsFile_success() throws Exception {
         XmlSerializableOrganizer dataFromFile = XmlUtil.getDataFromFile(TYPICAL_PERSONS_FILE,
                 XmlSerializableOrganizer.class);
-        AddressBook addressBookFromFile = dataFromFile.toModelType();
-        AddressBook typicalPersonsAddressBook = TypicalPersons.getTypicalAddressBook();
-        assertEquals(addressBookFromFile, typicalPersonsAddressBook);
+        Organizer organizerFromFile = dataFromFile.toModelType();
+        Organizer typicalPersonsOrganizer = TypicalPersons.getTypicalAddressBook();
+        assertEquals(organizerFromFile, typicalPersonsOrganizer);
     }
 
     @Test
