@@ -15,18 +15,18 @@ import seedu.address.model.ReadOnlyAddressBook;
  * An Immutable AddressBook that is serializable to XML format
  */
 @XmlRootElement(name = "addressbook")
-public class XmlSerializableAddressBook {
+public class XmlSerializableOrganizer {
 
     @XmlElement
-    private List<XmlAdaptedPerson> persons;
+    private List<XmlAdaptedTask> persons;
     @XmlElement
     private List<XmlAdaptedTag> tags;
 
     /**
-     * Creates an empty XmlSerializableAddressBook.
+     * Creates an empty XmlSerializableOrganizer.
      * This empty constructor is required for marshalling.
      */
-    public XmlSerializableAddressBook() {
+    public XmlSerializableOrganizer() {
         persons = new ArrayList<>();
         tags = new ArrayList<>();
     }
@@ -34,9 +34,9 @@ public class XmlSerializableAddressBook {
     /**
      * Conversion
      */
-    public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
+    public XmlSerializableOrganizer(ReadOnlyAddressBook src) {
         this();
-        persons.addAll(src.getPersonList().stream().map(XmlAdaptedPerson::new).collect(Collectors.toList()));
+        persons.addAll(src.getPersonList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
         tags.addAll(src.getTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
     }
 
@@ -44,14 +44,14 @@ public class XmlSerializableAddressBook {
      * Converts this addressbook into the model's {@code AddressBook} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
-     * {@code XmlAdaptedPerson} or {@code XmlAdaptedTag}.
+     * {@code XmlAdaptedTask} or {@code XmlAdaptedTag}.
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
         for (XmlAdaptedTag t : tags) {
             addressBook.addTag(t.toModelType());
         }
-        for (XmlAdaptedPerson p : persons) {
+        for (XmlAdaptedTask p : persons) {
             addressBook.addPerson(p.toModelType());
         }
         return addressBook;
@@ -63,11 +63,11 @@ public class XmlSerializableAddressBook {
             return true;
         }
 
-        if (!(other instanceof XmlSerializableAddressBook)) {
+        if (!(other instanceof XmlSerializableOrganizer)) {
             return false;
         }
 
-        XmlSerializableAddressBook otherAb = (XmlSerializableAddressBook) other;
+        XmlSerializableOrganizer otherAb = (XmlSerializableOrganizer) other;
         return persons.equals(otherAb.persons) && tags.equals(otherAb.tags);
     }
 }
