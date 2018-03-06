@@ -9,7 +9,8 @@ import java.nio.file.Files;
 /**
  * Writes and reads files
  */
-public class FileUtil {
+public class
+FileUtil {
 
     private static final String CHARSET = "UTF-8";
 

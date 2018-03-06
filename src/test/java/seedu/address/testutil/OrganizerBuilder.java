@@ -9,24 +9,24 @@ import seedu.address.model.tag.Tag;
 /**
  * A utility class to help with building Addressbook objects.
  * Example usage: <br>
- * {@code Organizer ab = new AddressBookBuilder().withPerson("John", "Doe").withTag("Friend").build();}
+ * {@code Organizer ab = new OrganizerBuilder().withPerson("John", "Doe").withTag("Friend").build();}
  */
-public class AddressBookBuilder {
+public class OrganizerBuilder {
 
     private Organizer organizer;
 
-    public AddressBookBuilder() {
+    public OrganizerBuilder() {
         organizer = new Organizer();
     }
 
-    public AddressBookBuilder(Organizer organizer) {
+    public OrganizerBuilder(Organizer organizer) {
         this.organizer = organizer;
     }
 
     /**
      * Adds a new {@code Task} to the {@code Organizer} that we are building.
      */
-    public AddressBookBuilder withPerson(Task task) {
+    public OrganizerBuilder withPerson(Task task) {
         try {
             organizer.addPerson(task);
         } catch (DuplicateTaskException dpe) {
@@ -38,7 +38,7 @@ public class AddressBookBuilder {
     /**
      * Parses {@code tagName} into a {@code Tag} and adds it to the {@code Organizer} that we are building.
      */
-    public AddressBookBuilder withTag(String tagName) {
+    public OrganizerBuilder withTag(String tagName) {
         try {
             organizer.addTag(new Tag(tagName));
         } catch (IllegalValueException ive) {

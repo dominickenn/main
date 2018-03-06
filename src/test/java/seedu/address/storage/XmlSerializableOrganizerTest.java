@@ -12,7 +12,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.XmlUtil;
 import seedu.address.model.Organizer;
-import seedu.address.testutil.TypicalPersons;
+import seedu.address.testutil.TypicalTasks;
 
 public class XmlSerializableOrganizerTest {
 
@@ -29,7 +29,7 @@ public class XmlSerializableOrganizerTest {
         XmlSerializableOrganizer dataFromFile = XmlUtil.getDataFromFile(TYPICAL_PERSONS_FILE,
                 XmlSerializableOrganizer.class);
         Organizer organizerFromFile = dataFromFile.toModelType();
-        Organizer typicalPersonsOrganizer = TypicalPersons.getTypicalAddressBook();
+        Organizer typicalPersonsOrganizer = TypicalTasks.getTypicalAddressBook();
         assertEquals(organizerFromFile, typicalPersonsOrganizer);
     }
 

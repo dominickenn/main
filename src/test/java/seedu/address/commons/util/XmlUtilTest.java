@@ -18,8 +18,8 @@ import seedu.address.model.Organizer;
 import seedu.address.storage.XmlAdaptedTask;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlSerializableOrganizer;
-import seedu.address.testutil.AddressBookBuilder;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.OrganizerBuilder;
+import seedu.address.testutil.TaskBuilder;
 import seedu.address.testutil.TestUtil;
 
 public class XmlUtilTest {
@@ -128,9 +128,9 @@ public class XmlUtilTest {
         XmlSerializableOrganizer dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableOrganizer.class);
         assertEquals(dataToWrite, dataFromFile);
 
-        AddressBookBuilder builder = new AddressBookBuilder(new Organizer());
+        OrganizerBuilder builder = new OrganizerBuilder(new Organizer());
         dataToWrite = new XmlSerializableOrganizer(
-                builder.withPerson(new PersonBuilder().build()).withTag("Friends").build());
+                builder.withPerson(new TaskBuilder().build()).withTag("Friends").build());
 
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableOrganizer.class);
