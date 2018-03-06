@@ -4,11 +4,11 @@ import seedu.address.commons.events.BaseEvent;
 import seedu.address.model.ReadOnlyOrganizer;
 
 /** Indicates the Organizer in the model has changed*/
-public class AddressBookChangedEvent extends BaseEvent {
+public class OrganizerChangedEvent extends BaseEvent {
 
     public final ReadOnlyOrganizer data;
 
-    public AddressBookChangedEvent(ReadOnlyOrganizer data) {
+    public OrganizerChangedEvent(ReadOnlyOrganizer data) {
         this.data = data;
     }
 
