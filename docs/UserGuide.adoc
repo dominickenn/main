@@ -140,7 +140,7 @@ Deletes the 2nd task in the Organizer.
 `delete 1` +
 Deletes the 1st task in the results of the `find` command.
 
-=== Selecting a task : `select`
+=== Selecting a task : `select` or `s`
 
 Selects the task identified by the index number used in the last task listing. +
 Format: `select INDEX`
