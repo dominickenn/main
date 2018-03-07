@@ -74,7 +74,7 @@ Examples:
 * `add n/CS2103T Developer Guide p/10 d/2018-03-02`
 * `add n/CS2101 Script p/8 d/2018-03-05 t/CS2101`
 
-=== Listing all tasks : `list`
+=== Listing all tasks : `list` or `l`
 
 Shows a list of all tasks in the Organizer. +
 
