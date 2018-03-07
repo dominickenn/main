@@ -80,7 +80,7 @@ Shows a list of all tasks in the Organizer. +
 
 Format: `list`
 
-=== Editing a task : `edit`
+=== Editing a task : `edit` or `e`
 
 Edits an existing task in the Organizer. +
 Format: `edit INDEX [n/TASK_NAME] [p/PRIORITY_LEVEL] [d/DEADLINE] [t/TAG]…​`
