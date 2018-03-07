@@ -100,7 +100,7 @@ Edits the priority level and deadline of the 1st task to be `9` and `2018-12-30`
 * `edit 2 n/CS2101 Final Assignment t/` +
 Edits the name of the 2nd task to be `CS2101 Final Assignment` and clears all existing tags.
 
-=== Locating tasks by name: `find`
+=== Locating tasks by name: `find` or `f`
 
 Finds tasks whose names contain any of the given keywords. +
 Format: `find KEYWORD [MORE_KEYWORDS]`
