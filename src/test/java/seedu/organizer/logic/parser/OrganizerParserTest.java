@@ -46,6 +46,9 @@ public class OrganizerParserTest {
         Task task = new TaskBuilder().build();
         AddCommand command = (AddCommand) parser.parseCommand(TaskUtil.getAddCommand(task));
         assertEquals(new AddCommand(task), command);
+
+        AddCommand commandAlias = (AddCommand) parser.parseCommand(TaskUtil.getAddCommandAlias(task));
+        assertEquals(new AddCommand(task), commandAlias);
     }
 
     @Test
