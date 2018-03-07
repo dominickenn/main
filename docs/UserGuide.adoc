@@ -120,7 +120,7 @@ Returns `developer` and `Developer Guide`
 * find `CS2101 Developer User` +
 Returns any task having names `CS2101`, `Developer`, or `User`
 
-=== Deleting a task : `delete`
+=== Deleting a task : `delete` or `d`
 
 Deletes the specified task from the Organizer. +
 Format: `delete INDEX`
