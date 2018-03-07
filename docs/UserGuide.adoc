@@ -61,7 +61,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
-=== Adding a task: `add`
+=== Adding a task: `add` or `a`
 
 Adds a person to the Organizer +
 Format: `add n/TASK_NAME p/PRIORITY_LEVEL d/DEADLINE [t/TAG]…​`
@@ -223,7 +223,7 @@ The `redo` command fails as there are no `undo` commands executed previously.
 === Clearing all entries : `clear` or `c`
 
 Clears all entries from the Organizer. +
-Format: `clear`, `c`
+Format: `clear`
 
 === Exiting the program : `exit`
 
