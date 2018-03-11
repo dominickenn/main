@@ -14,6 +14,7 @@ public class Priority {
     public static final String MESSAGE_PRIORITY_CONSTRAINTS =
             "Priority numbers can only be 0 to 9, 0 being the lowest priority, and 9 being the highest priority";
     public static final String PRIORITY_VALIDATION_REGEX = "\\d{1}";
+    public static final String LOWEST_PRIORITY_LEVEL = "0";
     public final String value;
 
     /**
