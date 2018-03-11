@@ -25,8 +25,8 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
 
     @Test
     public void find() {
-        /* Case: find multiple persons in organizer book, command with leading spaces and trailing spaces
-         * -> 2 persons found
+        /* Case: find multiple tasks in organizer book, command with leading spaces and trailing spaces
+         * -> 2 tasks found
          */
         String command = "   " + FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER + "   ";
         Model expectedModel = getModel();
@@ -111,8 +111,8 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
-        /* Case: find phone number of task in organizer book -> 0 persons found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getPhone().value;
+        /* Case: find priority number of task in organizer book -> 0 persons found */
+        command = FindCommand.COMMAND_WORD + " " + DANIEL.getPriority().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 

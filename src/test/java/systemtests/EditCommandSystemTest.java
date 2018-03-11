@@ -9,18 +9,18 @@ import static seedu.organizer.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
-import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_PRIORITY_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_AMY;
+import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
@@ -42,7 +42,7 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Address;
 import seedu.organizer.model.task.Email;
 import seedu.organizer.model.task.Name;
-import seedu.organizer.model.task.Phone;
+import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
@@ -62,8 +62,8 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
          */
         Index index = INDEX_FIRST_PERSON;
         String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
-                + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
-        Task editedTask = new TaskBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+                + PRIORITY_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
+        Task editedTask = new TaskBuilder().withName(VALID_NAME_BOB).withPriority(VALID_PRIORITY_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedTask);
 
@@ -80,7 +80,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: edit a task with new values same as existing values -> edited */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
         assertCommandSuccess(command, index, BOB);
 
@@ -124,7 +124,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         showAllPersons();
         index = INDEX_FIRST_PERSON;
         selectPerson(index);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + TAG_DESC_FRIEND;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new task's name
@@ -157,9 +157,9 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_NAME_DESC,
                 Name.MESSAGE_NAME_CONSTRAINTS);
 
-        /* Case: invalid phone -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_PHONE_DESC,
-                Phone.MESSAGE_PHONE_CONSTRAINTS);
+        /* Case: invalid priority -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_PRIORITY_DESC,
+                Priority.MESSAGE_PRIORITY_CONSTRAINTS);
 
         /* Case: invalid email -> rejected */
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + INVALID_EMAIL_DESC,
@@ -178,14 +178,14 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         assertTrue(getModel().getOrganizer().getTaskList().contains(BOB));
         index = INDEX_FIRST_PERSON;
         assertFalse(getModel().getFilteredTaskList().get(index.getZeroBased()).equals(BOB));
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
-        assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_TASK);
 
         /* Case: edit a task with new values same as another task's values but with different tags -> rejected */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND;
-        assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_PERSON);
+        assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_TASK);
     }
 
     /**
@@ -221,7 +221,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         }
 
         assertCommandSuccess(command, expectedModel,
-                String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedTask), expectedSelectedCardIndex);
+                String.format(EditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask), expectedSelectedCardIndex);
     }
 
     /**
