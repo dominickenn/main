@@ -2,14 +2,14 @@
 <addressbook>
     <!-- Valid Task -->
     <tasks>
-        <name>Hans Muster</name>
-        <priority isPrivate="false">9482424</priority>
+        <name>Revision</name>
+        <priority isPrivate="false">9</priority>
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">4th street</address>
     </tasks>
     <!-- Task with invalid priority field -->
     <tasks>
-        <name>Hans Muster</name>
+        <name>Revision</name>
         <priority isPrivate="false">948asdf2424</priority>
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">4th street</address>

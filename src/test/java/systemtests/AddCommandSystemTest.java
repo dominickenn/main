@@ -1,19 +1,19 @@
 package systemtests;
 
 import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.organizer.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.ADDRESS_DESC_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.ADDRESS_DESC_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.EMAIL_DESC_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.EMAIL_DESC_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_PRIORITY_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_EXAM;
@@ -32,7 +32,7 @@ import static seedu.organizer.testutil.TypicalTasks.STUDY;
 import static seedu.organizer.testutil.TypicalTasks.PREPAREBREAKFAST;
 import static seedu.organizer.testutil.TypicalTasks.MAKEPRESENT;
 import static seedu.organizer.testutil.TypicalTasks.INTERVIEWPREP;
-import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_MEIER;
+import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 
 import org.junit.Test;
 
@@ -64,8 +64,8 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
          * -> added
          */
         Task toAdd = EXAM;
-        String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PRIORITY_DESC_AMY + " "
-                + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + TAG_DESC_FRIEND + " ";
+        String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_EXAM + "  " + PRIORITY_DESC_EXAM + " "
+                + EMAIL_DESC_EXAM + "   " + ADDRESS_DESC_EXAM + "   " + TAG_DESC_FRIEND + " ";
         assertCommandSuccess(command, toAdd);
 
         /* Case: undo adding Amy to the list -> Amy deleted */
@@ -82,39 +82,39 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         /* Case: add a task with all fields same as another task in the organizer book except name -> added */
         toAdd = new TaskBuilder().withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_EXAM).withEmail(VALID_EMAIL_EXAM)
                 .withAddress(VALID_ADDRESS_EXAM).withTags(VALID_TAG_FRIEND).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+        command = AddCommand.COMMAND_WORD + NAME_DESC_STUDY + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task with all fields same as another task in the organizer book except priority -> added */
         toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_STUDY).withEmail(VALID_EMAIL_EXAM)
                 .withAddress(VALID_ADDRESS_EXAM).withTags(VALID_TAG_FRIEND).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_STUDY + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task with all fields same as another task in the organizer book except email -> added */
         toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_EXAM).withEmail(VALID_EMAIL_STUDY)
                 .withAddress(VALID_ADDRESS_EXAM).withTags(VALID_TAG_FRIEND).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_STUDY + ADDRESS_DESC_EXAM
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task with all fields same as another task in the organizer book except organizer -> added */
         toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_EXAM).withEmail(VALID_EMAIL_EXAM)
                 .withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_FRIEND).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_BOB
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM + ADDRESS_DESC_STUDY
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add to empty organizer book -> added */
-        deleteAllPersons();
+        deleteAllTasks();
         assertCommandSuccess(GROCERY);
 
         /* Case: add a task with tags, command with parameters in random order -> added */
         toAdd = STUDY;
-        command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + PRIORITY_DESC_BOB + ADDRESS_DESC_BOB + NAME_DESC_BOB
-                + TAG_DESC_HUSBAND + EMAIL_DESC_BOB;
+        command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + PRIORITY_DESC_STUDY + ADDRESS_DESC_STUDY + NAME_DESC_STUDY
+                + TAG_DESC_HUSBAND + EMAIL_DESC_STUDY;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task, missing tags -> added */
@@ -123,13 +123,13 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
 
         /* Case: filters the task list before adding -> added */
-        showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        showTasksWithName(KEYWORD_MATCHING_SPRING);
         assertCommandSuccess(INTERVIEWPREP);
 
         /* ------------------------ Perform add operation while a task card is selected --------------------------- */
 
         /* Case: selects first card in the task list, add a task -> added, card selection remains unchanged */
-        selectPerson(Index.fromOneBased(1));
+        selectTask(Index.fromOneBased(1));
         assertCommandSuccess(PREPAREBREAKFAST);
 
         /* ----------------------------------- Perform invalid add operations --------------------------------------- */
@@ -146,19 +146,19 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_TASK);
 
         /* Case: missing name -> rejected */
-        command = AddCommand.COMMAND_WORD + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing priority -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing email -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + ADDRESS_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + ADDRESS_DESC_EXAM;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing organizer -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: invalid keyword -> rejected */
@@ -166,23 +166,23 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         assertCommandFailure(command, Messages.MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: invalid name -> rejected */
-        command = AddCommand.COMMAND_WORD + INVALID_NAME_DESC + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + INVALID_NAME_DESC + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM;
         assertCommandFailure(command, Name.MESSAGE_NAME_CONSTRAINTS);
 
         /* Case: invalid priority -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + INVALID_PRIORITY_DESC + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + INVALID_PRIORITY_DESC + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM;
         assertCommandFailure(command, Priority.MESSAGE_PRIORITY_CONSTRAINTS);
 
         /* Case: invalid email -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + INVALID_EMAIL_DESC + ADDRESS_DESC_AMY;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + INVALID_EMAIL_DESC + ADDRESS_DESC_EXAM;
         assertCommandFailure(command, Email.MESSAGE_EMAIL_CONSTRAINTS);
 
         /* Case: invalid organizer -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + INVALID_ADDRESS_DESC;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM + INVALID_ADDRESS_DESC;
         assertCommandFailure(command, Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
+        command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM + ADDRESS_DESC_EXAM
                 + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
     }

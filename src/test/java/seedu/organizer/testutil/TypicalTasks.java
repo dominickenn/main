@@ -34,9 +34,9 @@ public class TypicalTasks {
             .withTags("owesMoney", "friends").build();
     public static final Task PREPAREBREAKFAST = new TaskBuilder().withName("Prepare breakfast").withPriority("2")
             .withEmail("heinz@example.com").withAddress("wall street").build();
-    public static final Task HOMEWORK = new TaskBuilder().withName("Homework").withPriority("3")
+    public static final Task HOMEWORK = new TaskBuilder().withName("Do homework").withPriority("3")
             .withEmail("cornelia@example.com").withAddress("10th street").build();
-    public static final Task PROJECT = new TaskBuilder().withName("Project").withPriority("4")
+    public static final Task PROJECT = new TaskBuilder().withName("Do project").withPriority("4")
             .withEmail("werner@example.com").withAddress("michegan ave").build();
     public static final Task REVISION = new TaskBuilder().withName("Revision").withPriority("5")
             .withEmail("lydia@example.com").withAddress("little tokyo").build();
@@ -56,7 +56,8 @@ public class TypicalTasks {
             .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND)
             .build();
 
-    public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
+    public static final String KEYWORD_MATCHING_SPRING = "Spring"; // A keyword that matches SPRING
+    public static final String KEYWORD_MATCHING_DO = "Do"; // A keyword that matches DO
 
     private TypicalTasks() {
     } // prevents instantiation

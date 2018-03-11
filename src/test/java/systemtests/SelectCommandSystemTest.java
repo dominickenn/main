@@ -6,7 +6,7 @@ import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPL
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.logic.commands.SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
-import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_MEIER;
+import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalTasks;
 
 import org.junit.Test;
@@ -56,7 +56,7 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
         /* Case: filtered task list, select index within bounds of organizer book but out of bounds of task list
          * -> rejected
          */
-        showPersonsWithName(KEYWORD_MATCHING_MEIER);
+        showTasksWithName(KEYWORD_MATCHING_SPRING);
         int invalidIndex = getModel().getOrganizer().getTaskList().size();
         assertCommandFailure(SelectCommand.COMMAND_WORD + " " + invalidIndex, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
@@ -92,7 +92,7 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
         assertCommandFailure("SeLeCt 1", MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: select from empty organizer book -> rejected */
-        deleteAllPersons();
+        deleteAllTasks();
         assertCommandFailure(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_TASK.getOneBased(),
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
@@ -116,7 +116,7 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
         Model expectedModel = getModel();
         String expectedResultMessage = String.format(
                 MESSAGE_SELECT_PERSON_SUCCESS, expectedSelectedCardIndex.getOneBased());
-        int preExecutionSelectedCardIndex = getPersonListPanel().getSelectedCardIndex();
+        int preExecutionSelectedCardIndex = getTaskListPanel().getSelectedCardIndex();
 
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
