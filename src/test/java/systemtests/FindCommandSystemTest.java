@@ -3,9 +3,9 @@ package systemtests;
 import static org.junit.Assert.assertFalse;
 import static seedu.organizer.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.organizer.testutil.TypicalTasks.BENSON;
-import static seedu.organizer.testutil.TypicalTasks.CARL;
-import static seedu.organizer.testutil.TypicalTasks.DANIEL;
+import static seedu.organizer.testutil.TypicalTasks.SPRINGCLEAN;
+import static seedu.organizer.testutil.TypicalTasks.PREPAREBREAKFAST;
+import static seedu.organizer.testutil.TypicalTasks.HOMEWORK;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_MEIER;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
          */
         String command = "   " + FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER + "   ";
         Model expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, BENSON, DANIEL); // first names of Benson and Daniel are "Meier"
+        ModelHelper.setFilteredList(expectedModel, SPRINGCLEAN, HOMEWORK); // first names of Benson and Daniel are "Meier"
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -43,13 +43,13 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
 
         /* Case: find task where task list is not displaying the task we are finding -> 1 task found */
         command = FindCommand.COMMAND_WORD + " Carl";
-        ModelHelper.setFilteredList(expectedModel, CARL);
+        ModelHelper.setFilteredList(expectedModel, PREPAREBREAKFAST);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple persons in organizer book, 2 keywords -> 2 persons found */
         command = FindCommand.COMMAND_WORD + " Benson Daniel";
-        ModelHelper.setFilteredList(expectedModel, BENSON, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, SPRINGCLEAN, HOMEWORK);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -82,10 +82,10 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
 
         /* Case: find same persons in organizer book after deleting 1 of them -> 1 task found */
         executeCommand(DeleteCommand.COMMAND_WORD + " 1");
-        assertFalse(getModel().getOrganizer().getTaskList().contains(BENSON));
+        assertFalse(getModel().getOrganizer().getTaskList().contains(SPRINGCLEAN));
         command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
         expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, HOMEWORK);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -112,22 +112,22 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
         assertSelectedCardUnchanged();
 
         /* Case: find priority number of task in organizer book -> 0 persons found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getPriority().value;
+        command = FindCommand.COMMAND_WORD + " " + HOMEWORK.getPriority().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find organizer of task in organizer book -> 0 persons found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getAddress().value;
+        command = FindCommand.COMMAND_WORD + " " + HOMEWORK.getAddress().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find email of task in organizer book -> 0 persons found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getEmail().value;
+        command = FindCommand.COMMAND_WORD + " " + HOMEWORK.getEmail().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find tags of task in organizer book -> 0 persons found */
-        List<Tag> tags = new ArrayList<>(DANIEL.getTags());
+        List<Tag> tags = new ArrayList<>(HOMEWORK.getTags());
         command = FindCommand.COMMAND_WORD + " " + tags.get(0).tagName;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
@@ -135,9 +135,9 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
         /* Case: find while a task is selected -> selected card deselected */
         showAllPersons();
         selectPerson(Index.fromOneBased(1));
-        assertFalse(getPersonListPanel().getHandleToSelectedCard().getName().equals(DANIEL.getName().fullName));
+        assertFalse(getPersonListPanel().getHandleToSelectedCard().getName().equals(HOMEWORK.getName().fullName));
         command = FindCommand.COMMAND_WORD + " Daniel";
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, HOMEWORK);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardDeselected();
 
@@ -145,7 +145,7 @@ public class FindCommandSystemTest extends OrganizerSystemTest {
         deleteAllPersons();
         command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
         expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, HOMEWORK);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 

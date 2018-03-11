@@ -2,7 +2,7 @@ package seedu.organizer.storage;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.organizer.storage.XmlAdaptedTask.MISSING_FIELD_MESSAGE_FORMAT;
-import static seedu.organizer.testutil.TypicalTasks.BENSON;
+import static seedu.organizer.testutil.TypicalTasks.SPRINGCLEAN;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +24,18 @@ public class XmlAdaptedTaskTest {
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
-    private static final String VALID_NAME = BENSON.getName().toString();
-    private static final String VALID_PRIORITY = BENSON.getPriority().toString();
-    private static final String VALID_EMAIL = BENSON.getEmail().toString();
-    private static final String VALID_ADDRESS = BENSON.getAddress().toString();
-    private static final List<XmlAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
+    private static final String VALID_NAME = SPRINGCLEAN.getName().toString();
+    private static final String VALID_PRIORITY = SPRINGCLEAN.getPriority().toString();
+    private static final String VALID_EMAIL = SPRINGCLEAN.getEmail().toString();
+    private static final String VALID_ADDRESS = SPRINGCLEAN.getAddress().toString();
+    private static final List<XmlAdaptedTag> VALID_TAGS = SPRINGCLEAN.getTags().stream()
             .map(XmlAdaptedTag::new)
             .collect(Collectors.toList());
 
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
-        XmlAdaptedTask person = new XmlAdaptedTask(BENSON);
-        assertEquals(BENSON, person.toModelType());
+        XmlAdaptedTask person = new XmlAdaptedTask(SPRINGCLEAN);
+        assertEquals(SPRINGCLEAN, person.toModelType());
     }
 
     @Test

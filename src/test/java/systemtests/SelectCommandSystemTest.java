@@ -5,9 +5,9 @@ import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORM
 import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.logic.commands.SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS;
-import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_MEIER;
-import static seedu.organizer.testutil.TypicalTasks.getTypicalPersons;
+import static seedu.organizer.testutil.TypicalTasks.getTypicalTasks;
 
 import org.junit.Test;
 
@@ -25,11 +25,11 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
         /* Case: select the first card in the task list, command with leading spaces and trailing spaces
          * -> selected
          */
-        String command = "   " + SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + "   ";
-        assertCommandSuccess(command, INDEX_FIRST_PERSON);
+        String command = "   " + SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_TASK.getOneBased() + "   ";
+        assertCommandSuccess(command, INDEX_FIRST_TASK);
 
         /* Case: select the last card in the task list -> selected */
-        Index personCount = Index.fromOneBased(getTypicalPersons().size());
+        Index personCount = Index.fromOneBased(getTypicalTasks().size());
         command = SelectCommand.COMMAND_WORD + " " + personCount.getOneBased();
         assertCommandSuccess(command, personCount);
 
@@ -93,7 +93,7 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
 
         /* Case: select from empty organizer book -> rejected */
         deleteAllPersons();
-        assertCommandFailure(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased(),
+        assertCommandFailure(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_TASK.getOneBased(),
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
 

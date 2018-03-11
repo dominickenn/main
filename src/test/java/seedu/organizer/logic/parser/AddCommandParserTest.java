@@ -18,14 +18,14 @@ import static seedu.organizer.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.organizer.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -47,8 +47,8 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Task expectedTask = new TaskBuilder().withName(VALID_NAME_BOB).withPriority(VALID_PRIORITY_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIEND).build();
+        Task expectedTask = new TaskBuilder().withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_STUDY)
+                .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_FRIEND).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB
@@ -71,8 +71,8 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedTask));
 
         // multiple tags - all accepted
-        Task expectedTaskMultipleTags = new TaskBuilder().withName(VALID_NAME_BOB).withPriority(VALID_PRIORITY_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
+        Task expectedTaskMultipleTags = new TaskBuilder().withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_STUDY)
+                .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY)
                 .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
         assertParseSuccess(parser, NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, new AddCommand(expectedTaskMultipleTags));
@@ -81,8 +81,8 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags
-        Task expectedTask = new TaskBuilder().withName(VALID_NAME_AMY).withPriority(VALID_PRIORITY_AMY)
-                .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags().build();
+        Task expectedTask = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_EXAM)
+                .withEmail(VALID_EMAIL_EXAM).withAddress(VALID_ADDRESS_EXAM).withTags().build();
         assertParseSuccess(parser, NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(expectedTask));
     }
@@ -92,23 +92,23 @@ public class AddCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
 
         // missing name prefix
-        assertParseFailure(parser, VALID_NAME_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
+        assertParseFailure(parser, VALID_NAME_STUDY + PRIORITY_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing priority prefix
-        assertParseFailure(parser, NAME_DESC_BOB + VALID_PRIORITY_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
+        assertParseFailure(parser, NAME_DESC_BOB + VALID_PRIORITY_STUDY + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing email prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PRIORITY_DESC_BOB + VALID_EMAIL_BOB + ADDRESS_DESC_BOB,
+        assertParseFailure(parser, NAME_DESC_BOB + PRIORITY_DESC_BOB + VALID_EMAIL_STUDY + ADDRESS_DESC_BOB,
                 expectedMessage);
 
         // missing organizer prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_BOB,
+        assertParseFailure(parser, NAME_DESC_BOB + PRIORITY_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_STUDY,
                 expectedMessage);
 
         // all prefixes missing
-        assertParseFailure(parser, VALID_NAME_BOB + VALID_PRIORITY_BOB + VALID_EMAIL_BOB + VALID_ADDRESS_BOB,
+        assertParseFailure(parser, VALID_NAME_STUDY + VALID_PRIORITY_STUDY + VALID_EMAIL_STUDY + VALID_ADDRESS_STUDY,
                 expectedMessage);
     }
 
