@@ -27,8 +27,8 @@ import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
-import static seedu.organizer.testutil.TypicalTasks.STUDY;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
+import static seedu.organizer.testutil.TypicalTasks.STUDY;
 
 import org.junit.Test;
 
@@ -61,10 +61,12 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
          * -> edited
          */
         Index index = INDEX_FIRST_TASK;
-        String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_STUDY + "  "
-                + PRIORITY_DESC_STUDY + " " + EMAIL_DESC_STUDY + "  " + ADDRESS_DESC_STUDY + " " + TAG_DESC_HUSBAND + " ";
-        Task editedTask = new TaskBuilder().withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_STUDY)
-                .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_HUSBAND).build();
+        String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  "
+                + NAME_DESC_STUDY + "  " + PRIORITY_DESC_STUDY + " " + EMAIL_DESC_STUDY
+                + "  " + ADDRESS_DESC_STUDY + " " + TAG_DESC_HUSBAND + " ";
+        Task editedTask = new TaskBuilder().withName(VALID_NAME_STUDY)
+                .withPriority(VALID_PRIORITY_STUDY).withEmail(VALID_EMAIL_STUDY)
+                .withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_HUSBAND).build();
         assertCommandSuccess(command, index, editedTask);
 
         /* Case: undo editing the last task in the list -> last task restored */
@@ -80,7 +82,8 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: edit a task with new values same as existing values -> edited */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + EMAIL_DESC_STUDY
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased()
+                + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + EMAIL_DESC_STUDY
                 + ADDRESS_DESC_STUDY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
         assertCommandSuccess(command, index, STUDY);
 
@@ -124,7 +127,8 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         showAllTasks();
         index = INDEX_FIRST_TASK;
         selectTask(index);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased()
+                + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + EMAIL_DESC_EXAM
                 + ADDRESS_DESC_EXAM + TAG_DESC_FRIEND;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new task's name
@@ -177,13 +181,16 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         executeCommand(TaskUtil.getAddCommand(STUDY));
         assertTrue(getModel().getOrganizer().getTaskList().contains(STUDY));
         index = INDEX_FIRST_TASK;
-        assertFalse(getModel().getFilteredTaskList().get(index.getZeroBased()).equals(STUDY));
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + EMAIL_DESC_STUDY
+        assertFalse(getModel().getFilteredTaskList()
+                .get(index.getZeroBased()).equals(STUDY));
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased()
+                + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + EMAIL_DESC_STUDY
                 + ADDRESS_DESC_STUDY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_TASK);
 
         /* Case: edit a task with new values same as another task's values but with different tags -> rejected */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + EMAIL_DESC_STUDY
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased()
+                + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + EMAIL_DESC_STUDY
                 + ADDRESS_DESC_STUDY + TAG_DESC_HUSBAND;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_TASK);
     }

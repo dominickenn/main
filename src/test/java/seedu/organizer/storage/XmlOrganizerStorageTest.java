@@ -3,8 +3,8 @@ package seedu.organizer.storage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static seedu.organizer.testutil.TypicalTasks.GROCERY;
-import static seedu.organizer.testutil.TypicalTasks.MAKEPRESENT;
 import static seedu.organizer.testutil.TypicalTasks.INTERVIEWPREP;
+import static seedu.organizer.testutil.TypicalTasks.MAKEPRESENT;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import java.io.IOException;

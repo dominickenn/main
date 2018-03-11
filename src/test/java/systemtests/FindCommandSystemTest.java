@@ -3,7 +3,12 @@ package systemtests;
 import static org.junit.Assert.assertFalse;
 import static seedu.organizer.commons.core.Messages.MESSAGE_TASKS_LISTED_OVERVIEW;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.organizer.testutil.TypicalTasks.*;
+import static seedu.organizer.testutil.TypicalTasks.HOMEWORK;
+import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_DO;
+import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
+import static seedu.organizer.testutil.TypicalTasks.PREPAREBREAKFAST;
+import static seedu.organizer.testutil.TypicalTasks.PROJECT;
+import static seedu.organizer.testutil.TypicalTasks.SPRINGCLEAN;
 
 import java.util.ArrayList;
 import java.util.List;

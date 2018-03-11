@@ -12,10 +12,10 @@ import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_PRIORITY_DE
 import static seedu.organizer.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_EXAM;
 import static seedu.organizer.logic.commands.CommandTestUtil.NAME_DESC_STUDY;
-import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_EXAM;
-import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.organizer.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
+import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_EXAM;

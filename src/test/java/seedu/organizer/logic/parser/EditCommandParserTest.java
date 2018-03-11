@@ -81,18 +81,21 @@ public class EditCommandParserTest {
     @Test
     public void parse_invalidValue_failure() {
         assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_NAME_CONSTRAINTS); // invalid name
-        assertParseFailure(parser, "1" + INVALID_PRIORITY_DESC, Priority.MESSAGE_PRIORITY_CONSTRAINTS); // invalid priority
+        assertParseFailure(parser,
+                "1" + INVALID_PRIORITY_DESC, Priority.MESSAGE_PRIORITY_CONSTRAINTS); // invalid priority
         assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_EMAIL_CONSTRAINTS); // invalid email
         assertParseFailure(parser,
                 "1" + INVALID_ADDRESS_DESC, Address.MESSAGE_ADDRESS_CONSTRAINTS); // invalid organizer
         assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_TAG_CONSTRAINTS); // invalid tag
 
         // invalid priority followed by valid email
-        assertParseFailure(parser, "1" + INVALID_PRIORITY_DESC + EMAIL_DESC_EXAM, Priority.MESSAGE_PRIORITY_CONSTRAINTS);
+        assertParseFailure(parser,
+                "1" + INVALID_PRIORITY_DESC + EMAIL_DESC_EXAM, Priority.MESSAGE_PRIORITY_CONSTRAINTS);
 
         // valid priority followed by invalid priority. The test case for invalid priority followed by valid priority
         // is tested at {@code parse_invalidValueFollowedByValidValue_success()}
-        assertParseFailure(parser, "1" + PRIORITY_DESC_STUDY + INVALID_PRIORITY_DESC, Priority.MESSAGE_PRIORITY_CONSTRAINTS);
+        assertParseFailure(parser,
+                "1" + PRIORITY_DESC_STUDY + INVALID_PRIORITY_DESC, Priority.MESSAGE_PRIORITY_CONSTRAINTS);
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Task} being edited,
         // parsing it together with a valid tag results in error
@@ -177,7 +180,8 @@ public class EditCommandParserTest {
                 + PRIORITY_DESC_STUDY + ADDRESS_DESC_STUDY + EMAIL_DESC_STUDY + TAG_DESC_HUSBAND;
 
         EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_STUDY)
-                .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+                .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY)
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -189,7 +193,8 @@ public class EditCommandParserTest {
         // no other valid values specified
         Index targetIndex = INDEX_FIRST_TASK;
         String userInput = targetIndex.getOneBased() + INVALID_PRIORITY_DESC + PRIORITY_DESC_STUDY;
-        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_STUDY).build();
+        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder()
+                .withPriority(VALID_PRIORITY_STUDY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 

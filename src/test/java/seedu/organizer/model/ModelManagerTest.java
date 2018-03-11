@@ -7,8 +7,8 @@ import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
 import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
-import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
+import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.SPRINGCLEAN;
 import static seedu.organizer.testutil.TypicalTasks.STUDY;
 

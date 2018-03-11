@@ -78,6 +78,7 @@ public class TypicalTasks {
     }
 
     public static List<Task> getTypicalTasks() {
-        return new ArrayList<>(Arrays.asList(GROCERY, SPRINGCLEAN, PREPAREBREAKFAST, HOMEWORK, PROJECT, REVISION, MOCKEXAM));
+        return new ArrayList<>(Arrays.asList(GROCERY, SPRINGCLEAN,
+                PREPAREBREAKFAST, HOMEWORK, PROJECT, REVISION, MOCKEXAM));
     }
 }

@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
-import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
+import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.STUDY;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 

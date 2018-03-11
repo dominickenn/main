@@ -36,7 +36,8 @@ public class EditTaskDescriptorTest {
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
         // different name -> returns false
-        EditCommand.EditTaskDescriptor editedAmy = new EditTaskDescriptorBuilder(DESC_AMY).withName(VALID_NAME_STUDY).build();
+        EditCommand.EditTaskDescriptor editedAmy = new EditTaskDescriptorBuilder(DESC_AMY)
+                .withName(VALID_NAME_STUDY).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different priority -> returns false
