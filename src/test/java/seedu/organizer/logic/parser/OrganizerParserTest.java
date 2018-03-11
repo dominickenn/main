@@ -19,7 +19,7 @@ import seedu.organizer.logic.commands.AddCommand;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.DeleteCommand;
 import seedu.organizer.logic.commands.EditCommand;
-import seedu.organizer.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.organizer.logic.commands.EditCommand.EditTaskDescriptor;
 import seedu.organizer.logic.commands.ExitCommand;
 import seedu.organizer.logic.commands.FindCommand;
 import seedu.organizer.logic.commands.HelpCommand;
@@ -72,7 +72,7 @@ public class OrganizerParserTest {
     @Test
     public void parseCommand_edit() throws Exception {
         Task task = new TaskBuilder().build();
-        EditPersonDescriptor descriptor = new EditTaskDescriptorBuilder(task).build();
+        EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder(task).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + TaskUtil.getPersonDetails(task));
         EditCommand commandAlias = (EditCommand) parser.parseCommand(EditCommand.COMMAND_ALIAS + " "
