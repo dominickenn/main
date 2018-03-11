@@ -32,7 +32,7 @@ public class OrganizerTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private final Organizer organizer = new Organizer();
-    private final Organizer organizerWithBobAndAmy = new OrganizerBuilder().withTask(STUDY)
+    private final Organizer organizerWithStudyAndExam = new OrganizerBuilder().withTask(STUDY)
             .withTask(EXAM).build();
 
     @Test
@@ -89,23 +89,23 @@ public class OrganizerTest {
 
     @Test
     public void removeTag_nonExistentTag_organizerUnchanged() throws Exception {
-        organizerWithBobAndAmy.removeTag(new Tag(VALID_TAG_UNUSED));
+        organizerWithStudyAndExam.removeTag(new Tag(VALID_TAG_UNUSED));
 
         Organizer expectedOrganizer = new OrganizerBuilder().withTask(STUDY).withTask(EXAM).build();
 
-        assertEquals(expectedOrganizer, organizerWithBobAndAmy);
+        assertEquals(expectedOrganizer, organizerWithStudyAndExam);
     }
 
     @Test
     public void removeTag_tagUsedByMultipleTasks_tagRemoved() throws Exception {
-        organizerWithBobAndAmy.removeTag(new Tag(VALID_TAG_FRIEND));
+        organizerWithStudyAndExam.removeTag(new Tag(VALID_TAG_FRIEND));
 
         Task amyWithoutFriendTag = new TaskBuilder(EXAM).withTags().build();
         Task bobWithoutFriendTag = new TaskBuilder(STUDY).withTags(VALID_TAG_HUSBAND).build();
         Organizer expectedOrganizer = new OrganizerBuilder().withTask(bobWithoutFriendTag)
                 .withTask(amyWithoutFriendTag).build();
 
-        assertEquals(expectedOrganizer, organizerWithBobAndAmy);
+        assertEquals(expectedOrganizer, organizerWithStudyAndExam);
     }
 
 

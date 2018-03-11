@@ -34,8 +34,15 @@ public class PriorityTest {
         assertFalse(Priority.isValidPriority("9312 1534")); // spaces within digits
 
         // valid priority numbers
-        assertTrue(Priority.isValidPriority("911")); // exactly 3 numbers
-        assertTrue(Priority.isValidPriority("93121534"));
-        assertTrue(Priority.isValidPriority("124293842033123")); // long priority numbers
+        assertTrue(Priority.isValidPriority("0"));
+        assertTrue(Priority.isValidPriority("1"));
+        assertTrue(Priority.isValidPriority("2"));
+        assertTrue(Priority.isValidPriority("3"));
+        assertTrue(Priority.isValidPriority("4"));
+        assertTrue(Priority.isValidPriority("5"));
+        assertTrue(Priority.isValidPriority("6"));
+        assertTrue(Priority.isValidPriority("7"));
+        assertTrue(Priority.isValidPriority("8"));
+        assertTrue(Priority.isValidPriority("9"));
     }
 }

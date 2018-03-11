@@ -41,14 +41,14 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_TAG_UNUSED = "unused"; // do not use this tag when creating a person
 
-    public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_EXAM;
-    public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_STUDY;
-    public static final String PRIORITY_DESC_AMY = " " + PREFIX_PRIORITY + VALID_PRIORITY_EXAM;
-    public static final String PRIORITY_DESC_BOB = " " + PREFIX_PRIORITY + VALID_PRIORITY_STUDY;
-    public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_EXAM;
-    public static final String EMAIL_DESC_BOB = " " + PREFIX_EMAIL + VALID_EMAIL_STUDY;
-    public static final String ADDRESS_DESC_AMY = " " + PREFIX_ADDRESS + VALID_ADDRESS_EXAM;
-    public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_STUDY;
+    public static final String NAME_DESC_EXAM = " " + PREFIX_NAME + VALID_NAME_EXAM;
+    public static final String NAME_DESC_STUDY = " " + PREFIX_NAME + VALID_NAME_STUDY;
+    public static final String PRIORITY_DESC_EXAM = " " + PREFIX_PRIORITY + VALID_PRIORITY_EXAM;
+    public static final String PRIORITY_DESC_STUDY = " " + PREFIX_PRIORITY + VALID_PRIORITY_STUDY;
+    public static final String EMAIL_DESC_EXAM = " " + PREFIX_EMAIL + VALID_EMAIL_EXAM;
+    public static final String EMAIL_DESC_STUDY = " " + PREFIX_EMAIL + VALID_EMAIL_STUDY;
+    public static final String ADDRESS_DESC_EXAM = " " + PREFIX_ADDRESS + VALID_ADDRESS_EXAM;
+    public static final String ADDRESS_DESC_STUDY = " " + PREFIX_ADDRESS + VALID_ADDRESS_STUDY;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
