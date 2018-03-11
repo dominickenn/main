@@ -16,22 +16,22 @@ import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_AMY;
 import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.organizer.testutil.TypicalTasks.ALICE;
-import static seedu.organizer.testutil.TypicalTasks.AMY;
-import static seedu.organizer.testutil.TypicalTasks.BOB;
-import static seedu.organizer.testutil.TypicalTasks.CARL;
-import static seedu.organizer.testutil.TypicalTasks.HOON;
-import static seedu.organizer.testutil.TypicalTasks.IDA;
+import static seedu.organizer.testutil.TypicalTasks.GROCERY;
+import static seedu.organizer.testutil.TypicalTasks.EXAM;
+import static seedu.organizer.testutil.TypicalTasks.STUDY;
+import static seedu.organizer.testutil.TypicalTasks.PREPAREBREAKFAST;
+import static seedu.organizer.testutil.TypicalTasks.MAKEPRESENT;
+import static seedu.organizer.testutil.TypicalTasks.INTERVIEWPREP;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         /* Case: add a task without tags to a non-empty organizer, command with leading spaces and trailing spaces
          * -> added
          */
-        Task toAdd = AMY;
+        Task toAdd = EXAM;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_AMY + "  " + PRIORITY_DESC_AMY + " "
                 + EMAIL_DESC_AMY + "   " + ADDRESS_DESC_AMY + "   " + TAG_DESC_FRIEND + " ";
         assertCommandSuccess(command, toAdd);
@@ -80,69 +80,69 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: add a task with all fields same as another task in the organizer book except name -> added */
-        toAdd = new TaskBuilder().withName(VALID_NAME_BOB).withPriority(VALID_PRIORITY_AMY).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build();
+        toAdd = new TaskBuilder().withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_EXAM).withEmail(VALID_EMAIL_EXAM)
+                .withAddress(VALID_ADDRESS_EXAM).withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task with all fields same as another task in the organizer book except priority -> added */
-        toAdd = new TaskBuilder().withName(VALID_NAME_AMY).withPriority(VALID_PRIORITY_BOB).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build();
+        toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_STUDY).withEmail(VALID_EMAIL_EXAM)
+                .withAddress(VALID_ADDRESS_EXAM).withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task with all fields same as another task in the organizer book except email -> added */
-        toAdd = new TaskBuilder().withName(VALID_NAME_AMY).withPriority(VALID_PRIORITY_AMY).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIEND).build();
+        toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_EXAM).withEmail(VALID_EMAIL_STUDY)
+                .withAddress(VALID_ADDRESS_EXAM).withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task with all fields same as another task in the organizer book except organizer -> added */
-        toAdd = new TaskBuilder().withName(VALID_NAME_AMY).withPriority(VALID_PRIORITY_AMY).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIEND).build();
+        toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority(VALID_PRIORITY_EXAM).withEmail(VALID_EMAIL_EXAM)
+                .withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_FRIEND).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PRIORITY_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_BOB
                 + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add to empty organizer book -> added */
         deleteAllPersons();
-        assertCommandSuccess(ALICE);
+        assertCommandSuccess(GROCERY);
 
         /* Case: add a task with tags, command with parameters in random order -> added */
-        toAdd = BOB;
+        toAdd = STUDY;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + PRIORITY_DESC_BOB + ADDRESS_DESC_BOB + NAME_DESC_BOB
                 + TAG_DESC_HUSBAND + EMAIL_DESC_BOB;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a task, missing tags -> added */
-        assertCommandSuccess(HOON);
+        assertCommandSuccess(MAKEPRESENT);
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
 
         /* Case: filters the task list before adding -> added */
         showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        assertCommandSuccess(IDA);
+        assertCommandSuccess(INTERVIEWPREP);
 
         /* ------------------------ Perform add operation while a task card is selected --------------------------- */
 
         /* Case: selects first card in the task list, add a task -> added, card selection remains unchanged */
         selectPerson(Index.fromOneBased(1));
-        assertCommandSuccess(CARL);
+        assertCommandSuccess(PREPAREBREAKFAST);
 
         /* ----------------------------------- Perform invalid add operations --------------------------------------- */
 
         /* Case: add a duplicate task -> rejected */
-        command = TaskUtil.getAddCommand(HOON);
+        command = TaskUtil.getAddCommand(MAKEPRESENT);
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_TASK);
 
         /* Case: add a duplicate task except with different tags -> rejected */
-        // "friends" is an existing tag used in the default model, see TypicalTasks#ALICE
+        // "friends" is an existing tag used in the default model, see TypicalTasks#GROCERY
         // This test will fail if a new tag that is not in the model is used, see the bug documented in
         // Organizer#addTask(Task)
-        command = TaskUtil.getAddCommand(HOON) + " " + PREFIX_TAG.getPrefix() + "friends";
+        command = TaskUtil.getAddCommand(MAKEPRESENT) + " " + PREFIX_TAG.getPrefix() + "friends";
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_TASK);
 
         /* Case: missing name -> rejected */

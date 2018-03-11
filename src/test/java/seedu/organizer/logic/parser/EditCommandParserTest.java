@@ -15,21 +15,21 @@ import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_AMY;
 import static seedu.organizer.logic.commands.CommandTestUtil.PRIORITY_DESC_BOB;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_AMY;
-import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_BOB;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_ADDRESS_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_EMAIL_STUDY;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.organizer.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.organizer.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.organizer.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.organizer.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
+import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
+import static seedu.organizer.testutil.TypicalIndexes.INDEX_SECOND_TASK;
+import static seedu.organizer.testutil.TypicalIndexes.INDEX_THIRD_TASK;
 
 import org.junit.Test;
 
@@ -54,7 +54,7 @@ public class EditCommandParserTest {
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, VALID_NAME_EXAM, MESSAGE_INVALID_FORMAT);
 
         // no field specified
         assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
@@ -105,18 +105,18 @@ public class EditCommandParserTest {
 
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser,
-                "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PRIORITY_AMY,
+                "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_EXAM + VALID_PRIORITY_EXAM,
                 Name.MESSAGE_NAME_CONSTRAINTS);
     }
 
     @Test
     public void parse_allFieldsSpecified_success() {
-        Index targetIndex = INDEX_SECOND_PERSON;
+        Index targetIndex = INDEX_SECOND_TASK;
         String userInput = targetIndex.getOneBased() + PRIORITY_DESC_BOB + TAG_DESC_HUSBAND
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
 
-        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPriority(VALID_PRIORITY_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
+        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withName(VALID_NAME_EXAM)
+                .withPriority(VALID_PRIORITY_STUDY).withEmail(VALID_EMAIL_EXAM).withAddress(VALID_ADDRESS_EXAM)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -125,11 +125,11 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_someFieldsSpecified_success() {
-        Index targetIndex = INDEX_FIRST_PERSON;
+        Index targetIndex = INDEX_FIRST_TASK;
         String userInput = targetIndex.getOneBased() + PRIORITY_DESC_BOB + EMAIL_DESC_AMY;
 
-        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_BOB)
-                .withEmail(VALID_EMAIL_AMY).build();
+        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_STUDY)
+                .withEmail(VALID_EMAIL_EXAM).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
@@ -138,27 +138,27 @@ public class EditCommandParserTest {
     @Test
     public void parse_oneFieldSpecified_success() {
         // name
-        Index targetIndex = INDEX_THIRD_PERSON;
+        Index targetIndex = INDEX_THIRD_TASK;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
-        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withName(VALID_NAME_AMY).build();
+        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withName(VALID_NAME_EXAM).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // priority
         userInput = targetIndex.getOneBased() + PRIORITY_DESC_AMY;
-        descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_AMY).build();
+        descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_EXAM).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
         userInput = targetIndex.getOneBased() + EMAIL_DESC_AMY;
-        descriptor = new EditTaskDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
+        descriptor = new EditTaskDescriptorBuilder().withEmail(VALID_EMAIL_EXAM).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // organizer
         userInput = targetIndex.getOneBased() + ADDRESS_DESC_AMY;
-        descriptor = new EditTaskDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
+        descriptor = new EditTaskDescriptorBuilder().withAddress(VALID_ADDRESS_EXAM).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
@@ -171,13 +171,13 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_multipleRepeatedFields_acceptsLast() {
-        Index targetIndex = INDEX_FIRST_PERSON;
+        Index targetIndex = INDEX_FIRST_TASK;
         String userInput = targetIndex.getOneBased() + PRIORITY_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY
                 + TAG_DESC_FRIEND + PRIORITY_DESC_AMY + ADDRESS_DESC_AMY + EMAIL_DESC_AMY + TAG_DESC_FRIEND
                 + PRIORITY_DESC_BOB + ADDRESS_DESC_BOB + EMAIL_DESC_BOB + TAG_DESC_HUSBAND;
 
-        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_STUDY)
+                .withEmail(VALID_EMAIL_STUDY).withAddress(VALID_ADDRESS_STUDY).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
                 .build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
@@ -187,24 +187,24 @@ public class EditCommandParserTest {
     @Test
     public void parse_invalidValueFollowedByValidValue_success() {
         // no other valid values specified
-        Index targetIndex = INDEX_FIRST_PERSON;
+        Index targetIndex = INDEX_FIRST_TASK;
         String userInput = targetIndex.getOneBased() + INVALID_PRIORITY_DESC + PRIORITY_DESC_BOB;
-        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_BOB).build();
+        EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_STUDY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // other valid values specified
         userInput = targetIndex.getOneBased() + EMAIL_DESC_BOB + INVALID_PRIORITY_DESC + ADDRESS_DESC_BOB
                 + PRIORITY_DESC_BOB;
-        descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_BOB).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_BOB).build();
+        descriptor = new EditTaskDescriptorBuilder().withPriority(VALID_PRIORITY_STUDY).withEmail(VALID_EMAIL_STUDY)
+                .withAddress(VALID_ADDRESS_STUDY).build();
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test
     public void parse_resetTags_success() {
-        Index targetIndex = INDEX_THIRD_PERSON;
+        Index targetIndex = INDEX_THIRD_TASK;
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withTags().build();
