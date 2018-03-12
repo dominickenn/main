@@ -27,6 +27,7 @@ import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
+import static seedu.organizer.testutil.TypicalIndexes.INDEX_SECOND_TASK;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 import static seedu.organizer.testutil.TypicalTasks.STUDY;
@@ -181,7 +182,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         /* Case: edit a task with new values same as another task's values -> rejected */
         executeCommand(TaskUtil.getAddCommand(STUDY));
         assertTrue(getModel().getOrganizer().getTaskList().contains(STUDY));
-        index = INDEX_FIRST_TASK;
+        index = INDEX_SECOND_TASK;
         assertFalse(getModel().getFilteredTaskList()
                 .get(index.getZeroBased()).equals(STUDY));
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased()
