@@ -839,7 +839,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |edit a subtask of a task |change a subtask's name
 
-|`* * *`|user with many uncompleted tasks |have have all tasks constantly ordered according to their priority levels |know the order I should complete my tasks
+|`* * *`|user with many uncompleted tasks |have all tasks constantly ordered according to their priority levels |know the order I should complete my tasks
 
 |`* *` |user |edit a task's description|change a task's description
 
