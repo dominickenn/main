@@ -103,9 +103,9 @@ public class Task {
      * @return a Task comparator based on priority
      */
     public static Comparator<Task> priorityComparator() {
-        return new Comparator<Task>(){
+        return new Comparator<Task>() {
             @Override
-            public int compare(Task task1, Task task2){
+            public int compare(Task task1, Task task2) {
                 return (task1.getPriority().value)
                         .compareTo(task2.getPriority().value);
             }
