@@ -124,7 +124,7 @@ public class Task {
         return builder.toString();
     }
 
-    //@@dominickenn
+    //@@author dominickenn
     /**
      * @return a Task comparator based on priority
      */
