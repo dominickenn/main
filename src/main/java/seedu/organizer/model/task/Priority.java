@@ -8,7 +8,6 @@ import static seedu.organizer.commons.util.AppUtil.checkArgument;
  * Represents a Task's priority level in the organizer.
  * Lowest Settable Priority : 0
  * Highest Settable Priority : 9
- * Priority level may go past 9, if deadline is passed
  * Guarantees: immutable; is valid as declared in {@link #isValidPriority(String)}
  */
 public class Priority {
