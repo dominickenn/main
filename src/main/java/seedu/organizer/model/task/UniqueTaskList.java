@@ -3,6 +3,8 @@ package seedu.organizer.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
@@ -120,11 +122,44 @@ public class UniqueTaskList implements Iterable<Task> {
         return internalList.hashCode();
     }
 
-    //@@dominickenn
+    //@@author dominickenn
     /**
      * Sorts all tasks in uniqueTaskList according to priority
      */
     private void sortTasks() {
         internalList.sort(Task.priorityComparator());
+    }
+
+    /**
+     * Returns new task with updated priority level with respect to deadline, priority may go past 9
+     * If current date is pass deadline, priority level increases by 1 for each week
+     */
+    public static Task updatePriority(Task task) {
+        Task newTask = task;
+        Priority newPriority = task.getPriority();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate dateAdded = task.getDateAdded().date;
+        LocalDate deadline = task.getDeadline().date;
+        Priority curPriority = task.getPriority();
+
+        int priorityDifferenceFromMax = Integer.parseInt(Priority.HIGHEST_SETTABLE_PRIORITY_LEVEL) - Integer.parseInt(curPriority.value);
+        long dayDifferenceCurrentToDeadline = Duration.between(currentDate.atStartOfDay(), deadline.atStartOfDay()).toDays();
+        long dayDifferenceAddedToDeadline = Duration.between(dateAdded.atStartOfDay(), deadline.atStartOfDay()).toDays();
+
+        if (currentDate.isBefore(deadline)) {
+            int priorityToIncrease = (int) (priorityDifferenceFromMax * ((double) dayDifferenceCurrentToDeadline / (double) dayDifferenceAddedToDeadline));
+            newPriority = new Priority(String.valueOf(curPriority.value + priorityToIncrease));
+            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDescription(), task.getStatus(), task.getTags());
+        } else if (currentDate.isEqual(deadline)) {
+            newPriority = new Priority(Priority.HIGHEST_SETTABLE_PRIORITY_LEVEL);
+            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDescription(), task.getStatus(), task.getTags());
+        } else {
+            newPriority = new Priority(String.valueOf(
+                    Integer.parseInt(Priority.HIGHEST_SETTABLE_PRIORITY_LEVEL)
+                            + (int) (-dayDifferenceCurrentToDeadline / 7)));
+            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDescription(), task.getStatus(), task.getTags());
+        }
+        requireNonNull(newTask);
+        return newTask;
     }
 }
