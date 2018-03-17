@@ -44,6 +44,7 @@ public class UniqueTaskList implements Iterable<Task> {
         if (contains(toAdd)) {
             throw new DuplicateTaskException();
         }
+        updatePriority(toAdd);
         internalList.add(toAdd);
         sortTasks();
     }
@@ -67,6 +68,7 @@ public class UniqueTaskList implements Iterable<Task> {
             throw new DuplicateTaskException();
         }
 
+        updatePriority(editedTask);
         internalList.set(index, editedTask);
         sortTasks();
     }
@@ -131,12 +133,12 @@ public class UniqueTaskList implements Iterable<Task> {
     }
 
     /**
-     * Returns new task with updated priority level with respect to deadline, priority may go past 9
+     * Updates task with updated priority level with respect to deadline, priority may go past 9
      * If current date is pass deadline, priority level increases by 1 for each week
      */
-    public static Task updatePriority(Task task) {
-        Task newTask = task;
-        Priority newPriority = task.getPriority();
+    public static void updatePriority(Task task) {
+        Task newTask;
+        Priority newPriority;
         LocalDate currentDate = LocalDate.now();
         LocalDate dateAdded = task.getDateAdded().date;
         LocalDate deadline = task.getDeadline().date;
@@ -159,7 +161,8 @@ public class UniqueTaskList implements Iterable<Task> {
                             + (int) (-dayDifferenceCurrentToDeadline / 7)));
             newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDescription(), task.getStatus(), task.getTags());
         }
+
         requireNonNull(newTask);
-        return newTask;
+        task = newTask;
     }
 }
