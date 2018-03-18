@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.organizer.model.tag.Tag;
+import seedu.organizer.model.task.DateAdded;
 import seedu.organizer.model.task.Deadline;
 import seedu.organizer.model.task.Description;
 import seedu.organizer.model.task.Name;
@@ -20,6 +21,7 @@ public class TaskBuilder {
     public static final String DEFAULT_NAME = "Study";
     public static final String DEFAULT_PRIORITY = "8";
     public static final String DEFAULT_DEADLINE = "2018-05-18";
+    public static final String DEFAULT_DATEADDED = "2018-03-18";
     public static final String DEFAULT_DESCRIPTION = "Study for CS2103T Exam";
     public static final String DEFAULT_TAGS = "friends";
     public static final Boolean DEFAULT_STATUS = false;
@@ -27,6 +29,7 @@ public class TaskBuilder {
     private Name name;
     private Priority priority;
     private Deadline deadline;
+    private DateAdded dateAdded;
     private Description description;
     private Status status;
     private Set<Tag> tags;
@@ -35,6 +38,7 @@ public class TaskBuilder {
         name = new Name(DEFAULT_NAME);
         priority = new Priority(DEFAULT_PRIORITY);
         deadline = new Deadline(DEFAULT_DEADLINE);
+        dateAdded = new DateAdded(DEFAULT_DATEADDED);
         description = new Description(DEFAULT_DESCRIPTION);
         status = new Status(DEFAULT_STATUS);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
@@ -47,6 +51,7 @@ public class TaskBuilder {
         name = taskToCopy.getName();
         priority = taskToCopy.getPriority();
         deadline = taskToCopy.getDeadline();
+        dateAdded = taskToCopy.getDateAdded();
         description = taskToCopy.getDescription();
         status = taskToCopy.getStatus();
         tags = new HashSet<>(taskToCopy.getTags());
@@ -85,11 +90,13 @@ public class TaskBuilder {
     }
 
     /**
-     * Sets the {@code Priority} of the {@code Task} that we are building.
+     * Sets the {@code Priority} of the {@c
+     * ode Task} that we are building.
      */
     public TaskBuilder withPriority(String priority) {
         this.priority = new Priority(priority);
         return this;
+
     }
 
     /**
@@ -100,8 +107,16 @@ public class TaskBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code DateAdded} of the {@code Task} that we are building.
+     */
+    public TaskBuilder withDateAdded(String dateAdded) {
+        this.dateAdded = new DateAdded(dateAdded);
+        return this;
+    }
+
     public Task build() {
-        return new Task(name, priority, deadline, description, status, tags);
+        return new Task(name, priority, deadline, dateAdded, description, status, tags);
     }
 
 }
