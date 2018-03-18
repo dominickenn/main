@@ -55,7 +55,7 @@ public class StorageManagerTest {
     }
 
     @Test
-    public void OrganizerReadSave() throws Exception {
+    public void organizerReadSave() throws Exception {
         /*
          * Note: This is an integration test that verifies the StorageManager is properly wired to the
          * {@link XmlOrganizerStorage} class.

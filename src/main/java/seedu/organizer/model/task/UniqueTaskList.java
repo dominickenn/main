@@ -142,11 +142,14 @@ public class UniqueTaskList implements Iterable<Task> {
         LocalDate deadline = task.getDeadline().date;
         Priority curPriority = task.getPriority();
 
-        int priorityDifferenceFromMax = Integer.parseInt(Priority.HIGHEST_SETTABLE_PRIORITY_LEVEL) - Integer.parseInt(curPriority.value);
-        long dayDifferenceCurrentToDeadline = Duration.between(currentDate.atStartOfDay(), deadline.atStartOfDay()).toDays();
-        long dayDifferenceAddedToDeadline = Duration.between(dateAdded.atStartOfDay(), deadline.atStartOfDay()).toDays();
+        int priorityDifferenceFromMax = Integer.parseInt(Priority.HIGHEST_SETTABLE_PRIORITY_LEVEL)
+                                        - Integer.parseInt(curPriority.value);
+        long dayDifferenceCurrentToDeadline = Duration.between(currentDate.atStartOfDay(),
+                                                            deadline.atStartOfDay()).toDays();
+        long dayDifferenceAddedToDeadline = Duration.between(dateAdded.atStartOfDay(),
+                                                            deadline.atStartOfDay()).toDays();
 
-        if (currentDate.isEqual(LocalDate.now())){
+        if (currentDate.isEqual(LocalDate.now())) {
             newTask = new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
                     task.getDescription(), task.getStatus(), task.getTags());
         } else if (currentDate.isBefore(deadline)) {

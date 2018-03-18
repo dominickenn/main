@@ -43,7 +43,8 @@ public class Task {
     /**
      * Every field must be present and not null
      */
-    public Task(Name name, Priority priority, Deadline deadline, DateAdded dateAdded, Description description, Set<Tag> tags) {
+    public Task(Name name, Priority priority, Deadline deadline, DateAdded dateAdded,
+                Description description, Set<Tag> tags) {
         requireAllNonNull(name, priority, deadline, description, tags);
         this.name = name;
         this.priority = priority;

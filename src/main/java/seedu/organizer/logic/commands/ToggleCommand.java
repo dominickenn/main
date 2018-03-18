@@ -2,7 +2,6 @@ package seedu.organizer.logic.commands;
 
 import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 

@@ -91,10 +91,10 @@ public class XmlUtilTest {
     public void xmlAdaptedTaskFromFile_fileWithInvalidTaskField_validResult() throws Exception {
         XmlAdaptedTask actualTask = XmlUtil.getDataFromFile(
                 INVALID_TASK_FIELD_FILE, XmlAdaptedTaskWithRootElement.class);
-        XmlAdaptedTask expectedtASK = new XmlAdaptedTask(
+        XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 VALID_NAME, INVALID_PRIORITY, VALID_DEADLINE, VALID_DATEADDED,
                 VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS);
-        assertEquals(expectedtASK, actualTask);
+        assertEquals(expectedTask, actualTask);
     }
 
     @Test
