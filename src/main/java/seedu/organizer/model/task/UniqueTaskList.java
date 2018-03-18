@@ -138,7 +138,7 @@ public class UniqueTaskList implements Iterable<Task> {
         Task newTask;
         Priority newPriority;
         LocalDate currentDate = LocalDate.now();
-        LocalDate dateAdded = task.getDateAdded();
+        LocalDate dateAdded = task.getDateAdded().date;
         LocalDate deadline = task.getDeadline().date;
         Priority curPriority = task.getPriority();
 
@@ -146,13 +146,19 @@ public class UniqueTaskList implements Iterable<Task> {
         long dayDifferenceCurrentToDeadline = Duration.between(currentDate.atStartOfDay(), deadline.atStartOfDay()).toDays();
         long dayDifferenceAddedToDeadline = Duration.between(dateAdded.atStartOfDay(), deadline.atStartOfDay()).toDays();
 
-        if (currentDate.isBefore(deadline)) {
-            int priorityToIncrease = (int) (priorityDifferenceFromMax * ((double) dayDifferenceCurrentToDeadline / (double) dayDifferenceAddedToDeadline));
+        if (currentDate.isEqual(LocalDate.now())){
+            newTask = new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
+                    task.getDescription(), task.getStatus(), task.getTags());
+        } else if (currentDate.isBefore(deadline)) {
+            int priorityToIncrease = (int) (priorityDifferenceFromMax * (
+                    (double) dayDifferenceCurrentToDeadline / (double) dayDifferenceAddedToDeadline));
             newPriority = new Priority(String.valueOf(Integer.parseInt(curPriority.value) + priorityToIncrease));
-            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDescription(), task.getStatus(), task.getTags());
+            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDateAdded(),
+                    task.getDescription(), task.getStatus(), task.getTags());
         } else {
             newPriority = new Priority(Priority.HIGHEST_SETTABLE_PRIORITY_LEVEL);
-            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDescription(), task.getStatus(), task.getTags());
+            newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDateAdded(),
+                    task.getDescription(), task.getStatus(), task.getTags());
         }
 
         requireNonNull(newTask);
