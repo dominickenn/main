@@ -68,7 +68,6 @@ public class UniqueTaskList implements Iterable<Task> {
             throw new DuplicateTaskException();
         }
 
-        editedTask = updatePriority(editedTask);
         internalList.set(index, editedTask);
         sortTasks();
     }
