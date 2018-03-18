@@ -1,5 +1,6 @@
 package seedu.organizer.testutil;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +20,9 @@ import seedu.organizer.model.util.SampleDataUtil;
 public class TaskBuilder {
 
     public static final String DEFAULT_NAME = "Study";
-    public static final String DEFAULT_PRIORITY = "8";
+    public static final String DEFAULT_PRIORITY = "2";
     public static final String DEFAULT_DEADLINE = "2018-05-18";
-    public static final String DEFAULT_DATEADDED = "2018-03-18";
+    public static final String DEFAULT_DATEADDED = LocalDate.now().toString();
     public static final String DEFAULT_DESCRIPTION = "Study for CS2103T Exam";
     public static final String DEFAULT_TAGS = "friends";
     public static final Boolean DEFAULT_STATUS = false;
