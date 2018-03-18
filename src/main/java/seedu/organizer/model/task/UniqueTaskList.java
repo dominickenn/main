@@ -34,6 +34,7 @@ public class UniqueTaskList implements Iterable<Task> {
         return internalList.contains(toCheck);
     }
 
+    //@@author dominickenn
     /**
      * Adds a task to the list.
      * Updates priority level if task is not completed
@@ -45,14 +46,11 @@ public class UniqueTaskList implements Iterable<Task> {
         if (contains(toAdd)) {
             throw new DuplicateTaskException();
         }
-
-        if (toAdd.getStatus(.toString().equals(Status.LABEL_FOR_NOT_DONE)) {
-            toAdd = updatePriority(toAdd);
-        }
-
+        toAdd = updatePriority(toAdd);
         internalList.add(toAdd);
         sortTasks();
     }
+    //@@author
 
     /**
      * Replaces the task {@code target} in the list with {@code editedTask}.
