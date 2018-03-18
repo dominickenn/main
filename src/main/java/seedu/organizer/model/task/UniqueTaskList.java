@@ -36,6 +36,7 @@ public class UniqueTaskList implements Iterable<Task> {
 
     /**
      * Adds a task to the list.
+     * Updates priority level if task is not completed
      *
      * @throws DuplicateTaskException if the task to add is a duplicate of an existing task in the list.
      */
@@ -44,7 +45,11 @@ public class UniqueTaskList implements Iterable<Task> {
         if (contains(toAdd)) {
             throw new DuplicateTaskException();
         }
-        toAdd = updatePriority(toAdd);
+
+        if (toAdd.getStatus(.toString().equals(Status.LABEL_FOR_NOT_DONE)) {
+            toAdd = updatePriority(toAdd);
+        }
+
         internalList.add(toAdd);
         sortTasks();
     }
@@ -133,6 +138,8 @@ public class UniqueTaskList implements Iterable<Task> {
 
     /**
      * Updates task with updated priority level with respect to deadline
+     * Priority level remains the same if task has just been created
+     * Priority level is at maximum if current date is the deadline
      */
     public static Task updatePriority(Task task) {
         Task newTask;
@@ -153,8 +160,8 @@ public class UniqueTaskList implements Iterable<Task> {
             newTask = new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
                     task.getDescription(), task.getStatus(), task.getTags());
         } else if (currentDate.isBefore(deadline)) {
-            int priorityToIncrease = (int) (priorityDifferenceFromMax * (
-                    (double) dayDifferenceCurrentToDeadline / (double) dayDifferenceAddedToDeadline));
+            int priorityToIncrease = (int) (priorityDifferenceFromMax
+                    * ((double) dayDifferenceCurrentToDeadline / (double) dayDifferenceAddedToDeadline));
             newPriority = new Priority(String.valueOf(Integer.parseInt(curPriority.value) + priorityToIncrease));
             newTask = new Task(task.getName(), newPriority, task.getDeadline(), task.getDateAdded(),
                     task.getDescription(), task.getStatus(), task.getTags());
