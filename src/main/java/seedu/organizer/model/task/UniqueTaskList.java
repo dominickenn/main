@@ -154,7 +154,7 @@ public class UniqueTaskList implements Iterable<Task> {
         long dayDifferenceAddedToDeadline = Duration.between(dateAdded.atStartOfDay(),
                                                             deadline.atStartOfDay()).toDays();
 
-        if (currentDate.isEqual(LocalDate.now())) {
+        if (dateAdded.isEqual(LocalDate.now())) {
             newTask = new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
                     task.getDescription(), task.getStatus(), task.getTags());
         } else if (currentDate.isBefore(deadline)) {
