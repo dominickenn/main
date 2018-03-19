@@ -812,11 +812,10 @@ Helps busy university students keep track of their tasks and priorities
 ** Minor : Priority autosorting and autoupdate
 *** Allows application to automatically manage task priority levels so that the user does not have to
 * Natania Djohaari
-** Major : Announcement / Notification
-*** Helps users be reminded of the latest upcoming deadline
-** Minor : Date added parameter
-*** Allows users to recall when the task was created
-*** Supports application function of priority autoupdating
+** Major : Recurring Tasks
+*** Helps users automatically create tasks that are recurring
+** Minor : RemoveTag method
+*** Allows application to remove a specific tag from all tasks
 * Yeo Guek Ling
 ** Major : Calendar
 *** Allows users to be able to have a more concise view of task deadlines
