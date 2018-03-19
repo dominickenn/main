@@ -276,6 +276,8 @@ public class DeleteCommand extends UndoableCommand {
 }
 ----
 
+===== Scenario
+
 Suppose that the user has just launched the application. The `UndoRedoStack` will be empty at the beginning.
 
 The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th task in the organizer. The current state of the organizer is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
@@ -367,6 +369,126 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Pros: We do not need to maintain a separate stack, and just reuse what is already in the codebase.
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
+
+// tag::taskpriority[]
+=== Task's Priority Autoupdating and AutoSorting feature
+==== Current Implementation
+
+The autoupdating and autosorting mechanism resides inside `UniqueTaskList`. The `UniqueTaskList` is responsible for updating each Task’s priority level and sorting the `ObservableList<Task>` whenever a new `Task` is added. In addition, whenever a `Task` is edited, the `ObservableList<Task>` is sorted again.
+
+===== Description of `UniqueTaskList` 's `add` method
+
+The `add` method of the `UniqueTaskList` class is implemented as such:
+
+----
+public void add(Task toAdd) throws DuplicateTaskException {
+	//check non null and no duplicate task
+	toAdd = updatePriority(toAdd);
+	internalList.add(toAdd);
+	sortTasks();
+}
+----
+
+The `updatePriority` method returns a new `Task` with a new `Priority` based on the current date, `AddedDate`, and `Deadline`.
+
+The new `Priority` level will remain within the range of 0 - 9. The new `Priority` is calculated as such :
+
+* If the current date is equal to `AddedDate`
+** `Priority` remains the same.
+* If the current date is past `Deadline`
+** `Priority` is set to the `HIGHEST_SETTABLE_PRIORITY_LEVEL` : 9
+* If the current date is before `Deadline` and not equal to `AddedDate`
+** `Priority is calculated via the following formula :
+----
+priorityDifferenceFromMax = HIGHEST_SETTABLE_PRIORITY_LEVEL - currentPriority
+
+dayDifferenceCurrentToDeadline = Duration.between(currentDate, deadline)
+
+dayDifferenceAddedToDeadline = Duration.between(dateAdded, deadline)
+
+priorityToIncrease = priorityDifferenceFromMax * (dayDifferenceCurrentToDeadline / dayDifferenceAddedToDeadline)
+
+newPriority = currentPriority + priorityToIncrease
+----
+The new `Task` with its updated `Priority` will then be added to `UniqueTaskList`’s `internalList`. Following that, the `internalList` is sorted via the `sortTasks` method. The `sortTasks` method is implemented as such:
+----
+private void sortTasks() {
+	internalList.sort(Task.priorityComparator());
+}
+----
+The `sortTasks` method makes use of the `ObservableList` class’s `sort` method and `Task`’s `priorityComparator` method. The `priorityComparator` method returns a `Comparator` that sorts `Task`’s based on descending `Priority` levels. The `internalList` is sorted with respect to the comparator.
+
+===== Scenario
+
+Consider a `addTask` method call by the `Organizer`. The current date is 2018-03-19.
+
+The following is a sequence diagram which represents the `Organizer` adding a Study `Task`.
+
+.addTask(Study) method execution sequence diagram
+image::OrganizerAddTaskSequenceDiagram.png[width="800"]
+
+Suppose the `tasks` currently contains the following two `Task` s.
+
+.`tasks` 's initial `Task` s
+image::OrganizerAddTaskDiagram1.png[width="800"]
+
+The following figure represents the "Study" `Task`.
+
+."Study" `Task`
+image::OrganizerAddTaskDiagram2.png[width="300"]
+
+When `tasks` calls `updatePriority(Study)`, the new priority level is calculated as such :
+-----
+priorityDifferenceFromMax = 9 - 0 = 9
+
+dayDifferenceCurrentToDeadline = 14
+
+dayDifferenceAddedToDeadline = 31
+
+priorityToIncrease = 9 * (14 / 31) = 4
+
+newPriority = 0 + 4 = 4
+-----
+
+A new "Study" `Task` is created and added to the `internalList`.
+
+.`internalList` after "Study" `Task` is added
+image::OrganizerAddTaskDiagram3.png[width="800"]
+
+The `sortTasks` method is then called, which calls the `priorityCompartor` method, and uses the `Comparator` returned to sort the `Task` s. This results in the following `UniqueTaskList`.
+
+.`internalList` after `sortTasks` is called
+image::OrganizerAddTaskDiagram4.png[width="800"]
+
+==== Design Considerations
+===== Aspect : Implementation of `updatePriority`
+
+* Alternative 1 (current choice): Add a new method `updatePriority` in UniqueTaskList’s `add`
+** Pros : Convenient to update the priority during this method call; since during initialization of `Organizer`, `add` is called for every `Task` to initialize the `UniqueTaskList`.
+** Cons : Possible violation of Single Responsibility Principle and Separation of Concerns as `UniqueTaskList` now updates `Task` priorities and stores `Task` s.
+* Alternative 2 : Add a new class `UpdatedUniqueTaskList` which extends `UniqueTaskList`
+** Pros : Removes violation of Single Responsibility Principle and Separation of Concerns in Alternative 1.
+** Cons : Repeats the logic in `UniqueTaskList` while adding one method.
+
+===== Aspect : How `updatePriority` executes
+
+* Alternative 1 (current choice) : Return a new `Task` with new `Priority`
+** Pros : Easy to implement.
+** Cons : A new object is created twice during every addition, even if `Priority` is not updated; Hence slightly inefficient.
+* Alternative 2 : Edit the `Priority` parameter of the `Task`
+** Pros : No new objects need to be created.
+** Cons : Requires major overhaul of `Task` and it’s parameters to be mutable.
+
+===== Aspect : Scope of `updatePriority` and `sortTasks`
+
+* Alternative 1 (current choice) : Implement within `Model`
+** Pros : No need to deal with commands, and fits with the idea of automation.
+** Cons : Concern of updating priorities and sorting tasks may not lie with `Model` but `Logic`.
+* Alternative 2 : Implement within `Logic`
+** Pros : Fits with the concern of updating priorities and sorting tasks.
+** Cons : Requires development of commands and extra command calls to be automatically called upon start of application; unnecessary trouble for same feature.
+
+// end::taskpriority[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
