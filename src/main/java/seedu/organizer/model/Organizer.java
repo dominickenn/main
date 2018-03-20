@@ -19,7 +19,7 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 
 /**
- * Wraps all data at the organizer-book level
+ * Wraps all data at the organizer level
  * Duplicates are not allowed (by .equals comparison)
  */
 public class Organizer implements ReadOnlyOrganizer {

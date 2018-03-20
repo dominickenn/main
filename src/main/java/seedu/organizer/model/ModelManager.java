@@ -18,7 +18,7 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 
 /**
- * Represents the in-memory model of the organizer book data.
+ * Represents the in-memory model of the organizer data.
  * All changes to any model should be synchronized.
  */
 public class ModelManager extends ComponentManager implements Model {

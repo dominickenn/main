@@ -14,7 +14,7 @@ import seedu.organizer.model.ReadOnlyOrganizer;
 /**
  * An Immutable Organizer that is serializable to XML format
  */
-@XmlRootElement(name = "addressbook")
+@XmlRootElement(name = "organizer")
 public class XmlSerializableOrganizer {
 
     @XmlElement
@@ -41,7 +41,7 @@ public class XmlSerializableOrganizer {
     }
 
     /**
-     * Converts this addressbook into the model's {@code Organizer} object.
+     * Converts this organizer into the model's {@code Organizer} object.
      *
      * @throws IllegalValueException if there were any data constraints violated or duplicates in the
      * {@code XmlAdaptedTask} or {@code XmlAdaptedTag}.
