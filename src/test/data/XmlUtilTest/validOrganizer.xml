@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addressbook>
+<organizer>
     <tasks>
         <name>Study</name>
         <priority isPrivate="false">9</priority>
@@ -63,4 +63,4 @@
         <dateadded>current_date</dateadded>
         <description isPrivate="false">Prepare technical questions</description>
     </tasks>
-</addressbook>
+</organizer>
