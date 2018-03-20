@@ -1039,6 +1039,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |user |recover my past data |rewrite existing data by recovering past data when necessary
 
+|`* *` |user using the same machine as others |have my tasks privatized |avoid privacy issues
+
 |=======================================================================
 
 _{More to be added}_
