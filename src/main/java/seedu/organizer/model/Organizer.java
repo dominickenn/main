@@ -65,7 +65,7 @@ public class Organizer implements ReadOnlyOrganizer {
         this.tags.setTags(tags);
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) throws UniqueUserList.DuplicateUserException {
         this.users.setUsers(users);
     }
 
@@ -84,6 +84,15 @@ public class Organizer implements ReadOnlyOrganizer {
         } catch (DuplicateTaskException e) {
             throw new AssertionError("PrioriTask should not have duplicate tasks");
         }
+
+        List<User> syncedUserList = newData.getUserList().stream()
+                .collect(Collectors.toList());
+
+        try {
+            setUsers(syncedUserList);
+        } catch (UniqueUserList.DuplicateUserException e) {
+            throw new AssertionError("PrioriTask should not have duplicate users");
+        }
     }
 
     //// task-level operations
@@ -95,8 +104,8 @@ public class Organizer implements ReadOnlyOrganizer {
      *
      * @throws DuplicateTaskException if an equivalent task already exists.
      */
-    public void addTask(Task p) throws DuplicateTaskException {
-        Task task = syncWithMasterTagList(p);
+    public void addTask(Task t) throws DuplicateTaskException {
+        Task task = syncWithMasterTagList(t);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any task
         // in the task list.
@@ -223,7 +232,8 @@ public class Organizer implements ReadOnlyOrganizer {
 
     @Override
     public String toString() {
-        return tasks.asObservableList().size() + " tasks, " + tags.asObservableList().size() + " tags";
+        return tasks.asObservableList().size() + " tasks, " + tags.asObservableList().size() + " tags, "
+                + users.asObservableList().size() + " users";
         // TODO: refine later
     }
 

@@ -162,6 +162,10 @@ public class XmlAdaptedTask {
         }
         final Status status = new Status(this.status);
 
+        if (this.user == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    User.class.getSimpleName()));
+        }
         final User user = new User(this.user.toModelType().username, this.user.toModelType().password);
 
         final Set<Tag> tags = new HashSet<>(personTags);

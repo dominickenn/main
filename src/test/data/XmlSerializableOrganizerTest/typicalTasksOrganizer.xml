@@ -10,8 +10,10 @@
         <description isPrivate="false">Go to NTUC</description>
         <status>false</status>
         <tagged>friends</tagged>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tasks>
         <name>Spring cleaning</name>
@@ -22,8 +24,10 @@
         <status>true</status>
         <tagged>owesMoney</tagged>
         <tagged>friends</tagged>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tasks>
         <name>Prepare breakfast</name>
@@ -32,8 +36,10 @@
         <dateadded>current_date</dateadded>
         <description>French Toast with coffee</description>
         <status>false</status>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tasks>
         <name>Do homework</name>
@@ -42,8 +48,10 @@
         <dateadded>current_date</dateadded>
         <description>CS2103T, CS2101 and MA1101R</description>
         <status>true</status>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tasks>
         <name>Do project</name>
@@ -52,8 +60,10 @@
         <dateadded>current_date</dateadded>
         <description>Finish writing script for OP1</description>
         <status>false</status>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tasks>
         <name>Revision</name>
@@ -62,8 +72,10 @@
         <dateadded>current_date</dateadded>
         <description>Revise for CS2106 midterms</description>
         <status>true</status>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tasks>
         <name>Mock exam</name>
@@ -72,9 +84,15 @@
         <dateadded>current_date</dateadded>
         <description>Mock exam for CS1101S - Revise!</description>
         <status>false</status>
-        <username>admin</username>
-        <password>admin</password>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
     </tasks>
     <tags>friends</tags>
     <tags>owesMoney</tags>
+    <users>
+        <username>admin</username>
+        <password>admin</password>
+    </users>
 </organizer>

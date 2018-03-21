@@ -4,9 +4,18 @@
     <tasks>
         <name>St!@#$dy</name>
         <priority isPrivate="false">9</priority>
-        <email isPrivate="false">hans@example.com</email>
-        <address isPrivate="false">4th street</address>
-        <username>admin</username>
-        <password>admin</password>
+        <deadline>2018-05-18</deadline>
+        <dateadded>2018-03-21</dateadded>
+        <description>Study for CS2103T Exam</description>
+        <status>false</status>
+        <user>
+            <username>admin</username>
+            <password>admin</password>
+        </user>
+        <tagged>friends</tagged>
+        <subtasks>
+            <subtaskName>Buy some answer</subtaskName>
+            <subtaskStatus>false</subtaskStatus>
+        </subtasks>
     </tasks>
 </organizer>

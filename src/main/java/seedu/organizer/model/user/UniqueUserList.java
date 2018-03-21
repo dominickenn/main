@@ -5,6 +5,7 @@ import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -31,12 +32,12 @@ public class UniqueUserList implements Iterable<User> {
     }
 
     /**
-     * Creates a UniqueUserList using given tags.
+     * Creates a UniqueUserList using given user.
      * Enforces no nulls.
      */
-    public UniqueUserList(Set<User> users) {
-        requireAllNonNull(users);
-        internalList.addAll(users);
+    public UniqueUserList(User user) {
+        requireAllNonNull(user);
+        internalList.add(user);
 
         assert CollectionUtil.elementsAreUnique(internalList);
     }
@@ -53,10 +54,17 @@ public class UniqueUserList implements Iterable<User> {
     /**
      * Replaces the users in this list with those in the argument user list.
      */
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) throws DuplicateUserException {
         requireAllNonNull(users);
-        internalList.setAll(users);
-        assert CollectionUtil.elementsAreUnique(internalList);
+        final UniqueUserList replacement = new UniqueUserList();
+        for (final User user : users) {
+            replacement.add(user);
+        }
+        setUsers(replacement);
+    }
+
+    public void setUsers(UniqueUserList replacement) {
+        this.internalList.setAll(replacement.internalList);
     }
 
     /**
@@ -137,7 +145,7 @@ public class UniqueUserList implements Iterable<User> {
      */
     public static class DuplicateUserException extends DuplicateDataException {
         protected DuplicateUserException() {
-            super("Operation would result in duplicate tags");
+            super("Operation would result in duplicate users");
         }
     }
 
