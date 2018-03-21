@@ -8,6 +8,7 @@ import java.util.Set;
 import seedu.organizer.commons.core.Messages;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.exceptions.CommandException;
+import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.subtask.Subtask;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.DateAdded;
@@ -86,7 +87,7 @@ public class ToggleCommand extends UndoableCommand {
         Status updatedStatus = taskToEdit.getStatus().getInverse();
 
         return new Task(updatedName, updatedPriority, updatedDeadline, oldDateAdded,
-                updatedDescription, updatedStatus, updatedTags, updatedSubtasks);
+                updatedDescription, updatedStatus, updatedTags, updatedSubtasks, ModelManager.getCurrentUser());
     }
 
     @Override

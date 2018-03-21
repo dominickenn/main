@@ -17,6 +17,7 @@ import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.UniqueTaskList;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.User;
 
 /**
  * Wraps all data at the organizer level
@@ -26,6 +27,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
     private final UniqueTaskList tasks;
     private final UniqueTagList tags;
+    private User currentUser;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -38,6 +40,7 @@ public class Organizer implements ReadOnlyOrganizer {
     {
         tasks = new UniqueTaskList();
         tags = new UniqueTagList();
+        currentUser = new User("admin", "admin");
     }
 
     public Organizer() {
@@ -147,7 +150,7 @@ public class Organizer implements ReadOnlyOrganizer {
         taskTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Task(
                 task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
-                task.getDescription(), task.getStatus(), correctTagReferences, task.getSubtasks());
+                task.getDescription(), task.getStatus(), correctTagReferences, task.getSubtasks(), task.getUser());
     }
 
     /**
@@ -182,7 +185,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
         Task newTask =
                 new Task(task.getName(), task.getPriority(), task.getDeadline(),
-                        task.getDateAdded(), task.getDescription(), newTags);
+                        task.getDateAdded(), task.getDescription(), newTags, task.getUser());
 
         try {
             updateTask(task, newTask);
