@@ -7,6 +7,8 @@
     <dateadded>current_date</dateadded>
     <description>Refactor Address to Description</description>
     <tagged>friends</tagged>
-    <username>admin</username>
-    <password>admin</password>
+    <user>
+        <username>admin</username>
+        <password>admin</password>
+    </user>
 </task>

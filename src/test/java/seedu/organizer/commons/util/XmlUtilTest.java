@@ -16,9 +16,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.organizer.model.Organizer;
+import seedu.organizer.model.user.User;
 import seedu.organizer.storage.XmlAdaptedSubtask;
 import seedu.organizer.storage.XmlAdaptedTag;
 import seedu.organizer.storage.XmlAdaptedTask;
+import seedu.organizer.storage.XmlAdaptedUser;
 import seedu.organizer.storage.XmlSerializableOrganizer;
 import seedu.organizer.testutil.OrganizerBuilder;
 import seedu.organizer.testutil.TaskBuilder;
@@ -39,10 +41,10 @@ public class XmlUtilTest {
 
     private static final String VALID_USERNAME = "admin";
     private static final String VALID_PASSWORD = "admin";
+    private static final XmlAdaptedUser VALID_USER = new XmlAdaptedUser(new User(VALID_USERNAME, VALID_PASSWORD));
     private static final String VALID_NAME = "Work on PrioriTask";
     private static final String VALID_PRIORITY = "9";
     private static final String VALID_DEADLINE = "2018-07-16";
-    private static final String VALID_DATEADDED = LocalDate.now().toString();
     private static final String VALID_DESCRIPTION = "Refactor Address to Description";
     private static final Boolean VALID_STATUS = null;
     private static final List<XmlAdaptedTag> VALID_TAGS = Collections.singletonList(new XmlAdaptedTag("friends"));
@@ -91,7 +93,7 @@ public class XmlUtilTest {
                 MISSING_TASK_FIELD_FILE, XmlAdaptedTaskWithRootElement.class);
         XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 null, VALID_PRIORITY, VALID_DEADLINE, current_date,
-                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USERNAME, VALID_PASSWORD);
+                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USER);
         assertEquals(expectedTask, actualTask);
     }
 
@@ -101,7 +103,7 @@ public class XmlUtilTest {
                 INVALID_TASK_FIELD_FILE, XmlAdaptedTaskWithRootElement.class);
         XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 VALID_NAME, INVALID_PRIORITY, VALID_DEADLINE, current_date,
-                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USERNAME, VALID_PASSWORD);
+                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USER);
         assertEquals(expectedTask, actualTask);
     }
 
@@ -111,7 +113,7 @@ public class XmlUtilTest {
                 VALID_TASK_FILE, XmlAdaptedTaskWithRootElement.class);
         XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 VALID_NAME, VALID_PRIORITY, VALID_DEADLINE, current_date,
-                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USERNAME, VALID_PASSWORD);
+                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USER);
         assertEquals(expectedTask, actualTask);
     }
 
