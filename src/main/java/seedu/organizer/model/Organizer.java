@@ -17,6 +17,7 @@ import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.UniqueTaskList;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 
 /**
@@ -27,7 +28,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
     private final UniqueTaskList tasks;
     private final UniqueTagList tags;
-    private User currentUser;
+    private final UniqueUserList users;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -40,7 +41,7 @@ public class Organizer implements ReadOnlyOrganizer {
     {
         tasks = new UniqueTaskList();
         tags = new UniqueTagList();
-        currentUser = new User("admin", "admin");
+        users = new UniqueUserList();
     }
 
     public Organizer() {
@@ -62,6 +63,10 @@ public class Organizer implements ReadOnlyOrganizer {
 
     public void setTags(Set<Tag> tags) {
         this.tags.setTags(tags);
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users.setUsers(users);
     }
 
     /**
@@ -208,6 +213,11 @@ public class Organizer implements ReadOnlyOrganizer {
         }
     }
 
+    //// user-level methods
+
+    public void addUser(User u) throws UniqueUserList.DuplicateUserException {
+        users.add(u);
+    }
 
     //// util methods
 
@@ -228,11 +238,17 @@ public class Organizer implements ReadOnlyOrganizer {
     }
 
     @Override
+    public ObservableList<User> getUserList() {
+        return users.asObservableList();
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Organizer // instanceof handles nulls
                 && this.tasks.equals(((Organizer) other).tasks)
-                && this.tags.equalsOrderInsensitive(((Organizer) other).tags));
+                && this.tags.equalsOrderInsensitive(((Organizer) other).tags)
+                && this.users.equalsOrderInsensitive(((Organizer) other).users));
     }
 
     @Override
