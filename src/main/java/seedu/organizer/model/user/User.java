@@ -1,10 +1,10 @@
 package seedu.organizer.model.user;
 
-//@@author dominickenn
-
 import static java.util.Objects.requireNonNull;
+
 import static seedu.organizer.commons.util.AppUtil.checkArgument;
 
+//@@author dominickenn
 /**
  * Represents a User in the organizer book.
  * Guarantees: details are present and not null, field values are validated, immutable.
