@@ -152,7 +152,8 @@ public class AddSubtaskCommandTest {
                 task.getDescription(),
                 task.getStatus(),
                 task.getTags(),
-                subtasks
+                subtasks,
+                task.getUser()
         );
     }
 

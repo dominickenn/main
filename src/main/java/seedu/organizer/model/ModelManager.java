@@ -26,6 +26,7 @@ public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
     private static User currentUser = new User("admin", "admin");
 
+
     private final Organizer organizer;
     private final FilteredList<Task> filteredTasks;
 

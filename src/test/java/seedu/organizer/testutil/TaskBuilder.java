@@ -15,6 +15,7 @@ import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Status;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.User;
 import seedu.organizer.model.util.SampleDataUtil;
 
 /**
@@ -22,6 +23,8 @@ import seedu.organizer.model.util.SampleDataUtil;
  */
 public class TaskBuilder {
 
+    public static final String DEFAULT_USERNAME = "admin";
+    public static final String DEFAULT_PASSWORD = "admin";
     public static final String DEFAULT_NAME = "Study";
     public static final String DEFAULT_PRIORITY = "2";
     public static final String DEFAULT_DEADLINE = "2018-05-18";
@@ -39,6 +42,7 @@ public class TaskBuilder {
     private Status status;
     private Set<Tag> tags;
     private List<Subtask> subtasks;
+    private User user;
 
     public TaskBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -49,6 +53,7 @@ public class TaskBuilder {
         status = new Status(DEFAULT_STATUS);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
         subtasks = SampleDataUtil.getSubtaskList(DEFAULT_SUBTASKS);
+        user = new User(DEFAULT_USERNAME, DEFAULT_PASSWORD);
     }
 
     /**
@@ -63,6 +68,7 @@ public class TaskBuilder {
         status = taskToCopy.getStatus();
         tags = new HashSet<>(taskToCopy.getTags());
         subtasks = new ArrayList<>(taskToCopy.getSubtasks());
+        user = taskToCopy.getUser();
     }
 
     /**
@@ -131,8 +137,16 @@ public class TaskBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code User} of the {@code Task} that we are building.
+     */
+    public TaskBuilder withUser(String username, String password) {
+        this.user = new User(username, password);
+        return this;
+    }
+
     public Task build() {
-        return new Task(name, priority, deadline, dateAdded, description, status, tags, subtasks);
+        return new Task(name, priority, deadline, dateAdded, description, status, tags, subtasks, user);
     }
 
 }

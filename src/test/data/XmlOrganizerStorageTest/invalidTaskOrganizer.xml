@@ -6,5 +6,7 @@
         <priority isPrivate="false">9</priority>
         <email isPrivate="false">hans@example.com</email>
         <address isPrivate="false">4th street</address>
+        <username>admin</username>
+        <password>admin</password>
     </tasks>
 </organizer>

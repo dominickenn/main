@@ -30,6 +30,8 @@ import seedu.organizer.testutil.EditTaskDescriptorBuilder;
  */
 public class CommandTestUtil {
 
+    public static final String VALID_USERNAME = "admin";
+    public static final String VALID_PASSWORD = "admin";
     public static final String VALID_NAME_EXAM = "CS2103T Exam";
     public static final String VALID_NAME_STUDY = "Study MA1101R";
     public static final String VALID_NAME_REVISION = "Revision";

@@ -37,6 +37,8 @@ public class XmlUtilTest {
 
     private static final String INVALID_PRIORITY = "9!@#";
 
+    private static final String VALID_USERNAME = "admin";
+    private static final String VALID_PASSWORD = "admin";
     private static final String VALID_NAME = "Work on PrioriTask";
     private static final String VALID_PRIORITY = "9";
     private static final String VALID_DEADLINE = "2018-07-16";
@@ -89,7 +91,7 @@ public class XmlUtilTest {
                 MISSING_TASK_FIELD_FILE, XmlAdaptedTaskWithRootElement.class);
         XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 null, VALID_PRIORITY, VALID_DEADLINE, current_date,
-                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS);
+                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USERNAME, VALID_PASSWORD);
         assertEquals(expectedTask, actualTask);
     }
 
@@ -99,7 +101,7 @@ public class XmlUtilTest {
                 INVALID_TASK_FIELD_FILE, XmlAdaptedTaskWithRootElement.class);
         XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 VALID_NAME, INVALID_PRIORITY, VALID_DEADLINE, current_date,
-                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS);
+                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USERNAME, VALID_PASSWORD);
         assertEquals(expectedTask, actualTask);
     }
 
@@ -109,7 +111,7 @@ public class XmlUtilTest {
                 VALID_TASK_FILE, XmlAdaptedTaskWithRootElement.class);
         XmlAdaptedTask expectedTask = new XmlAdaptedTask(
                 VALID_NAME, VALID_PRIORITY, VALID_DEADLINE, current_date,
-                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS);
+                VALID_DESCRIPTION, VALID_STATUS, VALID_TAGS, VALID_SUBTASKS, VALID_USERNAME, VALID_PASSWORD);
         assertEquals(expectedTask, actualTask);
     }
 

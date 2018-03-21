@@ -10,4 +10,6 @@
         <subtaskName>Find some friends to play dota or csgo</subtaskName>
         <subtaskStatus>false</subtaskStatus>
     </subtasks>
+    <username>admin</username>
+    <password>admin</password>
 </task>
