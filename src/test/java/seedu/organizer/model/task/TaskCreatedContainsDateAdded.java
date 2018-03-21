@@ -5,13 +5,16 @@ import static junit.framework.TestCase.assertNotNull;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_DEADLINE_EXAM;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_DESCRIPTION_EXAM;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_NAME_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PASSWORD;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_EXAM;
+import static seedu.organizer.logic.commands.CommandTestUtil.VALID_USERNAME;
 
 import java.util.HashSet;
 
 import org.junit.Test;
 
 import seedu.organizer.model.tag.Tag;
+import seedu.organizer.model.user.User;
 
 //@@author dominickenn
 /**\
@@ -23,7 +26,7 @@ public class TaskCreatedContainsDateAdded {
     public void createTaskContainsDateAdded() {
         Task task = new Task(new Name(VALID_NAME_EXAM), new Priority(VALID_PRIORITY_EXAM),
                 new Deadline(VALID_DEADLINE_EXAM), new Description(VALID_DESCRIPTION_EXAM),
-                new HashSet<Tag>());
+                new HashSet<Tag>(), new User(VALID_USERNAME, VALID_PASSWORD));
         assertNotNull(task.getDateAdded());
     }
 
