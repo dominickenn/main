@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
 import seedu.organizer.model.subtask.Subtask;
@@ -25,22 +26,22 @@ public class SampleDataUtil {
         return new Task[]{
             new Task(new Name("Learn PHP"), new Priority("5"), new Deadline("2018-04-30"),
                     new Description("Find a PHP tutorial and learn from it"),
-                    getTagSet("colleagues")),
+                    getTagSet("colleagues"), ModelManager.getCurrentUser()),
             new Task(new Name("Learn Java"), new Priority("4"), new Deadline("2018-07-07"),
                     new Description("Learn OOP"),
-                    getTagSet("classmates")),
+                    getTagSet("classmates"), ModelManager.getCurrentUser()),
             new Task(new Name("Interview preparation"), new Priority("3"), new Deadline("2018-04-03"),
                     new Description("Prepare for MOH Interview"),
-                    getTagSet("family")),
+                    getTagSet("family"), ModelManager.getCurrentUser()),
             new Task(new Name("Revision"), new Priority("2"), new Deadline("2018-03-27"),
                     new Description("Revise Topic 3 for CS2103T"),
-                    getTagSet("neighbours")),
+                    getTagSet("neighbours"), ModelManager.getCurrentUser()),
             new Task(new Name("Study"), new Priority("1"), new Deadline("2018-03-29"),
                     new Description("Study for CS2103T Exam"),
-                    getTagSet("colleagues", "friends")),
+                    getTagSet("colleagues", "friends"), ModelManager.getCurrentUser()),
             new Task(new Name("Exam"), new Priority("0"), new Deadline("2018-05-11"),
                         new Description("CS2103T Exam"),
-                        getTagSet("friends"))
+                        getTagSet("friends"), ModelManager.getCurrentUser())
         };
     }
 

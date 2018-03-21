@@ -16,6 +16,7 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.User;
 
 /**
  * Represents the in-memory model of the organizer data.
@@ -23,6 +24,7 @@ import seedu.organizer.model.task.exceptions.TaskNotFoundException;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
+    private static User currentUser = new User("admin", "admin");
 
     private final Organizer organizer;
     private final FilteredList<Task> filteredTasks;
@@ -42,6 +44,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     public ModelManager() {
         this(new Organizer(), new UserPrefs());
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 
     @Override

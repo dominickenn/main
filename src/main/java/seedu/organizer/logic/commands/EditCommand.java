@@ -16,6 +16,7 @@ import seedu.organizer.commons.core.Messages;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.logic.commands.util.EditTaskDescriptor;
+import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.subtask.Subtask;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.DateAdded;
@@ -113,7 +114,7 @@ public class EditCommand extends UndoableCommand {
         List<Subtask> updatedSubtaks = editTaskDescriptor.getSubtasks().orElse(taskToEdit.getSubtasks());
 
         return new Task(updatedName, updatedPriority, updatedDeadline, oldDateAdded,
-                updatedDescription, updatedstatus, updatedTags, updatedSubtaks);
+                updatedDescription, updatedstatus, updatedTags, updatedSubtaks, ModelManager.getCurrentUser());
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import seedu.organizer.commons.exceptions.IllegalValueException;
 import seedu.organizer.logic.commands.AddCommand;
 import seedu.organizer.logic.parser.exceptions.ParseException;
+import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Deadline;
 import seedu.organizer.model.task.Description;
@@ -51,6 +52,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             } else {
                 priority = ParserUtil.parsePriority(Priority.LOWEST_PRIORITY_LEVEL);
             }
+            //@@author
             Deadline deadline = ParserUtil.parseDeadline(argMultimap.getValue(PREFIX_DEADLINE)).get();
             //@@author guekling
             Description description;
@@ -62,7 +64,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             //@@author
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            Task task = new Task(name, priority, deadline, description, tagList);
+            Task task = new Task(name, priority, deadline, description, tagList, ModelManager.getCurrentUser());
 
             return new AddCommand(task);
         } catch (IllegalValueException ive) {
