@@ -27,15 +27,15 @@ import seedu.organizer.model.user.User;
  */
 public class TypicalTasks {
 
+    public static final String VALID_USERNAME = "admin";
+    public static final String VALID_PASSWORD = "admin";
+    public static final User ADMIN = new User(VALID_USERNAME, VALID_PASSWORD);
+
     public static final String KEYWORD_MATCHING_DO = "Do"; // A keyword that matches DO
     public static final String KEYWORD_MATCHING_REVISION = "Revision"; // A keyword that matches REVISION
     public static final String KEYWORD_MATCHING_SPRING = "Spring"; // A keyword that matches SPRING
 
     private static final String CURRENT_DATE = LocalDate.now().toString();
-
-    public static final String VALID_USERNAME = "admin";
-    public static final String VALID_PASSWORD = "admin";
-    public static final User ADMIN = new User(VALID_USERNAME, VALID_PASSWORD);
 
     public static final Task GROCERY = new TaskBuilder().withName("Grocery")
             .withDescription("Go to NTUC").withDeadline("2019-03-11")

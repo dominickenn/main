@@ -100,7 +100,8 @@ public class AddSubtaskCommand extends UndoableCommand {
         updatedSubtasks.add(toAdd);
 
         return new Task(updatedName, updatedPriority, updatedDeadline, oldDateAdded,
-                updatedDescription, updatedStatus, updatedTags, updatedSubtasks.toList(), ModelManager.getCurrentUser());
+                updatedDescription, updatedStatus, updatedTags, updatedSubtasks.toList(),
+                ModelManager.getCurrentUser());
     }
 
     @Override
