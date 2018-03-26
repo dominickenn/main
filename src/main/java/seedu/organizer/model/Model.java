@@ -6,7 +6,9 @@ import javafx.collections.ObservableList;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
+import seedu.organizer.model.task.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.User;
 
 /**
  * The API of the Model component.
@@ -20,6 +22,9 @@ public interface Model {
 
     /** Returns the Organizer */
     ReadOnlyOrganizer getOrganizer();
+
+    /** Adds a user */
+    void addUser(User user) throws DuplicateUserException;
 
     /** Deletes the given task. */
     void deleteTask(Task target) throws TaskNotFoundException;

@@ -1,6 +1,7 @@
 package seedu.organizer.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import seedu.organizer.model.task.Deadline;
 import seedu.organizer.model.task.Description;
 import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Priority;
+import seedu.organizer.model.user.User;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -68,6 +70,7 @@ public class ParserUtil {
         return name.isPresent() ? Optional.of(parseName(name.get())) : Optional.empty();
     }
 
+    //@@author dominickenn
     /**
      * Parses a {@code String priority} into a {@code Priority}.
      * Leading and trailing whitespaces will be trimmed.
@@ -91,6 +94,39 @@ public class ParserUtil {
         requireNonNull(priority);
         return priority.isPresent() ? Optional.of(parsePriority(priority.get())) : Optional.empty();
     }
+    /**
+     * Parses a {@code String username} and a {@code String password} into a {@code User}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code username} or {@code password} is invalid.
+     */
+    public static User parseUser(String username, String password) throws IllegalValueException {
+        requireAllNonNull(username, password);
+        String trimmedUsername = username.trim();
+        String trimmedPassword = password.trim();
+        if (!User.isValidUsername(trimmedUsername)) {
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
+        }
+        if (!User.isValidPassword(trimmedPassword)) {
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
+        }
+        return new User(trimmedUsername, trimmedPassword);
+    }
+
+    /**
+     * Parses a {@code Optional<String> username} and {@code Optional<String> password}
+     * into a {@code Optional<User>} if {@code username} and {@code password} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<User> parseUser(Optional<String> username,
+                                           Optional<String> password)
+            throws IllegalValueException {
+        requireAllNonNull(username, password);
+        return username.isPresent() && password.isPresent()
+                ? Optional.of(parseUser(username.get(), password.get()))
+                : Optional.empty();
+    }
+    //@@author
 
     /**
      * Parses a {@code String organizer} into an {@code Description}.

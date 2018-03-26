@@ -16,6 +16,7 @@ import seedu.organizer.model.tag.UniqueTagList;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.UniqueTaskList;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
+import seedu.organizer.model.task.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
@@ -65,7 +66,7 @@ public class Organizer implements ReadOnlyOrganizer {
         this.tags.setTags(tags);
     }
 
-    public void setUsers(List<User> users) throws UniqueUserList.DuplicateUserException {
+    public void setUsers(List<User> users) throws DuplicateUserException {
         this.users.setUsers(users);
     }
 
@@ -90,7 +91,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
         try {
             setUsers(syncedUserList);
-        } catch (UniqueUserList.DuplicateUserException e) {
+        } catch (DuplicateUserException e) {
             throw new AssertionError("PrioriTask should not have duplicate users");
         }
     }
@@ -224,7 +225,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
     //// user-level methods
 
-    public void addUser(User u) throws UniqueUserList.DuplicateUserException {
+    public void addUser(User u) throws DuplicateUserException {
         users.add(u);
     }
 

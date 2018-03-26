@@ -15,7 +15,9 @@ import seedu.organizer.commons.events.model.OrganizerChangedEvent;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
+import seedu.organizer.model.task.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 
 /**
@@ -87,6 +89,14 @@ public class ModelManager extends ComponentManager implements Model {
         organizer.updateTask(target, editedTask);
         indicateOrganizerChanged();
     }
+
+    //@@author dominickenn
+    @Override
+    public void addUser(User user) throws DuplicateUserException {
+        organizer.addUser(user);
+        indicateOrganizerChanged();
+    }
+    //@@author
 
     @Override
     public void deleteTag(Tag tag) {

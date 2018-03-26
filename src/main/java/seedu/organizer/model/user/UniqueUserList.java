@@ -10,8 +10,8 @@ import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.organizer.commons.exceptions.DuplicateDataException;
 import seedu.organizer.commons.util.CollectionUtil;
+import seedu.organizer.model.task.exceptions.DuplicateUserException;
 
 //@@author dominickenn
 /**
@@ -139,14 +139,4 @@ public class UniqueUserList implements Iterable<User> {
         assert CollectionUtil.elementsAreUnique(internalList);
         return internalList.hashCode();
     }
-
-    /**
-     * Signals that an operation would have violated the 'no duplicates' property of the list.
-     */
-    public static class DuplicateUserException extends DuplicateDataException {
-        protected DuplicateUserException() {
-            super("Operation would result in duplicate users");
-        }
-    }
-
 }
