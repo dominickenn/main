@@ -47,9 +47,9 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
+    public void getFilteredTaskList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        logic.getFilteredPersonList().remove(0);
+        logic.getFilteredTaskList().remove(0);
     }
 
     /**

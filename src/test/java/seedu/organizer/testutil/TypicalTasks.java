@@ -19,6 +19,7 @@ import java.util.List;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
+import seedu.organizer.model.task.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 
@@ -36,6 +37,8 @@ public class TypicalTasks {
     public static final String KEYWORD_MATCHING_SPRING = "Spring"; // A keyword that matches SPRING
 
     private static final String CURRENT_DATE = LocalDate.now().toString();
+
+    public static final User BOB = new User("bob", "b0b");
 
     public static final Task GROCERY = new TaskBuilder().withName("Grocery")
             .withDescription("Go to NTUC").withDeadline("2019-03-11")
@@ -97,7 +100,7 @@ public class TypicalTasks {
         }
         try {
             ab.addUser(ADMIN);
-        } catch (UniqueUserList.DuplicateUserException e) {
+        } catch (DuplicateUserException e) {
             throw new AssertionError("not possible");
         }
         return ab;

@@ -6,8 +6,10 @@ import static org.junit.Assert.fail;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_DEADLINE;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PRIORITY;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,8 +32,8 @@ import seedu.organizer.testutil.EditTaskDescriptorBuilder;
  */
 public class CommandTestUtil {
 
-    public static final String VALID_USERNAME = "admin";
-    public static final String VALID_PASSWORD = "admin";
+    public static final String VALID_USERNAME_ADMIN = "admin";
+    public static final String VALID_PASSWORD_ADMIN = "admin";
     public static final String VALID_NAME_EXAM = "CS2103T Exam";
     public static final String VALID_NAME_STUDY = "Study MA1101R";
     public static final String VALID_NAME_REVISION = "Revision";
@@ -49,6 +51,8 @@ public class CommandTestUtil {
     public static final String VALID_TAG_FRIENDS = "friends";
     public static final String VALID_TAG_UNUSED = "unused"; // do not use this tag when creating a person
 
+    public static final String USERNAME_DESC_ADMIN = " " + PREFIX_USERNAME + VALID_USERNAME_ADMIN;
+    public static final String PASSWORD_DESC_ADMIN = " " + PREFIX_PASSWORD + VALID_PASSWORD_ADMIN;
     public static final String NAME_DESC_EXAM = " " + PREFIX_NAME + VALID_NAME_EXAM;
     public static final String NAME_DESC_STUDY = " " + PREFIX_NAME + VALID_NAME_STUDY;
     public static final String NAME_DESC_REVISION = " " + PREFIX_NAME + VALID_NAME_REVISION;
@@ -69,6 +73,8 @@ public class CommandTestUtil {
     public static final String INVALID_PRIORITY_DESC = " " + PREFIX_PRIORITY + "911a"; // 'a' not allowed in prioritys
     public static final String INVALID_DEADLINE_DESC = " " + PREFIX_DEADLINE + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_USERNAME_DESC = " " + PREFIX_USERNAME + "b@by"; // '@' not allowed in usernames
+    public static final String INVALID_PASSWORD_DESC = " " + PREFIX_PASSWORD + "baby$$"; // '$' is not allowed in passwords
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";

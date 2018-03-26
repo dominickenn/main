@@ -83,9 +83,9 @@ public class OrganizerParserTest {
         Task task = new TaskBuilder().build();
         EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder(task).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_TASK.getOneBased() + " " + TaskUtil.getPersonDetails(task));
+                + INDEX_FIRST_TASK.getOneBased() + " " + TaskUtil.getTaskDetails(task));
         EditCommand commandAlias = (EditCommand) parser.parseCommand(EditCommand.COMMAND_ALIAS + " "
-                + INDEX_FIRST_TASK.getOneBased() + " " + TaskUtil.getPersonDetails(task));
+                + INDEX_FIRST_TASK.getOneBased() + " " + TaskUtil.getTaskDetails(task));
         assertEquals(new EditCommand(INDEX_FIRST_TASK, descriptor), command);
         assertEquals(new EditCommand(INDEX_FIRST_TASK, descriptor), commandAlias);
     }
