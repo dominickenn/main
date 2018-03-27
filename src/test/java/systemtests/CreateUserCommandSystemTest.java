@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import seedu.organizer.logic.commands.CreateUserCommand;
 import seedu.organizer.model.Model;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.User;
 import seedu.organizer.testutil.UserUtil;
 

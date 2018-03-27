@@ -16,10 +16,10 @@ import seedu.organizer.model.tag.UniqueTagList;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.UniqueTaskList;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 
 /**
  * Wraps all data at the organizer level

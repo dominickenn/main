@@ -67,7 +67,7 @@ public class AddSubtaskCommand extends UndoableCommand {
         } catch (DuplicateSubtaskException dse) {
             throw new CommandException(MESSAGE_DUPLICATED);
         }
-        model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        model.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
         return new CommandResult(String.format(MESSAGE_SUCCESS, editedTask));
     }
 

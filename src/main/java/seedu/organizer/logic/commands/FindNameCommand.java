@@ -24,7 +24,7 @@ public class FindNameCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        model.updateFilteredTaskList(predicate);
+        model.updateFilteredTaskListWithCurrentUser(predicate);
         return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredTaskList().size()));
     }
 

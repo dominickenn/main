@@ -55,7 +55,7 @@ public class ToggleCommand extends UndoableCommand {
         } catch (TaskNotFoundException pnfe) {
             throw new AssertionError("The target task cannot be missing");
         }
-        model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        model.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, editedTask));
     }
 

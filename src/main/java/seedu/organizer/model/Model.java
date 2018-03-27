@@ -6,9 +6,10 @@ import javafx.collections.ObservableList;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * The API of the Model component.
@@ -16,6 +17,9 @@ import seedu.organizer.model.user.User;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Task> PREDICATE_SHOW_ALL_TASKS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to false */
+    Predicate<Task> PREDICATE_SHOW_NO_TASKS = unused -> false;
 
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyOrganizer newData);
@@ -25,6 +29,9 @@ public interface Model {
 
     /** Adds a user */
     void addUser(User user) throws DuplicateUserException;
+
+    /** Login a user and sets current user*/
+    void loginUser(User user) throws UserNotFoundException;
 
     /** Deletes the given task. */
     void deleteTask(Task target) throws TaskNotFoundException;
@@ -49,7 +56,7 @@ public interface Model {
      * Updates the filter of the filtered task list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredTaskList(Predicate<Task> predicate);
+    void updateFilteredTaskListWithCurrentUser(Predicate<Task> predicate);
 
     /** Removes the given {@code tag} from all {@code Task}s. */
     void deleteTag(Tag tag);

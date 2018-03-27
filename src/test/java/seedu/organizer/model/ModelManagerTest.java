@@ -87,11 +87,11 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = GROCERY.getName().fullName.split("\\s+");
-        modelManager.updateFilteredTaskList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        modelManager.updateFilteredTaskListWithCurrentUser(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(organizer, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        modelManager.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
 
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();

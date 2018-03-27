@@ -1,4 +1,4 @@
-package seedu.organizer.model.task.exceptions;
+package seedu.organizer.model.user.exceptions;
 
 import seedu.organizer.commons.exceptions.DuplicateDataException;
 

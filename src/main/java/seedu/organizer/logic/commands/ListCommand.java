@@ -15,7 +15,7 @@ public class ListCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        model.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

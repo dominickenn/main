@@ -19,8 +19,7 @@ import java.util.List;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
-import seedu.organizer.model.user.UniqueUserList;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.User;
 
 /**

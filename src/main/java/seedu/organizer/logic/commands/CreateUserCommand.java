@@ -7,7 +7,7 @@ import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
 
 import seedu.organizer.logic.commands.exceptions.CommandException;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.User;
 
 /**

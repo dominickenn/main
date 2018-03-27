@@ -25,10 +25,9 @@ import seedu.organizer.model.ReadOnlyOrganizer;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.User;
-import seedu.organizer.testutil.TaskBuilder;
 
 public class CreateUserCommandTest {
 
@@ -139,7 +138,7 @@ public class CreateUserCommandTest {
         }
 
         @Override
-        public void updateFilteredTaskList(Predicate<Task> predicate) {
+        public void updateFilteredTaskListWithCurrentUser(Predicate<Task> predicate) {
             fail("This method should not be called.");
         }
 

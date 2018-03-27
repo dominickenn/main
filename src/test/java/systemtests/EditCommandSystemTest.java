@@ -219,7 +219,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         try {
             expectedModel.updateTask(
                     expectedModel.getFilteredTaskList().get(toEdit.getZeroBased()), editedTask);
-            expectedModel.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+            expectedModel.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
         } catch (DuplicateTaskException | TaskNotFoundException e) {
             throw new IllegalArgumentException(
                     "editedTask is a duplicate in expectedModel, or it isn't found in the model.");
@@ -257,7 +257,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage,
                                       Index expectedSelectedCardIndex) {
         executeCommand(command);
-        expectedModel.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        expectedModel.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         if (expectedSelectedCardIndex != null) {

@@ -14,11 +14,13 @@ import seedu.organizer.commons.core.LogsCenter;
 import seedu.organizer.commons.events.model.OrganizerChangedEvent;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.task.TaskByUserPredicate;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
-import seedu.organizer.model.task.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
-import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
+
 
 /**
  * Represents the in-memory model of the organizer data.
@@ -26,8 +28,9 @@ import seedu.organizer.model.user.User;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-    private static User currentUser = new User("admin", "admin");
 
+    private static User currentUser;
+    private static Predicate<Task> currentUserPredicate;
     private final Organizer organizer;
     private final FilteredList<Task> filteredTasks;
 
@@ -40,8 +43,11 @@ public class ModelManager extends ComponentManager implements Model {
 
         logger.fine("Initializing with organizer book: " + organizer + " and user prefs " + userPrefs);
 
+        this.currentUser = null;
+        updateCurrentUserPredicate();
         this.organizer = new Organizer(organizer);
         filteredTasks = new FilteredList<>(this.organizer.getTaskList());
+        updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
     }
 
     public ModelManager() {
@@ -68,6 +74,18 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new OrganizerChangedEvent(organizer));
     }
 
+    /**
+     * If no user is logged in, set predicate to always return false
+     * If there is a user logged in, set predicate to show user tasks
+     */
+    private void updateCurrentUserPredicate() {
+        if (currentUser == null) {
+            this.currentUserPredicate = PREDICATE_SHOW_NO_TASKS;
+        } else {
+            this.currentUserPredicate = new TaskByUserPredicate(currentUser);
+        }
+    }
+
     @Override
     public synchronized void deleteTask(Task target) throws TaskNotFoundException {
         organizer.removeTask(target);
@@ -77,7 +95,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void addTask(Task task) throws DuplicateTaskException {
         organizer.addTask(task);
-        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
         indicateOrganizerChanged();
     }
 
@@ -95,6 +113,18 @@ public class ModelManager extends ComponentManager implements Model {
     public void addUser(User user) throws DuplicateUserException {
         organizer.addUser(user);
         indicateOrganizerChanged();
+    }
+
+    @Override
+    public void loginUser(User user) throws UserNotFoundException {
+        requireNonNull(user);
+        if (!organizer.getUserList().contains(user)) {
+            throw new UserNotFoundException();
+        }
+        currentUser = user;
+        updateCurrentUserPredicate();
+        updateFilteredTaskListWithCurrentUser(currentUserPredicate);
+
     }
     //@@author
 
@@ -115,9 +145,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateFilteredTaskList(Predicate<Task> predicate) {
+    public void updateFilteredTaskListWithCurrentUser(Predicate<Task> predicate) {
         requireNonNull(predicate);
-        filteredTasks.setPredicate(predicate);
+        Predicate<Task> updatedPredicate = predicate.and(currentUserPredicate);
+        filteredTasks.setPredicate(updatedPredicate);
     }
 
     @Override

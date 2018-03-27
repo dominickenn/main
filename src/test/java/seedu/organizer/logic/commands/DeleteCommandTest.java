@@ -187,7 +187,7 @@ public class DeleteCommandTest {
      * Updates {@code model}'s filtered list to show no one.
      */
     private void showNoPerson(Model model) {
-        model.updateFilteredTaskList(p -> false);
+        model.updateFilteredTaskListWithCurrentUser(p -> false);
 
         assertTrue(model.getFilteredTaskList().isEmpty());
     }
