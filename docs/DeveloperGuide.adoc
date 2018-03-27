@@ -1085,6 +1085,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *`|user using the same machine as others |login into PrioriTask with my own account|manage my own tasks
 
+|`* *`|user who has a user account |retrieve my password | login to my account if I forget my password
 |=======================================================================
 
 _{More to be added}_
