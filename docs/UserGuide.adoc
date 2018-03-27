@@ -84,9 +84,26 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PRIORITY_LEVEL`, `p/PRIORITY_LEVEL n/NAME` is also acceptable.
 ====
 
-=== Basic Features
+=== User Features
 
-_{ To explain what a basic feature is. }_
+==== Creating a user account
+Creates a user account for PrioriTask +
+
+[.format]
+====
+[format-title]#Format:# `createuser u/USERNAME p/PASSWORD
+====
+
+[.example]
+====
+[example-title]#Examples:#
+
+* [example]#`createuser u/david p/david19483`#
+====
+
+=== Task Management Features
+
+_{ To explain what a task management feature is. }_
 
 ==== Viewing help : `help`
 

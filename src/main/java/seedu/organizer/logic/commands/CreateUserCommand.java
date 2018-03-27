@@ -20,7 +20,10 @@ public class CreateUserCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Creates a user account in the organizer. "
             + "Parameters: "
             + PREFIX_USERNAME + "USERNAME "
-            + PREFIX_PASSWORD + "PASSWORD ";
+            + PREFIX_PASSWORD + "PASSWORD \n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_USERNAME + "david "
+            + PREFIX_PASSWORD + "david19583 ";
 
     public static final String MESSAGE_SUCCESS = "New user created: %1$s";
     public static final String MESSAGE_DUPLICATE_USER = "This user already exists in the organizer";
