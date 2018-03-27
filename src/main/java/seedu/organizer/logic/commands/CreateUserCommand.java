@@ -17,7 +17,7 @@ public class CreateUserCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "createuser";
     public static final String COMMAND_ALIAS = "cu";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Creates a user account in the organizer. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Creates a user account in Prioritask. "
             + "Parameters: "
             + PREFIX_USERNAME + "USERNAME "
             + PREFIX_PASSWORD + "PASSWORD \n"
@@ -26,7 +26,7 @@ public class CreateUserCommand extends UndoableCommand {
             + PREFIX_PASSWORD + "david19583 ";
 
     public static final String MESSAGE_SUCCESS = "New user created: %1$s";
-    public static final String MESSAGE_DUPLICATE_USER = "This user already exists in the organizer";
+    public static final String MESSAGE_DUPLICATE_USER = "This user already exists";
 
     private final User toAdd;
 

@@ -21,6 +21,7 @@ import seedu.organizer.logic.commands.FindNameCommand;
 import seedu.organizer.logic.commands.HelpCommand;
 import seedu.organizer.logic.commands.HistoryCommand;
 import seedu.organizer.logic.commands.ListCommand;
+import seedu.organizer.logic.commands.LoginUserCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.SelectCommand;
 import seedu.organizer.logic.commands.ToggleCommand;
@@ -131,6 +132,12 @@ public class OrganizerParser {
 
         case CreateUserCommand.COMMAND_ALIAS:
             return new CreateUserCommandParser().parse(arguments);
+
+        case LoginUserCommand.COMMAND_WORD:
+            return new LoginUserCommandParser().parse(arguments);
+
+        case LoginUserCommand.COMMAND_ALIAS:
+            return new LoginUserCommandParser().parse(arguments);
 
         case HistoryCommand.COMMAND_WORD:
             return new HistoryCommand();
