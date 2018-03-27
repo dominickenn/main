@@ -47,7 +47,7 @@ public class SignUpUserCommandTest {
         ModelStubAcceptingUserAdded modelStub = new ModelStubAcceptingUserAdded();
         User validUser = ADMIN;
 
-        CommandResult commandResult = getCreateUserCommandForUser(validUser, modelStub).execute();
+        CommandResult commandResult = getSignUpUserCommandForUser(validUser, modelStub).execute();
 
         assertEquals(String.format(SignUpUserCommand.MESSAGE_SUCCESS, validUser), commandResult.feedbackToUser);
         assertEquals(Arrays.asList(validUser), modelStub.usersAdded);
@@ -61,37 +61,37 @@ public class SignUpUserCommandTest {
         thrown.expect(CommandException.class);
         thrown.expectMessage(SignUpUserCommand.MESSAGE_DUPLICATE_USER);
 
-        getCreateUserCommandForUser(validUser, modelStub).execute();
+        getSignUpUserCommandForUser(validUser, modelStub).execute();
     }
 
     @Test
     public void equals() {
         User alice = new User("alice", "al1ce");
         User bob = new User("bob", "b0b");
-        SignUpUserCommand createAliceCommand = new SignUpUserCommand(alice);
-        SignUpUserCommand createBobCommand = new SignUpUserCommand(bob);
+        SignUpUserCommand signUpAliceCommand = new SignUpUserCommand(alice);
+        SignUpUserCommand signUpBobCommand = new SignUpUserCommand(bob);
 
         // same object -> returns true
-        assertTrue(createAliceCommand.equals(createAliceCommand));
+        assertTrue(signUpAliceCommand.equals(signUpAliceCommand));
 
         // same values -> returns true
         SignUpUserCommand addAliceCommandCopy = new SignUpUserCommand(alice);
-        assertTrue(createAliceCommand.equals(addAliceCommandCopy));
+        assertTrue(signUpAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(createAliceCommand.equals(1));
+        assertFalse(signUpAliceCommand.equals(1));
 
         // null -> returns false
-        assertFalse(createAliceCommand.equals(null));
+        assertFalse(signUpAliceCommand.equals(null));
 
         // different task -> returns false
-        assertFalse(createAliceCommand.equals(createBobCommand));
+        assertFalse(signUpAliceCommand.equals(signUpBobCommand));
     }
 
     /**
      * Generates a new SignUpUserCommand with the details of the given user.
      */
-    private SignUpUserCommand getCreateUserCommandForUser(User user, Model model) {
+    private SignUpUserCommand getSignUpUserCommandForUser(User user, Model model) {
         SignUpUserCommand command = new SignUpUserCommand(user);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
@@ -109,6 +109,11 @@ public class SignUpUserCommandTest {
         @Override
         public void resetData(ReadOnlyOrganizer newData) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void deleteAllCurrentUserTasks() {
+            fail("This method shold not be called.");
         }
 
         @Override
@@ -177,7 +182,7 @@ public class SignUpUserCommandTest {
         final ArrayList<User> usersAdded = new ArrayList<>();
 
         @Override
-        public void addUser(User user) throws DuplicateUserException {
+        public void addUser(User user) {
             requireNonNull(user);
             usersAdded.add(user);
         }

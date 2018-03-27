@@ -16,11 +16,13 @@ import seedu.organizer.logic.CommandHistory;
 import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.model.task.NameContainsKeywordsPredicate;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindNameCommand}.
  */
 public class FindNameCommandTest extends FindCommandTest<FindNameCommand> {
+
     @Test
     public void equals() {
         NameContainsKeywordsPredicate firstPredicate =
@@ -49,14 +51,14 @@ public class FindNameCommandTest extends FindCommandTest<FindNameCommand> {
     }
 
     @Test
-    public void execute_zeroKeywords_noTaskFound() throws CommandException {
+    public void execute_zeroKeywords_noTaskFound() throws CommandException, UserNotFoundException {
         String expectedMessage = String.format(MESSAGE_TASKS_LISTED_OVERVIEW, 0);
         FindNameCommand command = prepareCommand(" ");
         assertCommandSuccess(command, expectedMessage, Collections.emptyList());
     }
 
     @Test
-    public void execute_multipleKeywords_multipleTasksFound() throws CommandException {
+    public void execute_multipleKeywords_multipleTasksFound() throws CommandException, UserNotFoundException {
         String expectedMessage = String.format(MESSAGE_TASKS_LISTED_OVERVIEW, 3);
         FindNameCommand command = prepareCommand("Prepare breakfast Project Revision");
         assertCommandSuccess(command, expectedMessage, Arrays.asList(REVISION, PROJECT, PREPAREBREAKFAST));

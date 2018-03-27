@@ -3,6 +3,7 @@ package seedu.organizer.logic.commands;
 import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.organizer.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import org.junit.Before;
@@ -13,6 +14,7 @@ import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
@@ -24,9 +26,12 @@ public class ListCommandTest {
     private ListCommand listCommand;
 
     @Before
-    public void setUp() {
+    public void setUp() throws UserNotFoundException {
         model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        model.loginUser(ADMIN);
+
         expectedModel = new ModelManager(model.getOrganizer(), new UserPrefs());
+        expectedModel.loginUser(ADMIN);
 
         listCommand = new ListCommand();
         listCommand.setData(model, new CommandHistory(), new UndoRedoStack());

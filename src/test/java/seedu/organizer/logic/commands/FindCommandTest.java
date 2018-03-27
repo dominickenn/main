@@ -1,6 +1,7 @@
 package seedu.organizer.logic.commands;
 
 import static org.junit.Assert.assertEquals;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 //@@author guekling
 /**
@@ -29,7 +31,8 @@ public abstract class FindCommandTest<T extends Command> {
      * @throws CommandException If an error occurs during command execution.
      */
     protected void assertCommandSuccess(T command, String expectedMessage, List<Task> expectedList)
-            throws CommandException {
+            throws CommandException, UserNotFoundException {
+        model.loginUser(ADMIN);
         Organizer expectedOrganizer = new Organizer(model.getOrganizer());
         CommandResult commandResult = command.execute();
 

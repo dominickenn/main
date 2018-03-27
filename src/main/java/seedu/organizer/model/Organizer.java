@@ -181,6 +181,13 @@ public class Organizer implements ReadOnlyOrganizer {
         }
     }
 
+    /**
+     * Removes all Tasks of {@code user} from this {@code Organizer}.
+     */
+    public void removeUserTasks(User user)  {
+        tasks.removeTasksBelongingToUser(user);
+    }
+
     //// tag-level operations
 
     public void addTag(Tag t) throws UniqueTagList.DuplicateTagException {

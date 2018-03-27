@@ -13,16 +13,16 @@ import seedu.organizer.model.user.User;
 public class UserUtil {
 
     /**
-     * Returns an createuser command string for adding the {@code user}.
+     * Returns an signupuser command string for adding the {@code user}.
      */
-    public static String getCreateUserCommand(User user) {
+    public static String getSignUpUserCommand(User user) {
         return SignUpUserCommand.COMMAND_WORD + " " + getUserDetails(user);
     }
 
     /**
-     * Returns an createuser command string for adding the {@code user} using alias.
+     * Returns an signupuser command string for adding the {@code user} using alias.
      */
-    public static String getCreateUserCommandAlias(User user) {
+    public static String getSignUpUserCommandAlias(User user) {
         return SignUpUserCommand.COMMAND_ALIAS + " " + getUserDetails(user);
     }
 

@@ -65,6 +65,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void deleteAllCurrentUserTasks() {
+        organizer.removeUserTasks(currentUser);
+        indicateOrganizerChanged();
+    }
+
+    @Override
     public ReadOnlyOrganizer getOrganizer() {
         return organizer;
     }

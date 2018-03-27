@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PASSWORD;
+import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 
 import java.util.Arrays;
@@ -28,8 +30,10 @@ import seedu.organizer.logic.commands.FindNameCommand;
 import seedu.organizer.logic.commands.HelpCommand;
 import seedu.organizer.logic.commands.HistoryCommand;
 import seedu.organizer.logic.commands.ListCommand;
+import seedu.organizer.logic.commands.LoginUserCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.SelectCommand;
+import seedu.organizer.logic.commands.SignUpUserCommand;
 import seedu.organizer.logic.commands.ToggleCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.logic.commands.util.EditTaskDescriptor;
@@ -40,6 +44,7 @@ import seedu.organizer.model.task.DescriptionContainsKeywordsPredicate;
 import seedu.organizer.model.task.MultipleFieldsContainsKeywordsPredicate;
 import seedu.organizer.model.task.NameContainsKeywordsPredicate;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.User;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;
 import seedu.organizer.testutil.TaskBuilder;
 import seedu.organizer.testutil.TaskUtil;
@@ -49,6 +54,36 @@ public class OrganizerParserTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private final OrganizerParser parser = new OrganizerParser();
+
+    //@@author dominickenn
+    public void parseCommand_signUpUser() throws Exception {
+        User user = new User("bob", "bob1234");
+        SignUpUserCommand command = (SignUpUserCommand) parser.parseCommand(
+                SignUpUserCommand.COMMAND_WORD + " "
+                + PREFIX_USERNAME + "bob"
+                + PREFIX_PASSWORD + "bob1234");
+        SignUpUserCommand commandAlias = (SignUpUserCommand) parser.parseCommand(
+                SignUpUserCommand.COMMAND_ALIAS + " "
+                        + PREFIX_USERNAME + "bob"
+                        + PREFIX_PASSWORD + "bob1234");
+        assertEquals(new SignUpUserCommand(user), command);
+        assertEquals(new SignUpUserCommand(user), commandAlias);
+    }
+
+    public void parseCommand_loginUser() throws Exception {
+        User user = new User("bob", "bob1234");
+        LoginUserCommand command = (LoginUserCommand) parser.parseCommand(
+                LoginUserCommand.COMMAND_WORD + " "
+                        + PREFIX_USERNAME + "bob"
+                        + PREFIX_PASSWORD + "bob1234");
+        LoginUserCommand commandAlias = (LoginUserCommand) parser.parseCommand(
+                LoginUserCommand.COMMAND_ALIAS + " "
+                        + PREFIX_USERNAME + "bob"
+                        + PREFIX_PASSWORD + "bob1234");
+        assertEquals(new LoginUserCommand(user), command);
+        assertEquals(new LoginUserCommand(user), commandAlias);
+    }
+    //@@author
 
     @Test
     public void parseCommand_add() throws Exception {

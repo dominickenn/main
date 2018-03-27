@@ -25,7 +25,7 @@ public class MainWindowHandle extends StageHandle {
         calendarPanel = new CalendarPanelHandle(getChildNode(CalendarPanelHandle.CALENDAR_ID));
     }
 
-    public TaskListPanelHandle getPersonListPanel() {
+    public TaskListPanelHandle getTaskListPanel() {
         return personListPanel;
     }
 

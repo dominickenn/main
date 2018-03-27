@@ -24,6 +24,9 @@ public interface Model {
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyOrganizer newData);
 
+    /** Deletes all of current user's tasks. */
+    void deleteAllCurrentUserTasks();
+
     /** Returns the Organizer */
     ReadOnlyOrganizer getOrganizer();
 

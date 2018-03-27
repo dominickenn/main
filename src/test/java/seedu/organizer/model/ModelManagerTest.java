@@ -7,6 +7,7 @@ import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
 import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
 import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.SPRINGCLEAN;
@@ -21,12 +22,23 @@ import org.junit.rules.ExpectedException;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.NameContainsKeywordsPredicate;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.OrganizerBuilder;
 import seedu.organizer.testutil.TaskBuilder;
 
 public class ModelManagerTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void getCurrentUser_intializeSignupLoginUser_currentUserChanged() throws Exception {
+        ModelManager modelManager = new ModelManager();
+        assertEquals(modelManager.getCurrentUser(), null);
+        modelManager.addUser(ADMIN);
+        modelManager.loginUser(ADMIN);
+        assertEquals(modelManager.getCurrentUser(), ADMIN);
+    }
 
     @Test
     public void getFilteredTaskList_modifyList_throwsUnsupportedOperationException() {
@@ -63,7 +75,7 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void equals() {
+    public void equals() throws DuplicateUserException, UserNotFoundException {
         Organizer organizer = new OrganizerBuilder().withTask(GROCERY).withTask(SPRINGCLEAN).build();
         Organizer differentOrganizer = new Organizer();
         UserPrefs userPrefs = new UserPrefs();
@@ -71,6 +83,10 @@ public class ModelManagerTest {
         // same values -> returns true
         ModelManager modelManager = new ModelManager(organizer, userPrefs);
         ModelManager modelManagerCopy = new ModelManager(organizer, userPrefs);
+        modelManager.addUser(ADMIN);
+        modelManagerCopy.addUser(ADMIN);
+        modelManager.loginUser(ADMIN);
+        modelManagerCopy.loginUser(ADMIN);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -83,12 +99,14 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different organizer -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentOrganizer, userPrefs)));
+        ModelManager differentModelManager = getDifferentModelManager(differentOrganizer, userPrefs);
+        assertFalse(modelManager.equals(differentModelManager));
 
         // different filteredList -> returns false
         String[] keywords = GROCERY.getName().fullName.split("\\s+");
         modelManager.updateFilteredTaskListWithCurrentUser(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(organizer, userPrefs)));
+        differentModelManager = getDifferentModelManager(organizer, userPrefs);
+        assertFalse(modelManager.equals(differentModelManager));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredTaskListWithCurrentUser(PREDICATE_SHOW_ALL_TASKS);
@@ -96,6 +114,14 @@ public class ModelManagerTest {
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setOrganizerName("differentName");
-        assertTrue(modelManager.equals(new ModelManager(organizer, differentUserPrefs)));
+        differentModelManager = getDifferentModelManager(organizer, differentUserPrefs);
+        assertTrue(modelManager.equals(differentModelManager));
+    }
+
+    private ModelManager getDifferentModelManager(Organizer differentOrganizer, UserPrefs userPrefs) throws DuplicateUserException, UserNotFoundException {
+        ModelManager differentModelManager = new ModelManager(differentOrganizer, userPrefs);
+        differentModelManager.addUser(ADMIN);
+        differentModelManager.loginUser(ADMIN);
+        return differentModelManager;
     }
 }

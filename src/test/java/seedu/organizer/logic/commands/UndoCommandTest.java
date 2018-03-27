@@ -5,6 +5,7 @@ import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandFailur
 import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.organizer.logic.commands.CommandTestUtil.deleteFirstPerson;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 public class UndoCommandTest {
     private static final CommandHistory EMPTY_COMMAND_HISTORY = new CommandHistory();
@@ -28,7 +30,8 @@ public class UndoCommandTest {
     private final DeleteCommand deleteCommandTwo = new DeleteCommand(INDEX_FIRST_TASK);
 
     @Before
-    public void setUp() {
+    public void setUp() throws UserNotFoundException {
+        model.loginUser(ADMIN);
         deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }
@@ -44,11 +47,13 @@ public class UndoCommandTest {
 
         // multiple commands in undoStack
         Model expectedModel = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        expectedModel.loginUser(ADMIN);
         deleteFirstPerson(expectedModel);
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // single command in undoStack
         expectedModel = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        expectedModel.loginUser(ADMIN);
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // no command in undoStack

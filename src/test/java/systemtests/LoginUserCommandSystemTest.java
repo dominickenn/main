@@ -2,10 +2,12 @@ package systemtests;
 
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN;
 import static seedu.organizer.testutil.TypicalTasks.BOB;
 
 import org.junit.Test;
 
+import seedu.organizer.logic.commands.LoginUserCommand;
 import seedu.organizer.logic.commands.SignUpUserCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
@@ -14,19 +16,18 @@ import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.UserUtil;
 
 //@@author dominickenn
-public class SignUpUserCommandSystemTest extends OrganizerSystemTest{
+public class LoginUserCommandSystemTest extends OrganizerSystemTest{
 
     @Test
-    public void add() throws Exception {
+    public void login() throws Exception {
         Model model = getModel();
-
-        /* Case: add a user to a non-empty organizer, command with leading spaces and trailing spaces
-         * -> added
+        /* Case: login user to a non-empty organizer, command with leading spaces and trailing spaces
+         * -> login
          */
-        User toAdd = BOB;
-        String command = "   " + SignUpUserCommand.COMMAND_WORD + "  " + PREFIX_USERNAME + "bob " +
-                PREFIX_PASSWORD + "b0b ";
-        assertCommandSuccess(command, toAdd);
+        User toLogin = ADMIN;
+        String command = LoginUserCommand.COMMAND_WORD + "  " + PREFIX_USERNAME + "admin " +
+                PREFIX_PASSWORD + "admin ";
+        assertCommandSuccess(command, toLogin);
     }
 
     /**
@@ -54,14 +55,14 @@ public class SignUpUserCommandSystemTest extends OrganizerSystemTest{
      *
      * @see SignUpUserCommandSystemTest#assertCommandSuccess(User)
      */
-    private void assertCommandSuccess(String command, User toAdd) throws UserNotFoundException {
+    private void assertCommandSuccess(String command, User toLogin) throws UserNotFoundException {
         Model expectedModel = getModel();
         try {
-            expectedModel.addUser(toAdd);
-        } catch (DuplicateUserException dpe) {
-            throw new IllegalArgumentException("toAdd already exists in the model.");
+            expectedModel.loginUser(toLogin);
+        } catch (UserNotFoundException unf) {
+            throw new IllegalArgumentException("toLogin does not exists in the model.");
         }
-        String expectedResultMessage = String.format(SignUpUserCommand.MESSAGE_SUCCESS, toAdd);
+        String expectedResultMessage = String.format(LoginUserCommand.MESSAGE_SUCCESS, toLogin);
 
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
@@ -81,27 +82,5 @@ public class SignUpUserCommandSystemTest extends OrganizerSystemTest{
         assertSelectedCardUnchanged();
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarChangedExceptSaveLocation();
-    }
-
-    /**
-     * Executes {@code command} and asserts that the,<br>
-     * 1. Command box displays {@code command}.<br>
-     * 2. Command box has the error style class.<br>
-     * 3. Result display box displays {@code expectedResultMessage}.<br>
-     * 4. {@code Model}, {@code Storage} and {@code TaskListPanel} remain unchanged.<br>
-     * 5. Browser url, selected card and status bar remain unchanged.<br>
-     * Verifications 1, 3 and 4 are performed by
-     * {@code OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
-     *
-     * @see OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
-     */
-    private void assertCommandFailure(String command, String expectedResultMessage) throws UserNotFoundException {
-        Model expectedModel = getModel();
-
-        executeCommand(command);
-        assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
-        assertSelectedCardUnchanged();
-        assertCommandBoxShowsErrorStyle();
-        assertStatusBarUnchanged();
     }
 }

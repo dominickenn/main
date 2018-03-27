@@ -7,12 +7,14 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.organizer.commons.util.CollectionUtil;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.User;
 
 /**
  * A list of tasks that enforces uniqueness between its elements and does not allow nulls.
@@ -87,6 +89,15 @@ public class UniqueTaskList implements Iterable<Task> {
             throw new TaskNotFoundException();
         }
         return taskFoundAndDeleted;
+    }
+
+    /**
+     * Removes all tasks belong to a user from the list.
+     */
+    public void removeTasksBelongingToUser(User user) {
+        requireNonNull(user);
+        Predicate<Task> userPredicate = new TaskByUserPredicate(user);
+        internalList.removeIf(userPredicate);
     }
 
     public void setTasks(UniqueTaskList replacement) {

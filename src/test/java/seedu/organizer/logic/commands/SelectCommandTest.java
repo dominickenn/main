@@ -8,6 +8,7 @@ import static seedu.organizer.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_SECOND_TASK;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_THIRD_TASK;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import org.junit.Before;
@@ -23,6 +24,7 @@ import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.ui.testutil.EventsCollectorRule;
 
 /**
@@ -35,8 +37,9 @@ public class SelectCommandTest {
     private Model model;
 
     @Before
-    public void setUp() {
+    public void setUp() throws UserNotFoundException {
         model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        model.loginUser(ADMIN);
     }
 
     @Test
@@ -104,7 +107,7 @@ public class SelectCommandTest {
 
         try {
             CommandResult commandResult = selectCommand.execute();
-            assertEquals(String.format(SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS, index.getOneBased()),
+            assertEquals(String.format(SelectCommand.MESSAGE_SELECT_TASK_SUCCESS, index.getOneBased()),
                     commandResult.feedbackToUser);
         } catch (CommandException ce) {
             throw new IllegalArgumentException("Execution of command should not fail.", ce);
