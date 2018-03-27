@@ -28,8 +28,10 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
-public class CreateUserCommandTest {
+//@@author dominickenn
+public class SignUpUserCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -37,7 +39,7 @@ public class CreateUserCommandTest {
     @Test
     public void constructor_nullUser_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new CreateUserCommand(null);
+        new SignUpUserCommand(null);
     }
 
     @Test
@@ -47,7 +49,7 @@ public class CreateUserCommandTest {
 
         CommandResult commandResult = getCreateUserCommandForUser(validUser, modelStub).execute();
 
-        assertEquals(String.format(CreateUserCommand.MESSAGE_SUCCESS, validUser), commandResult.feedbackToUser);
+        assertEquals(String.format(SignUpUserCommand.MESSAGE_SUCCESS, validUser), commandResult.feedbackToUser);
         assertEquals(Arrays.asList(validUser), modelStub.usersAdded);
     }
 
@@ -57,7 +59,7 @@ public class CreateUserCommandTest {
         User validUser = ADMIN;
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(CreateUserCommand.MESSAGE_DUPLICATE_USER);
+        thrown.expectMessage(SignUpUserCommand.MESSAGE_DUPLICATE_USER);
 
         getCreateUserCommandForUser(validUser, modelStub).execute();
     }
@@ -66,14 +68,14 @@ public class CreateUserCommandTest {
     public void equals() {
         User alice = new User("alice", "al1ce");
         User bob = new User("bob", "b0b");
-        CreateUserCommand createAliceCommand = new CreateUserCommand(alice);
-        CreateUserCommand createBobCommand = new CreateUserCommand(bob);
+        SignUpUserCommand createAliceCommand = new SignUpUserCommand(alice);
+        SignUpUserCommand createBobCommand = new SignUpUserCommand(bob);
 
         // same object -> returns true
         assertTrue(createAliceCommand.equals(createAliceCommand));
 
         // same values -> returns true
-        CreateUserCommand addAliceCommandCopy = new CreateUserCommand(alice);
+        SignUpUserCommand addAliceCommandCopy = new SignUpUserCommand(alice);
         assertTrue(createAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
@@ -87,10 +89,10 @@ public class CreateUserCommandTest {
     }
 
     /**
-     * Generates a new CreateUserCommand with the details of the given user.
+     * Generates a new SignUpUserCommand with the details of the given user.
      */
-    private CreateUserCommand getCreateUserCommandForUser(User user, Model model) {
-        CreateUserCommand command = new CreateUserCommand(user);
+    private SignUpUserCommand getCreateUserCommandForUser(User user, Model model) {
+        SignUpUserCommand command = new SignUpUserCommand(user);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -118,6 +120,11 @@ public class CreateUserCommandTest {
         @Override
         public void addUser(User user) throws DuplicateUserException {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public void loginUser(User user) throws UserNotFoundException {
+            fail("This method should not be called");
         }
 
         @Override

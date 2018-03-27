@@ -10,7 +10,7 @@ import seedu.organizer.logic.commands.AddCommand;
 import seedu.organizer.logic.commands.AddSubtaskCommand;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.Command;
-import seedu.organizer.logic.commands.CreateUserCommand;
+import seedu.organizer.logic.commands.SignUpUserCommand;
 import seedu.organizer.logic.commands.DeleteCommand;
 import seedu.organizer.logic.commands.EditCommand;
 import seedu.organizer.logic.commands.ExitCommand;
@@ -127,11 +127,11 @@ public class OrganizerParser {
         case ListCommand.COMMAND_ALIAS:
             return new ListCommand();
 
-        case CreateUserCommand.COMMAND_WORD:
-            return new CreateUserCommandParser().parse(arguments);
+        case SignUpUserCommand.COMMAND_WORD:
+            return new SignUpUserCommandParser().parse(arguments);
 
-        case CreateUserCommand.COMMAND_ALIAS:
-            return new CreateUserCommandParser().parse(arguments);
+        case SignUpUserCommand.COMMAND_ALIAS:
+            return new SignUpUserCommandParser().parse(arguments);
 
         case LoginUserCommand.COMMAND_WORD:
             return new LoginUserCommandParser().parse(arguments);

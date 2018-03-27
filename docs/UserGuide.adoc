@@ -86,20 +86,20 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 === User Features
 
-==== Creating a user account : `createuser` or `cu` `[since v1.3]`
-Creates a user account for PrioriTask +
+==== Signing up : `signup` or `su` `[since v1.3]`
+Creating a user account for PrioriTask +
 
 [.format]
 ====
-[format-title]#Format:# createuser u/USERNAME p/PASSWORD
+[format-title]#Format:# signup u/USERNAME p/PASSWORD
 ====
 
 [.example]
 ====
 [example-title]#Examples:#
 
-* [example]#`createuser u/david p/david19483`#
-* [example]#`createuser u/mary123 p/04sally04`#
+* [example]#`signup u/david p/david19483`#
+* [example]#`signup u/mary123 p/04sally04`#
 ====
 
 ==== Logging in : `login` or `log` `[since v1.3]`
@@ -528,8 +528,8 @@ _{ coming in v2.0 }_
 == Command Summary
 
 === User Features
-* *Create User* : [format]#`createuser u/USERNAME p/PASSWORD`# +
-e.g. [example-no-box]#`createuser u/david p/david19438`#
+* *Sign Up* : [format]#` u/USERNAME p/PASSWORD`# +
+e.g. [example-no-box]#`signup u/david p/david19438`#
 * *Login* : [format]#`login u/USERNAME p/PASSWORD`# +
 e.g. [example-no-box]#`login u/david p/david19438`#
 

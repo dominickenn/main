@@ -6,14 +6,14 @@ import static seedu.organizer.testutil.TypicalTasks.BOB;
 
 import org.junit.Test;
 
-import seedu.organizer.logic.commands.CreateUserCommand;
+import seedu.organizer.logic.commands.SignUpUserCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.User;
 import seedu.organizer.testutil.UserUtil;
 
 //@@author dominickenn
-public class CreateUserCommandSystemTest extends OrganizerSystemTest{
+public class SignUpUserCommandSystemTest extends OrganizerSystemTest{
 
     @Test
     public void add() throws Exception {
@@ -23,16 +23,16 @@ public class CreateUserCommandSystemTest extends OrganizerSystemTest{
          * -> added
          */
         User toAdd = BOB;
-        String command = "   " + CreateUserCommand.COMMAND_WORD + "  " + PREFIX_USERNAME + "bob " +
+        String command = "   " + SignUpUserCommand.COMMAND_WORD + "  " + PREFIX_USERNAME + "bob " +
                 PREFIX_PASSWORD + "b0b ";
         assertCommandSuccess(command, toAdd);
     }
 
     /**
-     * Executes the {@code CreateUserCommand} that adds {@code toAdd} to the model and asserts that the,<br>
+     * Executes the {@code SignUpUserCommand} that adds {@code toAdd} to the model and asserts that the,<br>
      * 1. Command box displays an empty string.<br>
      * 2. Command box has the default style class.<br>
-     * 3. Result display box displays the success message of executing {@code CreateUserCommand} with the details of
+     * 3. Result display box displays the success message of executing {@code SignUpUserCommand} with the details of
      * {@code toAdd}.<br>
      * 4. {@code Model}, {@code Storage} and {@code TaskListPanel} equal to the corresponding components in
      * the current model added with {@code toAdd}.<br>
@@ -51,7 +51,7 @@ public class CreateUserCommandSystemTest extends OrganizerSystemTest{
      * Performs the same verification as {@code assertCommandSuccess(User)}. Executes {@code command}
      * instead.
      *
-     * @see CreateUserCommandSystemTest#assertCommandSuccess(User)
+     * @see SignUpUserCommandSystemTest#assertCommandSuccess(User)
      */
     private void assertCommandSuccess(String command, User toAdd) {
         Model expectedModel = getModel();
@@ -60,7 +60,7 @@ public class CreateUserCommandSystemTest extends OrganizerSystemTest{
         } catch (DuplicateUserException dpe) {
             throw new IllegalArgumentException("toAdd already exists in the model.");
         }
-        String expectedResultMessage = String.format(CreateUserCommand.MESSAGE_SUCCESS, toAdd);
+        String expectedResultMessage = String.format(SignUpUserCommand.MESSAGE_SUCCESS, toAdd);
 
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
@@ -72,7 +72,7 @@ public class CreateUserCommandSystemTest extends OrganizerSystemTest{
      * 2. {@code Model}, {@code Storage} and {@code TaskListPanel} equal to the corresponding components in
      * {@code expectedModel}.<br>
      *
-     * @see CreateUserCommandSystemTest#assertCommandSuccess(String, User)
+     * @see SignUpUserCommandSystemTest#assertCommandSuccess(String, User)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);

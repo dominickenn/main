@@ -13,9 +13,9 @@ import seedu.organizer.model.user.User;
 /**
  * Adds a user to the organizer
  */
-public class CreateUserCommand extends UndoableCommand {
-    public static final String COMMAND_WORD = "createuser";
-    public static final String COMMAND_ALIAS = "cu";
+public class SignUpUserCommand extends UndoableCommand {
+    public static final String COMMAND_WORD = "signup";
+    public static final String COMMAND_ALIAS = "su";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Creates a user account in Prioritask. "
             + "Parameters: "
@@ -31,9 +31,9 @@ public class CreateUserCommand extends UndoableCommand {
     private final User toAdd;
 
     /**
-     * Creates an CreateUserCommand to add the specified {@code User}
+     * Creates an SignUpUserCommand to add the specified {@code User}
      */
-    public CreateUserCommand(User user) {
+    public SignUpUserCommand(User user) {
         requireNonNull(user);
         toAdd = user;
     }
@@ -53,7 +53,7 @@ public class CreateUserCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof CreateUserCommand // instanceof handles nulls
-                && toAdd.equals(((CreateUserCommand) other).toAdd));
+                || (other instanceof SignUpUserCommand // instanceof handles nulls
+                && toAdd.equals(((SignUpUserCommand) other).toAdd));
     }
 }

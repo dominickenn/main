@@ -7,35 +7,35 @@ import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
 import java.util.stream.Stream;
 
 import seedu.organizer.commons.exceptions.IllegalValueException;
-import seedu.organizer.logic.commands.CreateUserCommand;
+import seedu.organizer.logic.commands.SignUpUserCommand;
 import seedu.organizer.logic.parser.exceptions.ParseException;
 import seedu.organizer.model.user.User;
 
 //@@author dominickenn
 /**
- * Parses input arguments and creates a new CreateUserCommand object
+ * Parses input arguments and creates a new SignUpUserCommand object
  */
-public class CreateUserCommandParser implements Parser<CreateUserCommand> {
+public class SignUpUserCommandParser implements Parser<SignUpUserCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the CreateUserCommand
-     * and returns an CreateUserCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the SignUpUserCommand
+     * and returns an SignUpUserCommand object for execution.
      *
      * @throws ParseException if the user input does not conform the expected format
      */
-    public CreateUserCommand parse(String args) throws ParseException {
+    public SignUpUserCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_USERNAME, PREFIX_PASSWORD);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_USERNAME, PREFIX_PASSWORD)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, CreateUserCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, SignUpUserCommand.MESSAGE_USAGE));
         }
 
         try {
             User user = ParserUtil.parseUser(argMultimap.getValue(PREFIX_USERNAME),
                     argMultimap.getValue(PREFIX_PASSWORD)).get();
-            return new CreateUserCommand(user);
+            return new SignUpUserCommand(user);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
