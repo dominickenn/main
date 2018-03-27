@@ -86,12 +86,12 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 === User Features
 
-==== Creating a user account
+==== Creating a user account : `createuser` or `cu` `[since v1.3]`
 Creates a user account for PrioriTask +
 
 [.format]
 ====
-[format-title]#Format:# `createuser u/USERNAME p/PASSWORD
+[format-title]#Format:# createuser u/USERNAME p/PASSWORD
 ====
 
 [.example]
@@ -99,6 +99,23 @@ Creates a user account for PrioriTask +
 [example-title]#Examples:#
 
 * [example]#`createuser u/david p/david19483`#
+* [example]#`createuser u/mary123 p/04sally04`#
+====
+
+==== Logging in : `login` or `log` `[since v1.3]`
+Login to PrioriTask +
+
+[.format]
+====
+[format-title]#Format:# login u/USERNAME p/PASSWORD
+====
+
+[.example]
+====
+[example-title]#Examples:#
+
+* [example]#`createuser u/david p/david19483`#
+* [example]#`createuser u/mary123 p/04sally04`#
 ====
 
 === Task Management Features
@@ -112,7 +129,7 @@ _{ To explain what a task management feature is. }_
 [format-title]#Format:# `help`
 ====
 
-==== Adding a task: `add` or `a`
+==== Adding a task : `add` or `a`
 
 Adds a task to the PrioriTask +
 
@@ -510,7 +527,13 @@ _{ coming in v2.0 }_
 
 == Command Summary
 
-=== Basic Features
+=== User Features
+* *Create User* : [format]#`createuser u/USERNAME p/PASSWORD`# +
+e.g. [example-no-box]#`createuser u/david p/david19438`#
+* *Login* : [format]#`login u/USERNAME p/PASSWORD`# +
+e.g. [example-no-box]#`login u/david p/david19438`#
+
+=== Task Management Features
 * *Add* : [format-no-box]#`add n/NAME [p/PRIORITY_LEVEL] d/DEADLINE [des/DESCRIPTION] [t/TAG]…`# +
 e.g. [example-no-box]#`add n/CS2101 Script p/8 d/2018-03-05 des/Script should be 500 words long t/CS2101 t/PhaseA`#
 * *Clear* : [format-no-box]#`clear`#
