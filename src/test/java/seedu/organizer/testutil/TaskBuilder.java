@@ -16,6 +16,7 @@ import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Status;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.User;
 import seedu.organizer.model.util.SampleDataUtil;
 
 /**
@@ -23,6 +24,7 @@ import seedu.organizer.model.util.SampleDataUtil;
  */
 public class TaskBuilder {
 
+    public static final User DEFAULT_USER = new User("admin", "admin");
     public static final String DEFAULT_NAME = "Study";
     public static final String DEFAULT_PRIORITY = "2";
     public static final String DEFAULT_DEADLINE = "2018-05-18";
@@ -153,7 +155,7 @@ public class TaskBuilder {
     }
 
     public Task build() {
-        return new Task(name, priority, deadline, dateAdded, dateCompleted, description, status, tags, subtasks);
+        return new Task(name, priority, deadline, dateAdded, dateCompleted, description, status, tags, subtasks, DEFAULT_USER);
     }
 
 }
