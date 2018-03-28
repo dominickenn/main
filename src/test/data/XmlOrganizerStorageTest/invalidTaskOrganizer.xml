@@ -11,4 +11,8 @@
             <password>admin</password>
         </user>
     </tasks>
+    <users>
+        <username>admin</username>
+        <password>admin</password>
+    </users>
 </organizer>

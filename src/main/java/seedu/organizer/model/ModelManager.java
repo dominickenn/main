@@ -18,6 +18,7 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 
 /**
  * Represents the in-memory model of the organizer book data.
@@ -84,7 +85,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     //@@author dominickenn
     @Override
-    public synchronized void addUser(User user) throws UniqueUserList.DuplicateUserException {
+    public synchronized void addUser(User user) throws DuplicateUserException {
         organizer.addUser(user);
         indicateOrganizerChanged();
     }
