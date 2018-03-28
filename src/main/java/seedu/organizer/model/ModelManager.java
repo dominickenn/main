@@ -24,7 +24,7 @@ import seedu.organizer.model.user.User;
  */
 public class ModelManager extends ComponentManager implements Model {
 
-    private static User CURRENT_LOGGED_IN_USER = null;
+    private static User CURRENT_LOGGED_IN_USER = new User("admin", "admin");
 
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 

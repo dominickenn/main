@@ -44,8 +44,7 @@ public class Organizer implements ReadOnlyOrganizer {
         users = new UniqueUserList();
     }
 
-    public Organizer() {
-    }
+    public Organizer() {}
 
     /**
      * Creates an Organizer using the Tasks and Tags in the {@code toBeCopied}
