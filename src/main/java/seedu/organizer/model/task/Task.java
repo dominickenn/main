@@ -1,6 +1,7 @@
 package seedu.organizer.model.task;
 
 import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.organizer.model.ModelManager.getCurrentLoggedInUser;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +32,24 @@ public class Task {
 
     private final UniqueTagList tags;
     private final UniqueSubtaskList subtasks;
+
+    /**
+     * Every field must be present and not null except status and dateCompleted
+     */
+    public Task(Name name, Priority priority, Deadline deadline, Description description, Set<Tag> tags) {
+        requireAllNonNull(name, priority, deadline, description, tags);
+        this.name = name;
+        this.priority = priority;
+        this.deadline = deadline;
+        this.dateAdded = new DateAdded();
+        this.dateCompleted = new DateCompleted(false);
+        this.description = description;
+        this.status = null;
+        this.user = getCurrentLoggedInUser();
+        // protect internal tags from changes in the arg list
+        this.tags = new UniqueTagList(tags);
+        this.subtasks = new UniqueSubtaskList();
+    }
 
     /**
      * Every field must be present and not null except status and dateCompleted

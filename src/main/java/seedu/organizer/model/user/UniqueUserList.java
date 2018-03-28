@@ -5,6 +5,7 @@ import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -51,6 +52,10 @@ public class UniqueUserList implements Iterable<User> {
         }
     }
 
+    public User getCurrentLoggedInUser() {
+        return currentLoggedInUser;
+    }
+
     /**
      * Returns all users in this list as a Set.
      * This set is mutable and change-insulated against the internal list.
@@ -63,7 +68,7 @@ public class UniqueUserList implements Iterable<User> {
     /**
      * Replaces the Users in this list with those in the argument user list.
      */
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         requireAllNonNull(users);
         internalList.setAll(users);
         assert CollectionUtil.elementsAreUnique(internalList);
