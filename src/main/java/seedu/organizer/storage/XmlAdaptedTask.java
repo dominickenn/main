@@ -124,7 +124,7 @@ public class XmlAdaptedTask {
         if (this.user == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, User.class.getSimpleName()));
         }
-        if (User.isValidUsername(this.user.getUsername()) || User.isValidPassword(this.user.getPassword())) {
+        if (!User.isValidUsername(this.user.getUsername()) || !User.isValidPassword(this.user.getPassword())) {
             throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
         }
         final User user = new User(this.user.getUsername(), this.user.getPassword());
