@@ -23,6 +23,7 @@ import seedu.organizer.commons.util.CollectionUtil;
 public class UniqueUserList implements Iterable<User> {
 
     private final ObservableList<User> internalList = FXCollections.observableArrayList();
+    private User currentLoggedInUser = null;
 
     /**
      * Constructs empty UserList.
@@ -38,6 +39,16 @@ public class UniqueUserList implements Iterable<User> {
         internalList.addAll(users);
 
         assert CollectionUtil.elementsAreUnique(internalList);
+    }
+
+    /**
+     * Sets currentLoggedInUser to user
+     */
+    public void setCurrentLoggedInUser(User userToLogIn) {
+        requireNonNull(userToLogIn);
+        if (internalList.contains(userToLogIn)) {
+            this.currentLoggedInUser = userToLogIn;
+        }
     }
 
     /**
@@ -68,6 +79,8 @@ public class UniqueUserList implements Iterable<User> {
                 .forEach(internalList::add);
 
         assert CollectionUtil.elementsAreUnique(internalList);
+
+        currentLoggedInUser = from.currentLoggedInUser;
     }
 
     /**
