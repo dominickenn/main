@@ -17,6 +17,8 @@ import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.UniqueTaskList;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.UniqueUserList;
+import seedu.organizer.model.user.User;
 
 /**
  * Wraps all data at the organizer-book level
@@ -26,6 +28,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
     private final UniqueTaskList tasks;
     private final UniqueTagList tags;
+    private final UniqueUserList users;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -38,6 +41,7 @@ public class Organizer implements ReadOnlyOrganizer {
     {
         tasks = new UniqueTaskList();
         tags = new UniqueTagList();
+        users = new UniqueUserList();
     }
 
     public Organizer() {
@@ -61,12 +65,19 @@ public class Organizer implements ReadOnlyOrganizer {
         this.tags.setTags(tags);
     }
 
+    //@@author dominickenn
+    public void setUsers(List<User> users) {
+        this.users.setUsers(users);
+    }
+    //@@author
+
     /**
      * Resets the existing data of this {@code Organizer} with {@code newData}.
      */
     public void resetData(ReadOnlyOrganizer newData) {
         requireNonNull(newData);
         setTags(new HashSet<>(newData.getTagList()));
+        setUsers(newData.getUserList());
         List<Task> syncedTaskList = newData.getTaskList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
@@ -77,6 +88,30 @@ public class Organizer implements ReadOnlyOrganizer {
             throw new AssertionError("PrioriTask should not have duplicate tasks");
         }
     }
+
+    //@@author dominickenn
+    //// user=level operations
+
+    /**
+     * Adds a user to the organizer
+     */
+    public void addUser(User user) throws UniqueUserList.DuplicateUserException {
+        requireNonNull(user);
+        users.add(user);
+    }
+
+    /**
+     * Sets currentLoggedInUser of the organizer
+     */
+    public void loginUser(User user) {
+        requireNonNull(user);
+        users.setCurrentLoggedInUser(user);
+    }
+
+    public User getCurrentLoggedInUser() {
+        return users.getCurrentLoggedInUser();
+    }
+    //@@author
 
     //// task-level operations
 
@@ -148,7 +183,7 @@ public class Organizer implements ReadOnlyOrganizer {
         return new Task(
                 task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
                 task.getDateCompleted(), task.getDescription(), task.getStatus(), correctTagReferences,
-                task.getSubtasks());
+                task.getSubtasks(), task.getUser());
     }
 
     /**
@@ -183,7 +218,7 @@ public class Organizer implements ReadOnlyOrganizer {
 
         Task newTask =
                 new Task(task.getName(), task.getPriority(), task.getDeadline(),
-                        task.getDateAdded(), task.getDateCompleted(), task.getDescription(), newTags);
+                        task.getDateAdded(), task.getDateCompleted(), task.getDescription(), newTags, task.getUser());
 
         try {
             updateTask(task, newTask);
@@ -223,6 +258,11 @@ public class Organizer implements ReadOnlyOrganizer {
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
+    }
+
+    @Override
+    public ObservableList<User> getUserList() {
+        return users.asObservableList();
     }
 
     @Override

@@ -16,12 +16,16 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.User;
 
 /**
  * Represents the in-memory model of the organizer book data.
  * All changes to any model should be synchronized.
  */
 public class ModelManager extends ComponentManager implements Model {
+
+    private static User CURRENT_LOGGED_IN_USER = null;
+
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final Organizer organizer;
@@ -42,6 +46,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     public ModelManager() {
         this(new Organizer(), new UserPrefs());
+    }
+
+    public static User getCurrentLoggedInUser() {
+        return CURRENT_LOGGED_IN_USER;
     }
 
     @Override
