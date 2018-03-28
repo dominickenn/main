@@ -24,6 +24,7 @@ import seedu.organizer.logic.commands.ListCommand;
 import seedu.organizer.logic.commands.PreviousMonthCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.SelectCommand;
+import seedu.organizer.logic.commands.SignUpCommand;
 import seedu.organizer.logic.commands.ToggleCommand;
 import seedu.organizer.logic.commands.ToggleSubtaskCommand;
 import seedu.organizer.logic.commands.UndoCommand;
@@ -55,6 +56,12 @@ public class OrganizerParser {
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
+
+        case SignUpCommand.COMMAND_WORD:
+            return new SignUpCommandParser().parse(arguments);
+
+        case SignUpCommand.COMMAND_ALIAS:
+            return new SignUpCommandParser().parse(arguments);
 
         case AddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);

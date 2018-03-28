@@ -16,6 +16,7 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 
 /**
@@ -80,6 +81,14 @@ public class ModelManager extends ComponentManager implements Model {
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         indicateOrganizerChanged();
     }
+
+    //@@author dominickenn
+    @Override
+    public synchronized void addUser(User user) throws UniqueUserList.DuplicateUserException {
+        organizer.addUser(user);
+        indicateOrganizerChanged();
+    }
+    //@@author
 
     @Override
     public void updateTask(Task target, Task editedTask)
