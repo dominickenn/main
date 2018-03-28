@@ -9,6 +9,7 @@ import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
 import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 
 /**
  * Adds a user to the organizer.
@@ -45,7 +46,7 @@ public class SignUpCommand extends UndoableCommand {
         try {
             model.addUser(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-        } catch (UniqueUserList.DuplicateUserException e) {
+        } catch (DuplicateUserException e) {
             throw new CommandException(MESSAGE_DUPLICATE_USER);
         }
 

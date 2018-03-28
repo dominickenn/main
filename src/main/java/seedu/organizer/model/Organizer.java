@@ -19,6 +19,7 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 
 /**
  * Wraps all data at the organizer-book level
@@ -94,7 +95,7 @@ public class Organizer implements ReadOnlyOrganizer {
     /**
      * Adds a user to the organizer
      */
-    public void addUser(User user) throws UniqueUserList.DuplicateUserException {
+    public void addUser(User user) throws DuplicateUserException {
         requireNonNull(user);
         users.add(user);
     }

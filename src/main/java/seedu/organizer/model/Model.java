@@ -9,6 +9,7 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
 
 /**
  * The API of the Model component.
@@ -30,7 +31,7 @@ public interface Model {
     void addTask(Task task) throws DuplicateTaskException;
 
     /** Adds a user */
-    void addUser(User user) throws UniqueUserList.DuplicateUserException;
+    void addUser(User user) throws DuplicateUserException;
 
     /**
      * Replaces the given task {@code target} with {@code editedTask}.
