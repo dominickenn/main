@@ -10,6 +10,7 @@ import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**
  * Deletes a task identified using it's last displayed index from the organizer book.
@@ -40,6 +41,8 @@ public class DeleteCommand extends UndoableCommand {
         requireNonNull(taskToDelete);
         try {
             model.deleteTask(taskToDelete);
+        } catch (NoUserLoggedInException nuli) {
+            throw new AssertionError("No user is logged in");
         } catch (TaskNotFoundException pnfe) {
             throw new AssertionError("The target task cannot be missing");
         }

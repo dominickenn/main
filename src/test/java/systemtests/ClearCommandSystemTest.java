@@ -1,6 +1,7 @@
 package systemtests;
 
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 
 import org.junit.Test;
@@ -11,6 +12,10 @@ import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
+import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 public class ClearCommandSystemTest extends OrganizerSystemTest {
 
@@ -66,7 +71,20 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
      * @see OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      */
     private void assertCommandSuccess(String command) {
-        assertCommandSuccess(command, ClearCommand.MESSAGE_SUCCESS, new ModelManager());
+        Model expectedModel = new ModelManager();
+        try {
+            expectedModel.addUser(ADMIN_USER);
+        } catch (DuplicateUserException e) {
+            e.printStackTrace();
+        }
+        try {
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
+        assertCommandSuccess(command, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     /**
@@ -94,7 +112,6 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
-
         executeCommand(command);
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();

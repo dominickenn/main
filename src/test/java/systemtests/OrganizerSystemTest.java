@@ -40,6 +40,9 @@ import seedu.organizer.logic.commands.ListCommand;
 import seedu.organizer.logic.commands.SelectCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.Organizer;
+import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.TypicalTasks;
 //import seedu.organizer.ui.CalendarPanel;
 import seedu.organizer.ui.CommandBox;
@@ -70,9 +73,9 @@ public abstract class OrganizerSystemTest {
         setupHelper = new SystemTestSetupHelper();
         testApp = setupHelper.setupApplication(this::getInitialData, getDataFileLocation());
         mainWindowHandle = setupHelper.setupMainWindowHandle();
-
         //waitUntilCalendarLoaded(getCalendarPanel());
         assertApplicationStartingStateIsCorrect();
+        testApp.loginAdmin();
     }
 
     @After
@@ -282,14 +285,18 @@ public abstract class OrganizerSystemTest {
      */
     private void assertApplicationStartingStateIsCorrect() {
         try {
+            Model expectedModel = getModel();
+            expectedModel.loginUser(new User("admin", "admin"));
+
             assertEquals("", getCommandBox().getInput());
             assertEquals("", getResultDisplay().getText());
-            assertListMatching(getTaskListPanel(), getModel().getFilteredTaskList());
+            assertListMatching(getTaskListPanel(), expectedModel.getFilteredTaskList());
             //assertEquals(MainApp.class.getResource(FXML_FILE_FOLDER + DEFAULT_PAGE), getCalendarPanel().getLoadedUrl
             //        ());
             assertEquals("./" + testApp.getStorageSaveLocation(), getStatusBarFooter().getSaveLocation());
-            assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
-            assertEquals(String.format(TOTAL_TASKS_STATUS, getModel().getOrganizer().getTaskList().size()),
+            //No longer the same due to login
+            //assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
+            assertEquals(String.format(TOTAL_TASKS_STATUS, expectedModel.getOrganizer().getCurrentUserTaskList().size()),
                 getStatusBarFooter().getTotalTasksStatus());
         } catch (Exception e) {
             throw new AssertionError("Starting state is wrong.", e);
@@ -308,7 +315,15 @@ public abstract class OrganizerSystemTest {
         String expectedSyncStatus = String.format(SYNC_STATUS_UPDATED, timestamp);
         assertEquals(expectedSyncStatus, handle.getSyncStatus());
 
-        final int totalTasks = testApp.getModel().getOrganizer().getTaskList().size();
+        final Model expectedModel = testApp.getModel();
+        try {
+            expectedModel.loginUser(new User("admin", "admin"));
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
+        final int totalTasks = expectedModel.getOrganizer().getCurrentUserTaskList().size();
         assertEquals(String.format(TOTAL_TASKS_STATUS, totalTasks), handle.getTotalTasksStatus());
 
         assertFalse(handle.isSaveLocationChanged());
@@ -320,4 +335,5 @@ public abstract class OrganizerSystemTest {
     protected Model getModel() {
         return testApp.getModel();
     }
+
 }

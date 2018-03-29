@@ -16,6 +16,9 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
 import seedu.organizer.model.UserPrefs;
+import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.storage.UserPrefsStorage;
 import seedu.organizer.storage.XmlSerializableOrganizer;
 import seedu.organizer.testutil.TestUtil;
@@ -119,6 +122,16 @@ public class TestApp extends MainApp {
             XmlUtil.saveDataToFile(saveFileForTesting, data);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void loginAdmin() {
+        try {
+            model.loginUser(new User("admin", "admin"));
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
         }
     }
 }

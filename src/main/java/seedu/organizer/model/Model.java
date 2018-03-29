@@ -11,6 +11,7 @@ import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
@@ -24,20 +25,19 @@ public interface Model {
     Predicate<Task> PREDICATE_SHOW_NO_TASKS = unused -> false;
 
     /** Clears existing backing model and replaces with the provided new data. */
-    void resetData(ReadOnlyOrganizer newData);
+    void resetData(ReadOnlyOrganizer newData) throws NoUserLoggedInException;
 
     /** Returns the Organizer */
     ReadOnlyOrganizer getOrganizer();
 
     /** Deletes the current users task. */
-    void deleteCurrentUserTasks() ;
-
+    void deleteCurrentUserTasks() throws NoUserLoggedInException;
 
     /** Deletes the given task. */
-    void deleteTask(Task target) throws TaskNotFoundException;
+    void deleteTask(Task target) throws TaskNotFoundException, NoUserLoggedInException;
 
     /** Adds the given task */
-    void addTask(Task task) throws DuplicateTaskException;
+    void addTask(Task task) throws DuplicateTaskException, NoUserLoggedInException;
 
     /** Adds a user */
     void addUser(User user) throws DuplicateUserException;
@@ -53,7 +53,7 @@ public interface Model {
      * @throws TaskNotFoundException if {@code target} could not be found in the list.
      */
     void updateTask(Task target, Task editedTask)
-            throws DuplicateTaskException, TaskNotFoundException;
+            throws DuplicateTaskException, TaskNotFoundException, NoUserLoggedInException;
 
     /** Returns an unmodifiable view of the filtered task list */
     ObservableList<Task> getFilteredTaskList();
@@ -65,5 +65,5 @@ public interface Model {
     void updateFilteredTaskList(Predicate<Task> predicate);
 
     /** Removes the given {@code tag} from all {@code Task}s. */
-    void deleteTag(Tag tag);
+    void deleteTag(Tag tag) throws NoUserLoggedInException;
 }

@@ -23,6 +23,7 @@ import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**
  * Deletes a subtask of a task
@@ -61,6 +62,8 @@ public class DeleteSubtaskCommand extends UndoableCommand {
             throw new CommandException("This exception should not happen (duplicated task while toggling)");
         } catch (TaskNotFoundException pnfe) {
             throw new AssertionError("This exception should not happen (task missing while toggling)");
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
         }
         model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         return new CommandResult(String.format(MESSAGE_EDIT_SUBTASK_SUCCESS, deletedSubtask));

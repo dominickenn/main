@@ -25,6 +25,7 @@ import seedu.organizer.model.task.Status;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**
  * Add a subtask into a task
@@ -67,6 +68,8 @@ public class AddSubtaskCommand extends UndoableCommand {
             throw new AssertionError("The target task cannot be missing");
         } catch (DuplicateSubtaskException dse) {
             throw new CommandException(MESSAGE_DUPLICATED);
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
         }
         model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         return new CommandResult(String.format(MESSAGE_SUCCESS, editedTask));

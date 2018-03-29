@@ -21,6 +21,7 @@ import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
@@ -55,7 +56,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void resetData(ReadOnlyOrganizer newData) {
+    public void resetData(ReadOnlyOrganizer newData) throws NoUserLoggedInException {
+        if (CURRENT_LOGGED_IN_USER == null) {
+            throw new NoUserLoggedInException();
+        }
         organizer.resetData(newData);
         indicateOrganizerChanged();
     }
@@ -71,13 +75,19 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deleteTask(Task target) throws TaskNotFoundException {
+    public synchronized void deleteTask(Task target) throws TaskNotFoundException, NoUserLoggedInException {
+        if (CURRENT_LOGGED_IN_USER == null) {
+            throw new NoUserLoggedInException();
+        }
         organizer.removeTask(target);
         indicateOrganizerChanged();
     }
 
     @Override
-    public synchronized void addTask(Task task) throws DuplicateTaskException {
+    public synchronized void addTask(Task task) throws DuplicateTaskException, NoUserLoggedInException {
+        if (CURRENT_LOGGED_IN_USER == null) {
+            throw new NoUserLoggedInException();
+        }
         organizer.addTask(task);
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         indicateOrganizerChanged();
@@ -103,7 +113,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deleteCurrentUserTasks() {
+    public synchronized void deleteCurrentUserTasks() throws NoUserLoggedInException {
+        if (CURRENT_LOGGED_IN_USER == null) {
+            throw new NoUserLoggedInException();
+        }
         organizer.deleteUserTasks(getCurrentLoggedInUser());
         indicateOrganizerChanged();
     }
@@ -111,15 +124,20 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updateTask(Task target, Task editedTask)
-            throws DuplicateTaskException, TaskNotFoundException {
+            throws DuplicateTaskException, TaskNotFoundException, NoUserLoggedInException {
         requireAllNonNull(target, editedTask);
-
+        if (CURRENT_LOGGED_IN_USER == null) {
+            throw new NoUserLoggedInException();
+        }
         organizer.updateTask(target, editedTask);
         indicateOrganizerChanged();
     }
 
     @Override
-    public void deleteTag(Tag tag) {
+    public void deleteTag(Tag tag) throws NoUserLoggedInException {
+        if (CURRENT_LOGGED_IN_USER == null) {
+            throw new NoUserLoggedInException();
+        }
         organizer.removeTag(tag);
     }
 

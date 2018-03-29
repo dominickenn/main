@@ -48,6 +48,7 @@ import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 import seedu.organizer.testutil.TaskBuilder;
 import seedu.organizer.testutil.TaskUtil;
 
@@ -223,6 +224,8 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         } catch (DuplicateTaskException | TaskNotFoundException e) {
             throw new IllegalArgumentException(
                     "editedTask is a duplicate in expectedModel, or it isn't found in the model.");
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
         }
 
         assertCommandSuccess(command, expectedModel,

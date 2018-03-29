@@ -2,6 +2,7 @@ package seedu.organizer.logic.commands;
 
 import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import org.junit.Before;
@@ -13,6 +14,8 @@ import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.TaskBuilder;
 
 /**
@@ -25,13 +28,21 @@ public class AddCommandIntegrationTest {
     @Before
     public void setUp() {
         model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        try {
+            model.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void execute_newPerson_success() throws Exception {
+    public void execute_newTask_success() throws Exception {
         Task validTask = new TaskBuilder().build();
 
         Model expectedModel = new ModelManager(model.getOrganizer(), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
         expectedModel.addTask(validTask);
 
         assertCommandSuccess(prepareCommand(validTask, model), model,
@@ -42,6 +53,7 @@ public class AddCommandIntegrationTest {
     public void execute_duplicatePerson_throwsCommandException() {
         Task taskInList = model.getOrganizer().getTaskList().get(0);
         assertCommandFailure(prepareCommand(taskInList, model), model, AddCommand.MESSAGE_DUPLICATE_TASK);
+
     }
 
     /**

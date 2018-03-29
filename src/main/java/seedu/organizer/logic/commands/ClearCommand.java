@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**
  * Clears the organizer book.
@@ -18,7 +19,11 @@ public class ClearCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() {
         requireNonNull(model);
-        model.deleteCurrentUserTasks();
+        try {
+            model.deleteCurrentUserTasks();
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
+        }
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

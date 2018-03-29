@@ -15,6 +15,7 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 public class UndoableCommandTest {
     private final Model model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
@@ -61,6 +62,8 @@ public class UndoableCommandTest {
                 model.deleteTask(taskToDelete);
             } catch (TaskNotFoundException pnfe) {
                 fail("Impossible: taskToDelete was retrieved from model.");
+            } catch (NoUserLoggedInException e) {
+                throw new AssertionError("No user is logged in");
             }
             return new CommandResult("");
         }

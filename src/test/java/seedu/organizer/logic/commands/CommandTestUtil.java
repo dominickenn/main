@@ -23,6 +23,7 @@ import seedu.organizer.model.Organizer;
 import seedu.organizer.model.task.predicates.NameContainsKeywordsPredicate;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;
 
 /**
@@ -146,6 +147,8 @@ public class CommandTestUtil {
             model.deleteTask(firstTask);
         } catch (TaskNotFoundException pnfe) {
             throw new AssertionError("Task in filtered list must exist in model.", pnfe);
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
         }
     }
 

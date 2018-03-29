@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.tag.UniqueTagList;
@@ -120,6 +121,7 @@ public class Organizer implements ReadOnlyOrganizer {
     public void deleteUserTasks(User user) {
         requireNonNull(user);
         tasks.removeUserTasks(user);
+        removeUnusedTags();
     }
     //@@author
 
@@ -277,7 +279,11 @@ public class Organizer implements ReadOnlyOrganizer {
 
     @Override
     public ObservableList<Task> getCurrentUserTaskList() {
-        return tasks.currentUserObservableList(getCurrentLoggedInUser());
+        if (getCurrentLoggedInUser() == null) {
+            return FXCollections.emptyObservableList();
+        } else {
+            return tasks.currentUserObservableList(getCurrentLoggedInUser());
+        }
     }
 
     @Override

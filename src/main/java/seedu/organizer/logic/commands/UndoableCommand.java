@@ -7,6 +7,7 @@ import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
 import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**
  * Represents a command which can be undone and redone.
@@ -37,7 +38,11 @@ public abstract class UndoableCommand extends Command {
      */
     protected final void undo() {
         requireAllNonNull(model, previousAddressBook);
-        model.resetData(previousAddressBook);
+        try {
+            model.resetData(previousAddressBook);
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
+        }
         model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
     }
 

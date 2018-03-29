@@ -10,6 +10,7 @@ import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
 import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**
  * Adds a task to the organizer book.
@@ -55,6 +56,8 @@ public class AddCommand extends UndoableCommand {
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicateTaskException e) {
             throw new CommandException(MESSAGE_DUPLICATE_TASK);
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
         }
 
     }

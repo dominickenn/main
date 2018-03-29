@@ -20,6 +20,7 @@ import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 public class DeleteCommandSystemTest extends OrganizerSystemTest {
 
@@ -123,6 +124,8 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
             model.deleteTask(targetTask);
         } catch (TaskNotFoundException pnfe) {
             throw new AssertionError("targetTask is retrieved from model.");
+        } catch (NoUserLoggedInException e) {
+            throw new AssertionError("No user is logged in");
         }
         return targetTask;
     }
