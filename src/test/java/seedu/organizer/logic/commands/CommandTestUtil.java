@@ -20,7 +20,7 @@ import seedu.organizer.logic.commands.exceptions.CommandException;
 import seedu.organizer.logic.commands.util.EditTaskDescriptor;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.Organizer;
-import seedu.organizer.model.task.NameContainsKeywordsPredicate;
+import seedu.organizer.model.task.predicates.NameContainsKeywordsPredicate;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;

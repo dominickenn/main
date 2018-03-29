@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import seedu.organizer.model.task.predicates.NameContainsKeywordsPredicate;
 import seedu.organizer.testutil.TaskBuilder;
 
 public class NameContainsKeywordsPredicateTest {

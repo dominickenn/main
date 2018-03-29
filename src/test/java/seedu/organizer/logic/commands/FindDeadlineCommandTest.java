@@ -15,7 +15,7 @@ import org.junit.Test;
 import seedu.organizer.logic.CommandHistory;
 import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.logic.commands.exceptions.CommandException;
-import seedu.organizer.model.task.DeadlineContainsKeywordsPredicate;
+import seedu.organizer.model.task.predicates.DeadlineContainsKeywordsPredicate;
 
 //@@author guekling
 /**

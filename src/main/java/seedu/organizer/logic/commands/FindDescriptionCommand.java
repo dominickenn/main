@@ -1,6 +1,6 @@
 package seedu.organizer.logic.commands;
 
-import seedu.organizer.model.task.DescriptionContainsKeywordsPredicate;
+import seedu.organizer.model.task.predicates.DescriptionContainsKeywordsPredicate;
 
 /**
  * Finds and lists all persons in organizer book whose name contains any of the argument keywords.

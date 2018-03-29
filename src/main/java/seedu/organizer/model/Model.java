@@ -20,11 +20,18 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Task> PREDICATE_SHOW_ALL_TASKS = unused -> true;
 
+    /** {@code Predicate} that always evaluate to false */
+    Predicate<Task> PREDICATE_SHOW_NO_TASKS = unused -> false;
+
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyOrganizer newData);
 
     /** Returns the Organizer */
     ReadOnlyOrganizer getOrganizer();
+
+    /** Deletes the current users task. */
+    void deleteCurrentUserTasks() ;
+
 
     /** Deletes the given task. */
     void deleteTask(Task target) throws TaskNotFoundException;

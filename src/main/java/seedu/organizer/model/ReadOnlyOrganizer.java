@@ -28,4 +28,10 @@ public interface ReadOnlyOrganizer {
      */
     ObservableList<User> getUserList();
 
+    /**
+     * Returns an unmodifiable view of the current user's task list
+     * This list will not contain any duplicate tasks.
+     */
+    ObservableList<Task> getCurrentUserTaskList();
+
 }

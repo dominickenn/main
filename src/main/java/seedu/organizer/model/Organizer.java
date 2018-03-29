@@ -113,6 +113,14 @@ public class Organizer implements ReadOnlyOrganizer {
     public User getCurrentLoggedInUser() {
         return users.getCurrentLoggedInUser();
     }
+
+    /**
+     * Deletes all of {@code user}'s tasks
+     */
+    public void deleteUserTasks(User user) {
+        requireNonNull(user);
+        tasks.removeUserTasks(user);
+    }
     //@@author
 
     //// task-level operations
@@ -265,6 +273,11 @@ public class Organizer implements ReadOnlyOrganizer {
     @Override
     public ObservableList<User> getUserList() {
         return users.asObservableList();
+    }
+
+    @Override
+    public ObservableList<Task> getCurrentUserTaskList() {
+        return tasks.currentUserObservableList(getCurrentLoggedInUser());
     }
 
     @Override

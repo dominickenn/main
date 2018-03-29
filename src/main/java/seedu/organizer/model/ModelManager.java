@@ -16,6 +16,7 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.task.predicates.TaskContainsUserPredicate;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
@@ -46,14 +47,11 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.organizer = new Organizer(organizer);
         filteredTasks = new FilteredList<>(this.organizer.getTaskList());
+        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
     }
 
     public ModelManager() {
         this(new Organizer(), new UserPrefs());
-    }
-
-    public static User getCurrentLoggedInUser() {
-        return CURRENT_LOGGED_IN_USER;
     }
 
     @Override
@@ -86,6 +84,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author dominickenn
+    public static User getCurrentLoggedInUser() {
+        return CURRENT_LOGGED_IN_USER;
+    }
+
     @Override
     public synchronized void addUser(User user) throws DuplicateUserException {
         organizer.addUser(user);
@@ -96,6 +98,14 @@ public class ModelManager extends ComponentManager implements Model {
     public synchronized void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
         organizer.loginUser(user);
         CURRENT_LOGGED_IN_USER = organizer.getCurrentLoggedInUser();
+        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        indicateOrganizerChanged();
+    }
+
+    @Override
+    public synchronized void deleteCurrentUserTasks() {
+        organizer.deleteUserTasks(getCurrentLoggedInUser());
+        indicateOrganizerChanged();
     }
     //@@author
 
@@ -124,11 +134,19 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(filteredTasks);
     }
 
+    //@@author dominickenn
     @Override
     public void updateFilteredTaskList(Predicate<Task> predicate) {
         requireNonNull(predicate);
-        filteredTasks.setPredicate(predicate);
+        if (getCurrentLoggedInUser() == null) {
+            filteredTasks.setPredicate(PREDICATE_SHOW_NO_TASKS);
+        } else {
+            Predicate<Task> predicateWithCurrentUser = new TaskContainsUserPredicate(getCurrentLoggedInUser());
+            Predicate<Task> adaptedPredicate = predicate.and(predicateWithCurrentUser);
+            filteredTasks.setPredicate(adaptedPredicate);
+        }
     }
+    //@@author
 
     @Override
     public boolean equals(Object obj) {
