@@ -1,7 +1,5 @@
 package seedu.organizer.logic.commands;
 
-//@@author dominickenn
-
 import static java.util.Objects.requireNonNull;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
@@ -11,6 +9,7 @@ import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 
+//@@author dominickenn
 /**
  * Adds a user to the organizer.
  */

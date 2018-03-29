@@ -18,7 +18,9 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * Represents the in-memory model of the organizer book data.
@@ -26,7 +28,7 @@ import seedu.organizer.model.user.exceptions.DuplicateUserException;
  */
 public class ModelManager extends ComponentManager implements Model {
 
-    private static User CURRENT_LOGGED_IN_USER = new User("admin", "admin");
+    private static User CURRENT_LOGGED_IN_USER = null;
 
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
@@ -88,6 +90,12 @@ public class ModelManager extends ComponentManager implements Model {
     public synchronized void addUser(User user) throws DuplicateUserException {
         organizer.addUser(user);
         indicateOrganizerChanged();
+    }
+
+    @Override
+    public synchronized void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
+        organizer.loginUser(user);
+        CURRENT_LOGGED_IN_USER = organizer.getCurrentLoggedInUser();
     }
     //@@author
 
