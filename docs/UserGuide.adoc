@@ -84,9 +84,45 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PRIORITY_LEVEL`, `p/PRIORITY_LEVEL n/NAME` is also acceptable.
 ====
 
-=== Basic Features
+=== User Account Features
 
-_{ To explain what a basic feature is. }_
+_{ To explain what a user account feature is. }
+
+==== Signing up : `signup` or `su`
+Sign up for a PrioriTask account +
+
+[.format]
+====
+[format-title]#Format:# `signup u/USERNAME p/PASSWORD`
+====
+
+[.example]
+====
+[example-title]#Examples:#
+
+* [example]#`signup u/david p/david123`#
+* [example]#`signup u/mary91 u/ilovecats465`#
+====
+
+==== Logging in : `login` or `log`
+Login to a PrioriTask account +
+
+[.format]
+====
+[format-title]#Format:# `login u/USERNAME p/PASSWORD`
+====
+
+[.example]
+====
+[example-title]#Examples:#
+
+* [example]#`login u/david p/david123`#
+* [example]#`login u/mary91 u/ilovecats465`#
+====
+
+=== Task Management Features
+
+_{ To explain what a task management feature is. }_
 
 ==== Viewing help : `help`
 
@@ -536,7 +572,7 @@ _{ coming in v2.0 }_
 
 == Command Summary
 
-=== Basic Features
+=== Task Management Features
 * *Add* : [format-no-box]#`add n/NAME [p/PRIORITY_LEVEL] d/DEADLINE [des/DESCRIPTION] [t/TAG]…`# +
 e.g. [example-no-box]#`add n/CS2101 Script p/8 d/2018-03-05 des/Script should be 500 words long t/CS2101 t/PhaseA`#
 * *Clear* : [format-no-box]#`clear`#
