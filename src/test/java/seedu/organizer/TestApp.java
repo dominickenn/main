@@ -107,8 +107,7 @@ public class TestApp extends MainApp {
         ui.start(primaryStage);
     }
 
-    public static void
-    main(String[] args) {
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -125,6 +124,9 @@ public class TestApp extends MainApp {
         }
     }
 
+    /**
+     * Login as admin
+     */
     public void loginAdmin() {
         try {
             model.loginUser(new User("admin", "admin"));

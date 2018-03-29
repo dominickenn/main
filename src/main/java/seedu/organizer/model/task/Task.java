@@ -1,7 +1,7 @@
 package seedu.organizer.model.task;
 
 import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.organizer.model.ModelManager.getCurrentLoggedInUser;
+import static seedu.organizer.model.ModelManager.getCurrentlyLoggedInUser;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,7 +45,7 @@ public class Task {
         this.dateCompleted = new DateCompleted(false);
         this.description = description;
         this.status = null;
-        this.user = getCurrentLoggedInUser();
+        this.user = getCurrentlyLoggedInUser();
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
         this.subtasks = new UniqueSubtaskList();

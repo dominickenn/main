@@ -157,8 +157,12 @@ public class TaskBuilder {
         return this;
     }
 
+    /**
+     * returns a Default task
+     */
     public Task build() {
-        return new Task(name, priority, deadline, dateAdded, dateCompleted, description, status, tags, subtasks, DEFAULT_USER);
+        return new Task(name, priority, deadline, dateAdded,
+                dateCompleted, description, status, tags, subtasks, user);
     }
 
 }

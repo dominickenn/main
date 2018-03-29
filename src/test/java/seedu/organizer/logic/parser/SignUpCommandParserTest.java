@@ -19,10 +19,9 @@ public class SignUpCommandParserTest {
         User expectedUser = new User("expectedUser", "expectedUser");
 
         // whitespace only preamble
-        assertParseSuccess(parser,PREAMBLE_WHITESPACE
+        assertParseSuccess(parser, PREAMBLE_WHITESPACE
                             + " u/expectedUser "
-                            + "p/expectedUser "
-                            , new SignUpCommand(expectedUser));
+                            + "p/expectedUser ", new SignUpCommand(expectedUser));
     }
 
     @Test

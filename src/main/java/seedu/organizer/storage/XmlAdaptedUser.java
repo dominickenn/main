@@ -1,4 +1,3 @@
-
 package seedu.organizer.storage;
 
 import javax.xml.bind.annotation.XmlElement;

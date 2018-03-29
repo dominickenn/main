@@ -37,7 +37,6 @@ import static seedu.organizer.testutil.TypicalTasks.STUDY;
 import org.junit.Test;
 
 import seedu.organizer.commons.core.Messages;
-import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.AddCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.UndoCommand;

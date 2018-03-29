@@ -17,7 +17,6 @@ import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.task.predicates.TaskContainsUserPredicate;
-import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
@@ -30,7 +29,7 @@ import seedu.organizer.model.user.exceptions.UserNotFoundException;
  */
 public class ModelManager extends ComponentManager implements Model {
 
-    private static User CURRENT_LOGGED_IN_USER = null;
+    private static User currentlyLoggedInUser = null;
 
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
@@ -57,7 +56,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void resetData(ReadOnlyOrganizer newData) throws NoUserLoggedInException {
-        if (CURRENT_LOGGED_IN_USER == null) {
+        if (currentlyLoggedInUser == null) {
             throw new NoUserLoggedInException();
         }
         organizer.resetData(newData);
@@ -76,7 +75,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public synchronized void deleteTask(Task target) throws TaskNotFoundException, NoUserLoggedInException {
-        if (CURRENT_LOGGED_IN_USER == null) {
+        if (currentlyLoggedInUser == null) {
             throw new NoUserLoggedInException();
         }
         organizer.removeTask(target);
@@ -85,7 +84,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public synchronized void addTask(Task task) throws DuplicateTaskException, NoUserLoggedInException {
-        if (CURRENT_LOGGED_IN_USER == null) {
+        if (currentlyLoggedInUser == null) {
             throw new NoUserLoggedInException();
         }
         organizer.addTask(task);
@@ -94,8 +93,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author dominickenn
-    public static User getCurrentLoggedInUser() {
-        return CURRENT_LOGGED_IN_USER;
+    public static User getCurrentlyLoggedInUser() {
+        return currentlyLoggedInUser;
     }
 
     @Override
@@ -107,17 +106,17 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public synchronized void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
         organizer.loginUser(user);
-        CURRENT_LOGGED_IN_USER = organizer.getCurrentLoggedInUser();
+        currentlyLoggedInUser = organizer.getCurrentLoggedInUser();
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         indicateOrganizerChanged();
     }
 
     @Override
     public synchronized void deleteCurrentUserTasks() throws NoUserLoggedInException {
-        if (CURRENT_LOGGED_IN_USER == null) {
+        if (currentlyLoggedInUser == null) {
             throw new NoUserLoggedInException();
         }
-        organizer.deleteUserTasks(getCurrentLoggedInUser());
+        organizer.deleteUserTasks(getCurrentlyLoggedInUser());
         indicateOrganizerChanged();
     }
     //@@author
@@ -126,7 +125,7 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateTask(Task target, Task editedTask)
             throws DuplicateTaskException, TaskNotFoundException, NoUserLoggedInException {
         requireAllNonNull(target, editedTask);
-        if (CURRENT_LOGGED_IN_USER == null) {
+        if (currentlyLoggedInUser == null) {
             throw new NoUserLoggedInException();
         }
         organizer.updateTask(target, editedTask);
@@ -135,7 +134,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void deleteTag(Tag tag) throws NoUserLoggedInException {
-        if (CURRENT_LOGGED_IN_USER == null) {
+        if (currentlyLoggedInUser == null) {
             throw new NoUserLoggedInException();
         }
         organizer.removeTag(tag);
@@ -156,10 +155,10 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateFilteredTaskList(Predicate<Task> predicate) {
         requireNonNull(predicate);
-        if (getCurrentLoggedInUser() == null) {
+        if (getCurrentlyLoggedInUser() == null) {
             filteredTasks.setPredicate(PREDICATE_SHOW_NO_TASKS);
         } else {
-            Predicate<Task> predicateWithCurrentUser = new TaskContainsUserPredicate(getCurrentLoggedInUser());
+            Predicate<Task> predicateWithCurrentUser = new TaskContainsUserPredicate(getCurrentlyLoggedInUser());
             Predicate<Task> adaptedPredicate = predicate.and(predicateWithCurrentUser);
             filteredTasks.setPredicate(adaptedPredicate);
         }

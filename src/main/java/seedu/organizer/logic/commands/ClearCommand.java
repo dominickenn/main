@@ -2,8 +2,6 @@ package seedu.organizer.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import seedu.organizer.model.Organizer;
-import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.exceptions.NoUserLoggedInException;
 
 /**

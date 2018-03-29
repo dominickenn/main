@@ -63,7 +63,7 @@ public class LoginCommandTest {
     }
 
     @Test
-    public void execute_UserCurrentlyLoggedIn_throwsCommandException() throws Exception {
+    public void execute_userCurrentlyLoggedIn_throwsCommandException() throws Exception {
         ModelStub modelStub = new ModelStubThrowingCurrentlyLoggedInException();
         User validUser = new User("admin", "admin");
 
@@ -110,7 +110,7 @@ public class LoginCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
-        Organizer organizer = new Organizer();
+        private Organizer organizer = new Organizer();
 
         @Override
         public void addUser(User user) throws DuplicateUserException {
@@ -205,7 +205,7 @@ public class LoginCommandTest {
      * A Model stub that always accept the user login attempt.
      */
     private class ModelStubAcceptingUserLogin extends ModelStub {
-        Organizer organizer = new Organizer();
+        private Organizer organizer = new Organizer();
 
         @Override
         public void addUser(User user) throws DuplicateUserException {
@@ -226,4 +226,3 @@ public class LoginCommandTest {
     }
 
 }
-

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 //import static seedu.organizer.ui.CalendarPanel.DEFAULT_PAGE;
-import static seedu.organizer.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.organizer.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.organizer.ui.StatusBarFooter.TOTAL_TASKS_STATUS;
 //import static seedu.organizer.ui.UiPart.FXML_FILE_FOLDER;
@@ -219,6 +218,7 @@ public abstract class OrganizerSystemTest {
      * @see TaskListPanelHandle#isSelectedTaskCardChanged()
      */
     protected void assertSelectedCardChanged(Index expectedSelectedCardIndex) {
+        // Select command will be deleted
         /*String selectedCardName = getTaskListPanel().getHandleToSelectedCard().getName();
         URL expectedUrl;
         try {
@@ -296,7 +296,8 @@ public abstract class OrganizerSystemTest {
             assertEquals("./" + testApp.getStorageSaveLocation(), getStatusBarFooter().getSaveLocation());
             //No longer the same due to login
             //assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
-            assertEquals(String.format(TOTAL_TASKS_STATUS, expectedModel.getOrganizer().getCurrentUserTaskList().size()),
+            assertEquals(String.format(TOTAL_TASKS_STATUS,
+                    expectedModel.getOrganizer().getCurrentUserTaskList().size()),
                 getStatusBarFooter().getTotalTasksStatus());
         } catch (Exception e) {
             throw new AssertionError("Starting state is wrong.", e);
