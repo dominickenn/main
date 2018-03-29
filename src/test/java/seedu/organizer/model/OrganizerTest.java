@@ -1,9 +1,11 @@
 package seedu.organizer.model;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_UNUSED;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
 import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.REVISION;
@@ -23,10 +25,12 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.task.predicates.TaskContainsUserPredicate;
 import seedu.organizer.model.user.User;
 import seedu.organizer.testutil.OrganizerBuilder;
 import seedu.organizer.testutil.TaskBuilder;
@@ -163,6 +167,13 @@ public class OrganizerTest {
         @Override
         public ObservableList<User> getUserList() {
             return users;
+        }
+
+        @Override
+        public ObservableList<Task> getCurrentUserTaskList() {
+            FilteredList<Task> filteredList = new FilteredList<>(tasks);
+            filteredList.setPredicate(new TaskContainsUserPredicate(ADMIN_USER));
+            return FXCollections.unmodifiableObservableList(filteredList);
         }
     }
 

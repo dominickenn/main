@@ -139,6 +139,11 @@ public class LoginCommandTest {
         }
 
         @Override
+        public void deleteCurrentUserTasks() {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void deleteTask(Task target) throws TaskNotFoundException {
             fail("This method should not be called.");
         }
