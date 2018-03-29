@@ -278,6 +278,7 @@ public abstract class OrganizerSystemTest {
         assertEquals(expectedSyncStatus, handle.getSyncStatus());
         assertFalse(handle.isSaveLocationChanged());
         // Did not work with login feature for some reason
+        // Works fine in manual testing
         //assertFalse(handle.isTotalTasksStatusChanged());
     }
 
