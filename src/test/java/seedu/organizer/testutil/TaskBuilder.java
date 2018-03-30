@@ -42,6 +42,7 @@ public class TaskBuilder {
     private Status status;
     private Set<Tag> tags;
     private List<Subtask> subtasks;
+    private User user;
 
     public TaskBuilder() {
         name = new Name(DEFAULT_NAME);
@@ -53,6 +54,7 @@ public class TaskBuilder {
         status = new Status(DEFAULT_STATUS);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
         subtasks = SampleDataUtil.getSubtaskList(DEFAULT_SUBTASKS);
+        user = DEFAULT_USER;
     }
 
     /**
@@ -68,6 +70,7 @@ public class TaskBuilder {
         status = taskToCopy.getStatus();
         tags = new HashSet<>(taskToCopy.getTags());
         subtasks = new ArrayList<>(taskToCopy.getSubtasks());
+        user = taskToCopy.getUser();
     }
 
     /**

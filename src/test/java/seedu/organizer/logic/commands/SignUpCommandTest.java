@@ -1,10 +1,10 @@
 package seedu.organizer.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
-import junit.framework.TestCase;
 import seedu.organizer.logic.CommandHistory;
 import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.logic.commands.exceptions.CommandException;
@@ -31,9 +30,9 @@ import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
-import seedu.organizer.testutil.TaskBuilder;
 
-public class AddCommandTest {
+//@@author dominickenn
+public class SignUpCommandTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -41,60 +40,60 @@ public class AddCommandTest {
     @Test
     public void constructor_nullTask_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
-        new AddCommand(null);
+        new SignUpCommand(null);
     }
 
     @Test
-    public void execute_taskAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingTaskAdded modelStub = new ModelStubAcceptingTaskAdded();
-        Task validTask = new TaskBuilder().build();
+    public void execute_userAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingUserAdded modelStub = new ModelStubAcceptingUserAdded();
+        User validUser = new User("david", "david123");
 
-        CommandResult commandResult = getAddCommandForTask(validTask, modelStub).execute();
+        CommandResult commandResult = getSignUpCommandForUser(validUser, modelStub).execute();
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validTask), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validTask), modelStub.tasksAdded);
+        assertEquals(String.format(SignUpCommand.MESSAGE_SUCCESS, validUser), commandResult.feedbackToUser);
+        assertEquals(Arrays.asList(validUser), modelStub.usersAdded);
     }
 
     @Test
-    public void execute_duplicateTask_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicateTaskException();
-        Task validTask = new TaskBuilder().build();
+    public void execute_duplicateUser_throwsCommandException() throws Exception {
+        ModelStub modelStub = new ModelStubThrowingDuplicateUserException();
+        User validUser = new User("admin", "admin");
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_TASK);
+        thrown.expectMessage(SignUpCommand.MESSAGE_DUPLICATE_USER);
 
-        getAddCommandForTask(validTask, modelStub).execute();
+        getSignUpCommandForUser(validUser, modelStub).execute();
     }
 
     @Test
     public void equals() {
-        Task alice = new TaskBuilder().withName("Alice").build();
-        Task bob = new TaskBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        User alice = new User("alice", "alice123");
+        User bob = new User("bob", "bob123");
+        SignUpCommand signUpAliceCommand = new SignUpCommand(alice);
+        SignUpCommand signUpBobCommand = new SignUpCommand(bob);
 
         // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        assertTrue(signUpAliceCommand.equals(signUpAliceCommand));
 
         // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
+        SignUpCommand addAliceCommandCopy = new SignUpCommand(alice);
+        assertTrue(signUpAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
+        assertFalse(signUpAliceCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        assertFalse(signUpAliceCommand.equals(null));
 
         // different task -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        assertFalse(signUpAliceCommand.equals(signUpBobCommand));
     }
 
     /**
-     * Generates a new AddCommand with the details of the given task.
+     * Generates a new SignUpCommand with the given user.
      */
-    private AddCommand getAddCommandForTask(Task task, Model model) {
-        AddCommand command = new AddCommand(task);
+    private SignUpCommand getSignUpCommandForUser(User user, Model model) {
+        SignUpCommand command = new SignUpCommand(user);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -110,7 +109,7 @@ public class AddCommandTest {
 
         @Override
         public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
-            TestCase.fail("This method should not be called");
+            fail("This method should not be called");
         }
 
         @Override
@@ -158,12 +157,12 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always throw a DuplicateTaskException when trying to add a task.
+     * A Model stub that always throw a DuplicateUserException when trying to add a user.
      */
-    private class ModelStubThrowingDuplicateTaskException extends ModelStub {
+    private class ModelStubThrowingDuplicateUserException extends ModelStub {
         @Override
-        public void addTask(Task task) throws DuplicateTaskException {
-            throw new DuplicateTaskException();
+        public void addUser(User user) throws DuplicateUserException {
+            throw new DuplicateUserException();
         }
 
         @Override
@@ -173,15 +172,15 @@ public class AddCommandTest {
     }
 
     /**
-     * A Model stub that always accept the task being added.
+     * A Model stub that always accept the user being added.
      */
-    private class ModelStubAcceptingTaskAdded extends ModelStub {
-        final ArrayList<Task> tasksAdded = new ArrayList<>();
+    private class ModelStubAcceptingUserAdded extends ModelStub {
+        final ArrayList<User> usersAdded = new ArrayList<>();
 
         @Override
-        public void addTask(Task task) throws DuplicateTaskException {
-            requireNonNull(task);
-            tasksAdded.add(task);
+        public void addUser(User user) throws DuplicateUserException {
+            requireNonNull(user);
+            usersAdded.add(user);
         }
 
         @Override

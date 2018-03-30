@@ -9,11 +9,13 @@ import static seedu.organizer.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.organizer.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_SECOND_TASK;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.getTypicalOrganizer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.organizer.commons.core.Messages;
@@ -27,10 +29,17 @@ import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.subtask.Subtask;
 import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 public class AddSubtaskCommandTest {
 
     private Model model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+
+    @Before
+    public void setUp() throws UserNotFoundException, CurrentlyLoggedInException {
+        model.loginUser(ADMIN_USER);
+    }
 
     @Test
     public void execute_unfilteredList_success() throws Exception {
