@@ -10,9 +10,10 @@ import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.organizer.commons.exceptions.DuplicateDataException;
 import seedu.organizer.commons.util.CollectionUtil;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 //@@author dominickenn
 /**
@@ -46,11 +47,15 @@ public class UniqueUserList implements Iterable<User> {
     /**
      * Sets currentLoggedInUser to user
      */
-    public void setCurrentLoggedInUser(User userToLogIn) {
+    public void setCurrentLoggedInUser(User userToLogIn) throws UserNotFoundException, CurrentlyLoggedInException {
         requireNonNull(userToLogIn);
-        if (internalList.contains(userToLogIn)) {
-            this.currentLoggedInUser = userToLogIn;
+        if (currentLoggedInUser != null) {
+            throw new CurrentlyLoggedInException();
         }
+        if (!internalList.contains(userToLogIn)) {
+            throw new UserNotFoundException();
+        }
+        this.currentLoggedInUser = userToLogIn;
     }
 
     public User getCurrentLoggedInUser() {

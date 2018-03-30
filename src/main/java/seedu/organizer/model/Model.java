@@ -7,9 +7,10 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
-import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * The API of the Model component.
@@ -32,6 +33,9 @@ public interface Model {
 
     /** Adds a user */
     void addUser(User user) throws DuplicateUserException;
+
+    /** Login a user */
+    void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException;
 
     /**
      * Replaces the given task {@code target} with {@code editedTask}.

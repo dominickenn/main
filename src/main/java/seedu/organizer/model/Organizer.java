@@ -19,7 +19,9 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * Wraps all data at the organizer-book level
@@ -103,7 +105,7 @@ public class Organizer implements ReadOnlyOrganizer {
     /**
      * Sets currentLoggedInUser of the organizer
      */
-    public void loginUser(User user) {
+    public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
         requireNonNull(user);
         users.setCurrentLoggedInUser(user);
     }
