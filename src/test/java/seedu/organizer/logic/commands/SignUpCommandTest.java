@@ -112,6 +112,11 @@ public class SignUpCommandTest {
         }
 
         @Override
+        public void deleteCurrentUserTasks() {
+            fail("This method should not be called");
+        }
+
+        @Override
         public void addTask(Task task) throws DuplicateTaskException {
             fail("This method should not be called.");
         }

@@ -10,9 +10,11 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import seedu.organizer.commons.util.CollectionUtil;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.User;
 
 /**
  * A list of tasks that enforces uniqueness between its elements and does not allow nulls.
@@ -88,6 +90,18 @@ public class UniqueTaskList implements Iterable<Task> {
         }
         return taskFoundAndDeleted;
     }
+
+    //@@author dominickenn
+    /**
+     * Deletes all tasks by {@code user} from internalList
+     */
+    public void deleteUserTasks(User user) {
+        requireNonNull(user);
+        FilteredList<Task> tasksToDelete = new FilteredList<>(internalList);
+        tasksToDelete.setPredicate(new TaskByUserPredicate(user));
+        internalList.removeAll(tasksToDelete);
+    }
+    //@@author
 
     public void setTasks(UniqueTaskList replacement) {
         this.internalList.setAll(replacement.internalList);

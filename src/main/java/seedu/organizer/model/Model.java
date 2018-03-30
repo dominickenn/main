@@ -37,6 +37,9 @@ public interface Model {
     /** Login a user */
     void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException;
 
+    /** Deletes all current user tasks */
+    void deleteCurrentUserTasks();
+
     /**
      * Replaces the given task {@code target} with {@code editedTask}.
      *

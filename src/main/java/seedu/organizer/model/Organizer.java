@@ -93,7 +93,6 @@ public class Organizer implements ReadOnlyOrganizer {
 
     //@@author dominickenn
     //// user=level operations
-
     /**
      * Adds a user to the organizer
      */
@@ -112,6 +111,14 @@ public class Organizer implements ReadOnlyOrganizer {
 
     public User getCurrentLoggedInUser() {
         return users.getCurrentLoggedInUser();
+    }
+
+    /**
+     * Deletes all tasks by {@code user} from tasks
+     */
+    public void deleteUserTasks(User user) {
+        requireNonNull(user);
+        tasks.deleteUserTasks(user);
     }
     //@@author
 

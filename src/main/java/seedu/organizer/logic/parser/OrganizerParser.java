@@ -74,6 +74,9 @@ public class OrganizerParser {
             case LoginCommand.COMMAND_ALIAS:
                 return new LoginCommandParser().parse(arguments);
 
+            case ExitCommand.COMMAND_WORD:
+                return new ExitCommand();
+
             default :
                 throw new ParseException(MESSAGE_NO_USER_LOGGED_IN);
             }
