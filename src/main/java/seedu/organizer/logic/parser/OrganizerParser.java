@@ -1,7 +1,9 @@
 package seedu.organizer.logic.parser;
 
 import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.organizer.commons.core.Messages.MESSAGE_NO_USER_LOGGED_IN;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.organizer.model.ModelManager.getCurrentlyLoggedInUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,19 +58,28 @@ public class OrganizerParser {
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
+
+        if (getCurrentlyLoggedInUser() == null) {
+            switch (commandWord) {
+
+            case SignUpCommand.COMMAND_WORD:
+                return new SignUpCommandParser().parse(arguments);
+
+            case SignUpCommand.COMMAND_ALIAS:
+                return new SignUpCommandParser().parse(arguments);
+
+            case LoginCommand.COMMAND_WORD:
+                return new LoginCommandParser().parse(arguments);
+
+            case LoginCommand.COMMAND_ALIAS:
+                return new LoginCommandParser().parse(arguments);
+
+            default :
+                throw new ParseException(MESSAGE_NO_USER_LOGGED_IN);
+            }
+        }
+
         switch (commandWord) {
-
-        case SignUpCommand.COMMAND_WORD:
-            return new SignUpCommandParser().parse(arguments);
-
-        case SignUpCommand.COMMAND_ALIAS:
-            return new SignUpCommandParser().parse(arguments);
-
-        case LoginCommand.COMMAND_WORD:
-            return new LoginCommandParser().parse(arguments);
-
-        case LoginCommand.COMMAND_ALIAS:
-            return new LoginCommandParser().parse(arguments);
 
         case AddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
