@@ -123,6 +123,17 @@ public class UniqueTaskList implements Iterable<Task> {
         return FXCollections.unmodifiableObservableList(internalList);
     }
 
+    //@@author dominickenn
+    /**
+     * Returns a list of tasks by a user as an unmodifiable {@code ObservableList}
+     */
+    public ObservableList<Task> userTasksAsObservableList(User user) {
+        FilteredList<Task> filteredList = new FilteredList<>(internalList);
+        filteredList.setPredicate(new TaskByUserPredicate(user));
+        return FXCollections.unmodifiableObservableList(filteredList);
+    }
+    //@@author
+
     @Override
     public Iterator<Task> iterator() {
         return internalList.iterator();

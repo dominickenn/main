@@ -11,10 +11,16 @@ import seedu.organizer.model.user.User;
 public interface ReadOnlyOrganizer {
 
     /**
-     * Returns an unmodifiable view of the persons list.
-     * This list will not contain any duplicate persons.
+     * Returns an unmodifiable view of the tasks list.
+     * This list will not contain any duplicate tasks.
      */
     ObservableList<Task> getTaskList();
+
+    /**
+     * Returns an unmodifiable view of the current user's task list.
+     * This list will not contain any duplicate tasks.
+     */
+    ObservableList<Task> getCurrentUserTaskList();
 
     /**
      * Returns an unmodifiable view of the tags list.

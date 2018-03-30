@@ -265,6 +265,11 @@ public class Organizer implements ReadOnlyOrganizer {
     }
 
     @Override
+    public ObservableList<Task> getCurrentUserTaskList() {
+        return tasks.userTasksAsObservableList(getCurrentLoggedInUser());
+    }
+
+    @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
     }
