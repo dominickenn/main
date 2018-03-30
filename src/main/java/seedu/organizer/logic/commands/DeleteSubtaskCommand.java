@@ -1,10 +1,8 @@
 package seedu.organizer.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.organizer.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.organizer.model.Model.PREDICATE_SHOW_ALL_TASKS;
-import static seedu.organizer.model.subtask.UniqueSubtaskList.DuplicateSubtaskException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,66 +24,67 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 
 /**
- * Add a subtask into a task
+ * Deletes a subtask of a task
  */
-public class AddSubtaskCommand extends UndoableCommand {
+public class DeleteSubtaskCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "adds";
-    public static final String COMMAND_ALIAS = "as";
+    public static final String COMMAND_WORD = "delete-subtask";
+    public static final String COMMAND_ALIAS = "ds";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a subttask to a task. "
-            + "Parameters: INDEX (must be a positive integer) "
-            + PREFIX_NAME + "NAME "
-            + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_NAME + "Submit report ";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": delete a subtask of a task. "
+            + "Parameters: TASK_INDEX (must be a positive integer) SUBTASK_INDEX (must be a positive integer)";
 
-    public static final String MESSAGE_SUCCESS = "New subtask added: %1$s";
-    public static final String MESSAGE_DUPLICATED = "Subtask already exist";
+    public static final String MESSAGE_EDIT_SUBTASK_SUCCESS = "Subtask Deleted: %1$s";
 
-    private final Subtask toAdd;
-    private final Index index;
+    public final Index taskIndex;
+    public final Index subtaskIndex;
 
     private Task taskToEdit;
     private Task editedTask;
+    private Subtask deletedSubtask;
 
-    public AddSubtaskCommand(Index index, Subtask toAdd) {
-        requireNonNull(toAdd);
-        requireNonNull(index);
-        this.index = index;
-        this.toAdd = toAdd;
+    /**
+     * @param taskIndex index of the task in the filtered task list to edit
+     * @param subtaskIndex index of the subtask of the task to edit
+     */
+    public DeleteSubtaskCommand(Index taskIndex, Index subtaskIndex) {
+        this.taskIndex = taskIndex;
+        this.subtaskIndex = subtaskIndex;
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            editedTask = createEditedTask(taskToEdit, toAdd);
             model.updateTask(taskToEdit, editedTask);
         } catch (DuplicateTaskException dpe) {
-            throw new AssertionError("Task duplication should not happen");
+            throw new CommandException("This exception should not happen (duplicated task while toggling)");
         } catch (TaskNotFoundException pnfe) {
-            throw new AssertionError("The target task cannot be missing");
-        } catch (DuplicateSubtaskException dse) {
-            throw new CommandException(MESSAGE_DUPLICATED);
+            throw new AssertionError("This exception should not happen (task missing while toggling)");
         }
         model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, editedTask));
+        return new CommandResult(String.format(MESSAGE_EDIT_SUBTASK_SUCCESS, deletedSubtask));
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Task> lastShownList = model.getFilteredTaskList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
+        if (taskIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
+        taskToEdit = lastShownList.get(taskIndex.getZeroBased());
 
-        taskToEdit = lastShownList.get(index.getZeroBased());
+        if (subtaskIndex.getZeroBased() >= taskToEdit.getSubtasks().size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_SUBTASK_DISPLAYED_INDEX);
+        }
+        editedTask = createEditedTask(taskToEdit, subtaskIndex);
+        deletedSubtask = editedTask.getSubtasks().get(subtaskIndex.getZeroBased());
     }
 
     /**
      * Creates and returns a {@code Task} with the details of {@code taskToEdit}
      */
-    private static Task createEditedTask(Task taskToEdit, Subtask toAdd) throws DuplicateSubtaskException {
+    private static Task createEditedTask(Task taskToEdit, Index subtaskIndex) {
         assert taskToEdit != null;
 
         Name updatedName = taskToEdit.getName();
@@ -95,10 +94,11 @@ public class AddSubtaskCommand extends UndoableCommand {
         DateCompleted oldDateCompleted = taskToEdit.getDateCompleted();
         Description updatedDescription = taskToEdit.getDescription();
         Set<Tag> updatedTags = taskToEdit.getTags();
-        UniqueSubtaskList updatedSubtasks = new UniqueSubtaskList(taskToEdit.getSubtasks());
+        List<Subtask> originalSubtasks = new ArrayList<>(taskToEdit.getSubtasks());
         Status updatedStatus = taskToEdit.getStatus();
 
-        updatedSubtasks.add(toAdd);
+        originalSubtasks.remove(subtaskIndex.getZeroBased());
+        UniqueSubtaskList updatedSubtasks = new UniqueSubtaskList(originalSubtasks);
 
         return new Task(updatedName, updatedPriority, updatedDeadline, oldDateAdded, oldDateCompleted,
                 updatedDescription, updatedStatus, updatedTags, updatedSubtasks.toList());
@@ -107,8 +107,8 @@ public class AddSubtaskCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof AddSubtaskCommand // instanceof handles nulls
-                && this.index.equals(((AddSubtaskCommand) other).index) // state check
-                && this.toAdd.equals(((AddSubtaskCommand) other).toAdd)); // state check
+                || (other instanceof DeleteSubtaskCommand // instanceof handles nulls
+                && this.taskIndex.equals(((DeleteSubtaskCommand) other).taskIndex) // state check
+                && this.subtaskIndex.equals(((DeleteSubtaskCommand) other).subtaskIndex)); // state check
     }
 }

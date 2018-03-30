@@ -11,6 +11,7 @@ import seedu.organizer.logic.commands.AddSubtaskCommand;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.Command;
 import seedu.organizer.logic.commands.DeleteCommand;
+import seedu.organizer.logic.commands.DeleteSubtaskCommand;
 import seedu.organizer.logic.commands.EditCommand;
 import seedu.organizer.logic.commands.ExitCommand;
 import seedu.organizer.logic.commands.FindDeadlineCommand;
@@ -20,9 +21,11 @@ import seedu.organizer.logic.commands.FindNameCommand;
 import seedu.organizer.logic.commands.HelpCommand;
 import seedu.organizer.logic.commands.HistoryCommand;
 import seedu.organizer.logic.commands.ListCommand;
+import seedu.organizer.logic.commands.PreviousMonthCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.SelectCommand;
 import seedu.organizer.logic.commands.ToggleCommand;
+import seedu.organizer.logic.commands.ToggleSubtaskCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.logic.parser.exceptions.ParseException;
 
@@ -71,6 +74,12 @@ public class OrganizerParser {
         case ToggleCommand.COMMAND_ALIAS:
             return new ToggleCommandParser().parse(arguments);
 
+        case ToggleSubtaskCommand.COMMAND_WORD:
+            return new ToggleSubtaskCommandParser().parse(arguments);
+
+        case ToggleSubtaskCommand.COMMAND_ALIAS:
+            return new ToggleSubtaskCommandParser().parse(arguments);
+
         case SelectCommand.COMMAND_WORD:
             return new SelectCommandParser().parse(arguments);
 
@@ -82,6 +91,12 @@ public class OrganizerParser {
 
         case DeleteCommand.COMMAND_ALIAS:
             return new DeleteCommandParser().parse(arguments);
+
+        case DeleteSubtaskCommand.COMMAND_WORD:
+            return new DeleteSubtaskCommandParser().parse(arguments);
+
+        case DeleteSubtaskCommand.COMMAND_ALIAS:
+            return new DeleteSubtaskCommandParser().parse(arguments);
 
         case AddSubtaskCommand.COMMAND_WORD:
             return new AddSubtaskCommandParser().parse(arguments);
@@ -139,6 +154,12 @@ public class OrganizerParser {
 
         case RedoCommand.COMMAND_WORD:
             return new RedoCommand();
+
+        case PreviousMonthCommand.COMMAND_WORD:
+            return new PreviousMonthCommand();
+
+        case PreviousMonthCommand.COMMAND_ALIAS:
+            return new PreviousMonthCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
