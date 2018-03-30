@@ -13,7 +13,7 @@ import seedu.organizer.model.user.exceptions.UserNotFoundException;
 /**
  * Adds a user to the organizer.
  */
-public class LoginCommand extends UndoableCommand {
+public class LoginCommand extends Command {
 
     public static final String COMMAND_WORD = "login";
     public static final String COMMAND_ALIAS = "log";
@@ -41,7 +41,7 @@ public class LoginCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult execute() throws CommandException {
         requireNonNull(model);
         try {
             model.loginUser(toLogin);

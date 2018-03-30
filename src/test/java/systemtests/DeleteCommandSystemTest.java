@@ -8,6 +8,7 @@ import static seedu.organizer.testutil.TestUtil.getLastIndex;
 import static seedu.organizer.testutil.TestUtil.getMidIndex;
 import static seedu.organizer.testutil.TestUtil.getPerson;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_REVISION;
 
 import org.junit.Test;
@@ -20,6 +21,8 @@ import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 public class DeleteCommandSystemTest extends OrganizerSystemTest {
 
@@ -32,6 +35,13 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
 
         /* Case: delete the first task in the list, command with leading spaces and trailing spaces -> deleted */
         Model expectedModel = getModel();
+        try {
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
         String command = "     " + DeleteCommand.COMMAND_WORD + "      " + INDEX_FIRST_TASK.getOneBased() + "       ";
         Task deletedTask = removePerson(expectedModel, INDEX_FIRST_TASK);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedTask);
@@ -39,6 +49,13 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
 
         /* Case: delete the last task in the list -> deleted */
         Model modelBeforeDeletingLast = getModel();
+        try {
+            modelBeforeDeletingLast.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
         Index lastPersonIndex = getLastIndex(modelBeforeDeletingLast);
         assertCommandSuccess(lastPersonIndex);
 

@@ -3,6 +3,7 @@ package systemtests;
 import static org.junit.Assert.assertFalse;
 import static seedu.organizer.commons.core.Messages.MESSAGE_TASKS_LISTED_OVERVIEW;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.HOMEWORK;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_DO;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
@@ -22,6 +23,8 @@ import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.tag.Tag;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 public class FindNameCommandSystemTest extends OrganizerSystemTest {
 
@@ -32,6 +35,13 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
          */
         String command = "   " + FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_DO + "   ";
         Model expectedModel = getModel();
+        try {
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
         ModelHelper.setFilteredList(expectedModel, HOMEWORK, PROJECT); // first names of HOMEWORK and PROJECT are "Do"
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
@@ -147,6 +157,13 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         deleteAllTasks();
         command = FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_SPRING;
         expectedModel = getModel();
+        try {
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
         ModelHelper.setFilteredList(expectedModel, HOMEWORK);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();

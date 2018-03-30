@@ -25,6 +25,7 @@ import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_EXAM
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
 import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.testutil.TypicalTasks.INTERVIEWPREP;
@@ -47,6 +48,8 @@ import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
+import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.TaskBuilder;
 import seedu.organizer.testutil.TaskUtil;
 
@@ -55,6 +58,7 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
     @Test
     public void add() throws Exception {
         Model model = getModel();
+        model.loginUser(ADMIN_USER);
 
         /* ------------------------ Perform add operations on the shown unfiltered list ----------------------------- */
 
@@ -146,7 +150,8 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         /* ------------------------ Perform add operation while a task card is selected --------------------------- */
 
         /* Case: selects first card in the task list, add a task -> added, card selection remains unchanged */
-        selectTask(Index.fromOneBased(1));
+        // Select command will be deleted
+        //selectTask(Index.fromOneBased(1));
         assertCommandSuccess(PREPAREBREAKFAST);
 
         /* ----------------------------------- Perform invalid add operations --------------------------------------- */
@@ -225,6 +230,13 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
     private void assertCommandSuccess(String command, Task toAdd) {
         Model expectedModel = getModel();
         try {
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
+        try {
             expectedModel.addTask(toAdd);
         } catch (DuplicateTaskException dpe) {
             throw new IllegalArgumentException("toAdd already exists in the model.");
@@ -265,7 +277,6 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
-
         executeCommand(command);
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
