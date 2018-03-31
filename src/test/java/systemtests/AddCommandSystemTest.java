@@ -172,8 +172,7 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
     }
 
     @Test
-    public void add_invalidOperations() {
-        Task toAdd;
+    public void add_invalidOperationsAddDuplicate() {
         String command;
 
         assertCommandSuccess(MAKEPRESENT);
@@ -191,6 +190,12 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         command = TaskUtil.getAddCommand(MAKEPRESENT) + " " + PREFIX_TAG.getPrefix() + "friends";
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_TASK);
 
+    }
+
+    @Test
+    public void add_invalidOperationsMissingParameters() {
+        String command;
+
         /* Case: missing name -> rejected */
         command = AddCommand.COMMAND_WORD + PRIORITY_DESC_EXAM + DEADLINE_DESC_EXAM + DESCRIPTION_DESC_EXAM;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
@@ -199,6 +204,12 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
         command = AddCommand.COMMAND_WORD + NAME_DESC_EXAM + PRIORITY_DESC_EXAM + DESCRIPTION_DESC_EXAM
                 + TAG_DESC_FRIEND;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void add_invalidOperationsInvalidParameters() {
+        Task toAdd;
+        String command;
 
         /* Case: invalid keyword -> rejected */
         toAdd = new TaskBuilder().withName(VALID_NAME_EXAM).withPriority
