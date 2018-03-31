@@ -46,6 +46,7 @@ public class ToggleCommandTest {
         String expectedMessage = String.format(ToggleCommand.MESSAGE_EDIT_TASK_SUCCESS, toggledTask);
 
         Model expectedModel = new ModelManager(new Organizer(model.getOrganizer()), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
         expectedModel.updateTask(originalTask, toggledTask);
 
         assertCommandSuccess(toggleCommand, model, expectedMessage, expectedModel);
@@ -61,6 +62,7 @@ public class ToggleCommandTest {
         String expectedMessage = String.format(ToggleCommand.MESSAGE_EDIT_TASK_SUCCESS, toggledTask);
 
         Model expectedModel = new ModelManager(new Organizer(model.getOrganizer()), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
         expectedModel.updateTask(originalTask, toggledTask);
 
         assertCommandSuccess(toggleCommand, model, expectedMessage, expectedModel);
@@ -83,6 +85,7 @@ public class ToggleCommandTest {
         Task toggledTask = toggleTask(originalTask);
         ToggleCommand toggleCommand = prepareCommand(INDEX_FIRST_TASK);
         Model expectedModel = new ModelManager(new Organizer(model.getOrganizer()), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
 
         // edit -> first task edited
         toggleCommand.execute();
