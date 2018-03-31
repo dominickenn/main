@@ -35,6 +35,7 @@ import static seedu.organizer.testutil.TypicalTasks.STUDY;
 
 import org.junit.Test;
 
+import guitests.GuiRobot;
 import seedu.organizer.commons.core.Messages;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.EditCommand;
@@ -52,6 +53,8 @@ import seedu.organizer.testutil.TaskBuilder;
 import seedu.organizer.testutil.TaskUtil;
 
 public class EditCommandSystemTest extends OrganizerSystemTest {
+
+    protected final GuiRobot guiRobot = new GuiRobot();
 
     @Test
     public void edit_unfilteredList() throws Exception {
@@ -143,6 +146,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         showAllTasks();
         index = INDEX_FIRST_TASK;
         selectTask(index);
+        guiRobot.pause();
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased()
                 + NAME_DESC_STUDY + PRIORITY_DESC_STUDY + DEADLINE_DESC_STUDY
                 + DESCRIPTION_DESC_STUDY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
