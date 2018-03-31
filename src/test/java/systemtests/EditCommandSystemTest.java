@@ -282,6 +282,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
                                       Index expectedSelectedCardIndex) {
         executeCommand(command);
         expectedModel.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        guiRobot.pause();
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         if (expectedSelectedCardIndex != null) {

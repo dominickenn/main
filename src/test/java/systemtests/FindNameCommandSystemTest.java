@@ -220,6 +220,7 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         Model expectedModel = getModel();
 
         executeCommand(command);
+        guiRobot.pause();
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();

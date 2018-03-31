@@ -61,8 +61,10 @@ public class HelpCommandSystemTest extends OrganizerSystemTest {
 
         // assert that while the help window is open the UI updates correctly for a command execution
         executeCommand(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_TASK.getOneBased());
+        guiRobot.pause();
         assertEquals("", getCommandBox().getInput());
         assertCommandBoxShowsDefaultStyle();
+        guiRobot.pause();
         assertNotEquals(HelpCommand.SHOWING_HELP_MESSAGE, getResultDisplay().getText());
         assertListMatching(getTaskListPanel(), getModel().getFilteredTaskList());
 
@@ -76,6 +78,7 @@ public class HelpCommandSystemTest extends OrganizerSystemTest {
      * Asserts that the help window is open, and closes it after checking.
      */
     private void assertHelpWindowOpen() {
+        guiRobot.pause();
         assertTrue(ERROR_MESSAGE, HelpWindowHandle.isWindowPresent());
         guiRobot.pauseForHuman();
 
