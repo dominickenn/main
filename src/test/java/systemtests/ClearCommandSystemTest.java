@@ -1,7 +1,6 @@
 package systemtests;
 
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 
 import org.junit.Test;
@@ -11,21 +10,12 @@ import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
-import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 public class ClearCommandSystemTest extends OrganizerSystemTest {
 
     @Test
     public void clear() {
         final Model defaultModel = getModel();
-        try {
-            defaultModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        }
 
         /* Case: clear non-empty organizer book, command with leading spaces and trailing alphanumeric characters and
          * spaces -> cleared
@@ -76,13 +66,6 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandSuccess(String command) {
         Model expectedModel = getModel();
-        try {
-            expectedModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        }
         expectedModel.deleteCurrentUserTasks();
         assertCommandSuccess(command, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
@@ -99,13 +82,6 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
      */
     public void assertCommandSuccess(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
-        try {
-            expectedModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        }
         expectedModel.deleteCurrentUserTasks();
         assertCommandSuccess(command, expectedResultMessage, expectedModel);
     }
@@ -136,13 +112,6 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandFailure(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
-        try {
-            expectedModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        }
 
         executeCommand(command);
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
