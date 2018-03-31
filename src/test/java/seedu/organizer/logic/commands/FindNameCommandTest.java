@@ -3,7 +3,10 @@ package seedu.organizer.logic.commands;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.organizer.commons.core.Messages.MESSAGE_TASKS_LISTED_OVERVIEW;
-import static seedu.organizer.testutil.TypicalTasks.*;
+import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
+import static seedu.organizer.testutil.TypicalTasks.PREPAREBREAKFAST;
+import static seedu.organizer.testutil.TypicalTasks.PROJECT;
+import static seedu.organizer.testutil.TypicalTasks.REVISION;
 
 import java.util.Arrays;
 import java.util.Collections;
