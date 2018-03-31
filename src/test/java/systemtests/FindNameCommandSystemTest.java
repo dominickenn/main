@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import guitests.GuiRobot;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.DeleteCommand;
 import seedu.organizer.logic.commands.FindNameCommand;
@@ -25,8 +24,6 @@ import seedu.organizer.model.Model;
 import seedu.organizer.model.tag.Tag;
 
 public class FindNameCommandSystemTest extends OrganizerSystemTest {
-
-    protected final GuiRobot guiRobot = new GuiRobot();
 
     @Test
     public void find_successful() {
@@ -200,7 +197,6 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
                 MESSAGE_TASKS_LISTED_OVERVIEW, expectedModel.getFilteredTaskList().size());
 
         executeCommand(command);
-        guiRobot.pause();
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarUnchanged();

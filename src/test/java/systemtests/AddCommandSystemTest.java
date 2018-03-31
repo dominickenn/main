@@ -34,7 +34,6 @@ import static seedu.organizer.testutil.TypicalTasks.STUDY;
 
 import org.junit.Test;
 
-import guitests.GuiRobot;
 import seedu.organizer.commons.core.Messages;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.AddCommand;
@@ -51,8 +50,6 @@ import seedu.organizer.testutil.TaskBuilder;
 import seedu.organizer.testutil.TaskUtil;
 
 public class AddCommandSystemTest extends OrganizerSystemTest {
-
-    protected final GuiRobot guiRobot = new GuiRobot();
 
     @Test
     public void add_undoRedo() throws Exception {
@@ -280,7 +277,6 @@ public class AddCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);
-        guiRobot.pause();
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsDefaultStyle();
