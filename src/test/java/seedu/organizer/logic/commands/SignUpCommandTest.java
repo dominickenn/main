@@ -25,7 +25,6 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
-import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
@@ -109,6 +108,11 @@ public class SignUpCommandTest {
 
         @Override
         public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
+            fail("This method should not be called");
+        }
+
+        @Override
+        public void deleteCurrentUserTasks() {
             fail("This method should not be called");
         }
 

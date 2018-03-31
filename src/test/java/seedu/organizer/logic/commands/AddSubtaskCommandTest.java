@@ -37,8 +37,14 @@ public class AddSubtaskCommandTest {
     private Model model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
 
     @Before
-    public void setUp() throws UserNotFoundException, CurrentlyLoggedInException {
-        model.loginUser(ADMIN_USER);
+    public void setUp() {
+        try {
+            model.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -53,6 +59,7 @@ public class AddSubtaskCommandTest {
         String expectedMessage = String.format(AddSubtaskCommand.MESSAGE_SUCCESS, editedTask);
 
         Model expectedModel = new ModelManager(new Organizer(model.getOrganizer()), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
         expectedModel.updateTask(originalTask, editedTask);
 
         assertCommandSuccess(addSubtaskCommand, model, expectedMessage, expectedModel);
@@ -70,6 +77,7 @@ public class AddSubtaskCommandTest {
         String expectedMessage = String.format(AddSubtaskCommand.MESSAGE_SUCCESS, editedTask);
 
         Model expectedModel = new ModelManager(new Organizer(model.getOrganizer()), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
         expectedModel.updateTask(originalTask, editedTask);
 
         assertCommandSuccess(addSubtaskCommand, model, expectedMessage, expectedModel);
@@ -108,6 +116,7 @@ public class AddSubtaskCommandTest {
 
         AddSubtaskCommand addSubtaskCommand = prepareCommand(INDEX_FIRST_TASK, subtask);
         Model expectedModel = new ModelManager(new Organizer(model.getOrganizer()), new UserPrefs());
+        expectedModel.loginUser(ADMIN_USER);
 
         // edit -> first task edited
         addSubtaskCommand.execute();
@@ -162,7 +171,8 @@ public class AddSubtaskCommandTest {
                 task.getDescription(),
                 task.getStatus(),
                 task.getTags(),
-                subtasks
+                subtasks,
+                task.getUser()
         );
     }
 

@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
-import junit.framework.TestCase;
 import seedu.organizer.logic.CommandHistory;
 import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.logic.commands.exceptions.CommandException;
@@ -26,7 +25,6 @@ import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
-import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
@@ -110,7 +108,12 @@ public class AddCommandTest {
 
         @Override
         public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
-            TestCase.fail("This method should not be called");
+            fail("This method should not be called");
+        }
+
+        @Override
+        public void deleteCurrentUserTasks() {
+            fail("This method should not be called");
         }
 
         @Override
