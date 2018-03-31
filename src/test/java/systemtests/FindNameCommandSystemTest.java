@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import guitests.GuiRobot;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.DeleteCommand;
 import seedu.organizer.logic.commands.FindNameCommand;
@@ -26,8 +25,6 @@ import seedu.organizer.model.tag.Tag;
 
 public class FindNameCommandSystemTest extends OrganizerSystemTest {
 
-    protected final GuiRobot guiRobot = new GuiRobot();
-
     @Test
     public void find_successful() {
         /* Case: find multiple tasks in organizer, command with leading spaces and trailing spaces
@@ -36,7 +33,6 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         String command = "   " + FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_DO + "   ";
         Model expectedModel = getModel();
         ModelHelper.setFilteredList(expectedModel, HOMEWORK, PROJECT); // first names of HOMEWORK and PROJECT are "Do"
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -44,33 +40,28 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
          * -> 2 tasks found
          */
         command = FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_DO;
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find task where task list is not displaying the task we are finding -> 1 task found */
         command = FindNameCommand.COMMAND_WORD + " Spring";
         ModelHelper.setFilteredList(expectedModel, SPRINGCLEAN);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple tasks in organizer, 2 keywords -> 2 tasks found */
         command = FindNameCommand.COMMAND_WORD + " Spring Prepare";
         ModelHelper.setFilteredList(expectedModel, SPRINGCLEAN, PREPAREBREAKFAST);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple tasks in organizer, 2 keywords in reversed order -> 2 tasks found */
         command = FindNameCommand.COMMAND_WORD + " Prepare Spring";
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple tasks in organizer, 2 keywords with 1 repeat -> 2 tasks found */
         command = FindNameCommand.COMMAND_WORD + " Prepare Spring Prepare";
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -78,18 +69,15 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
          * -> 2 tasks found
          */
         command = FindNameCommand.COMMAND_WORD + " Prepare Spring NonMatchingKeyWord";
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find same tasks in organizer after deleting 1 of them -> 1 task found */
         executeCommand(DeleteCommand.COMMAND_WORD + " 1");
-        guiRobot.pause();
         assertFalse(getModel().getOrganizer().getTaskList().contains(PREPAREBREAKFAST));
         command = FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_SPRING;
         expectedModel = getModel();
         ModelHelper.setFilteredList(expectedModel, SPRINGCLEAN);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -105,7 +93,6 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         String command = FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_DO;
         Model expectedModel = getModel();
         ModelHelper.setFilteredList(expectedModel, HOMEWORK, PROJECT); // first names of HOMEWORK and PROJECT are "Do"
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -128,14 +115,12 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         /* Case: find task in organizer, keyword is substring of name -> 0 tasks found */
         command = FindNameCommand.COMMAND_WORD + " Mei";
         ModelHelper.setFilteredList(expectedModel);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find task in organizer, name is substring of keyword -> 0 tasks found */
         command = FindNameCommand.COMMAND_WORD + " Springs";
         ModelHelper.setFilteredList(expectedModel);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -170,7 +155,6 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         command = FindNameCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_SPRING;
         expectedModel = getModel();
         ModelHelper.setFilteredList(expectedModel, HOMEWORK);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
     }
@@ -183,13 +167,10 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         /* Case: find while a task is selected -> selected card deselected */
         showAllTasks();
         selectTask(Index.fromOneBased(1));
-        guiRobot.pause();
         assertFalse(getTaskListPanel().getHandleToSelectedCard().getName().equals(HOMEWORK.getName().fullName));
         command = FindNameCommand.COMMAND_WORD + " Homework";
         ModelHelper.setFilteredList(expectedModel, HOMEWORK);
-        guiRobot.pause();
         assertCommandSuccess(command, expectedModel);
-        guiRobot.pause();
         assertSelectedCardDeselected();
     }
 
@@ -216,7 +197,6 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
                 MESSAGE_TASKS_LISTED_OVERVIEW, expectedModel.getFilteredTaskList().size());
 
         executeCommand(command);
-        guiRobot.pause();
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarUnchanged();
@@ -236,7 +216,6 @@ public class FindNameCommandSystemTest extends OrganizerSystemTest {
         Model expectedModel = getModel();
 
         executeCommand(command);
-        guiRobot.pause();
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();
