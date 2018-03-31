@@ -5,7 +5,6 @@ import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 
 import org.junit.Test;
 
-import guitests.GuiRobot;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.RedoCommand;
@@ -13,8 +12,6 @@ import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
 
 public class ClearCommandSystemTest extends OrganizerSystemTest {
-
-    private final GuiRobot guiRobot = new GuiRobot();
 
     @Test
     public void clear() {
@@ -98,7 +95,6 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandSuccess(String command, String expectedResultMessage, Model expectedModel) {
         executeCommand(command);
-        guiRobot.pause();
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarChangedExceptSaveLocation();
@@ -118,7 +114,6 @@ public class ClearCommandSystemTest extends OrganizerSystemTest {
         Model expectedModel = getModel();
 
         executeCommand(command);
-        guiRobot.pause();
         assertApplicationDisplaysExpected(command, expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsErrorStyle();
