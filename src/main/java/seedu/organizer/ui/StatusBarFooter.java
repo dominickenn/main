@@ -81,11 +81,11 @@ public class StatusBarFooter extends UiPart<Region> {
     }
     //@@author
     @Subscribe
-    public void handleAddressBookChangedEvent(OrganizerChangedEvent oce) {
+    public void handleOrganizerChangedEvent(OrganizerChangedEvent oce) {
         long now = clock.millis();
         String lastUpdated = new Date(now).toString();
         logger.info(LogsCenter.getEventHandlingLogMessage(oce, "Setting last updated status to " + lastUpdated));
         setSyncStatus(String.format(SYNC_STATUS_UPDATED, lastUpdated));
-        setTotalTasks(oce.data.getTaskList().size());
+        setTotalTasks(oce.data.getCurrentUserTaskList().size());
     }
 }
