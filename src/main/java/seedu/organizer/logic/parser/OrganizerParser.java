@@ -1,7 +1,6 @@
 package seedu.organizer.logic.parser;
 
 import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.organizer.commons.core.Messages.MESSAGE_NO_USER_LOGGED_IN;
 import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.model.ModelManager.getCurrentlyLoggedInUser;
 
@@ -78,7 +77,7 @@ public class OrganizerParser {
                 return new ExitCommand();
 
             default :
-                throw new ParseException(MESSAGE_NO_USER_LOGGED_IN);
+                throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
             }
         }
 
