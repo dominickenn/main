@@ -607,16 +607,16 @@ is `O(n)`.
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
-* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
-* Currently log messages are output through: `Console` and to a `.log` file.
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>).
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level.
+* Currently log messages are output through the `Console` and to a `.log` file.
 
 *Logging Levels*
 
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
-* `WARNING` : Can continue, but with caution
-* `INFO` : Information showing the noteworthy actions by the App
-* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+* `SEVERE` : A message level indicating a _serious_ failure (e.g. failure resulting in application termination).
+* `WARNING` : A message level indicating a _potential_ problem (e.g. application can still continue, but do so with caution).
+* `INFO` : A message level for _informational_ messages (e.g. noteworthy actions by the application).
+* `FINE` : A message level providing _tracing_ information (e.g. print the actual list of an array instead of its size).
 
 [[Implementation-Configuration]]
 === Configuration
