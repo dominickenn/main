@@ -68,7 +68,7 @@ public class CalendarPanelTest extends GuiUnitTest {
         int expectedLastDateRow = getExpectedRowColumn(currentYearMonth, lastDate);
 
         assertEquals(expectedLastDateColumn, lastDateColumn);
-        //assertEquals(expectedLastDateRow, lastDateRow);
+        assertEquals(expectedLastDateRow, lastDateRow);
     }
 
     /**
@@ -89,6 +89,11 @@ public class CalendarPanelTest extends GuiUnitTest {
      */
     private int getExpectedRowColumn(YearMonth yearMonth, int date) {
         int startDay = yearMonth.atDay(1).getDayOfWeek().getValue();
+
+        if (startDay == SUNDAY) {
+            startDay = 0;
+        }
+
         int totalDays = startDay + date;
 
         if (totalDays <= MAX_NUM_OF_DAYS) {

@@ -63,6 +63,8 @@ public class MonthView extends UiPart<Region> {
         this.taskList = taskList;
         this.executedCommandsList = executedCommandsList;
         addListenerToExecutedCommandsList();
+        addListenerToTaskList();
+
     }
 
     /**
@@ -123,8 +125,6 @@ public class MonthView extends UiPart<Region> {
     private void setMonthCalendarEntries(int year, int month, int startDay) {
         ObservableList<EntryCard> entryCardsList = getEntryCardsList(year, month);
         setMonthEntries(startDay, entryCardsList);
-
-        addListenerToTaskList(year, month);
     }
 
     /**
@@ -437,18 +437,15 @@ public class MonthView extends UiPart<Region> {
 
     /**
      * Updates the calendar entries when a change in {@code taskList} is detected.
-     *
-     * @param year Year represented as a 4-digit integer.
-     * @param month Month represented by numbers from 1 to 12.
      */
-    private void addListenerToTaskList(int year, int month) {
+    private void addListenerToTaskList() {
         taskList.addListener(new ListChangeListener<Task>() {
             @Override
             public void onChanged(Change change) {
 
                 while (change.next()) {
                     clearCalendar();
-                    setMonthCalendarDatesAndEntries(year, month);
+                    setMonthCalendarDatesAndEntries(viewYearMonth.getYear(), viewYearMonth.getMonthValue());
                 }
             }
         });
