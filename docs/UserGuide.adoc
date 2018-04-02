@@ -95,7 +95,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 [format-title]#Format:# `help`
 ====
 
-==== Signing up: `signup` or `su`
+==== Signing up: `signup` or `su` `[since v1.3]`
 
 Sign up for a PrioriTask account +
 
@@ -112,7 +112,7 @@ Sign up for a PrioriTask account +
 * [example]#`signup u/mary p/m4ry`#
 ====
 
-==== Logging in: `login` or `log`
+==== Logging in: `login` or `in` `[since v1.4]`
 
 Login to PrioriTask +
 
