@@ -2,7 +2,7 @@
 
 package systemtests;
 
-import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+//import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.organizer.logic.commands.CommandTestUtil.DEADLINE_DESC_EXAM;
 import static seedu.organizer.logic.commands.CommandTestUtil.DEADLINE_DESC_STUDY;
 import static seedu.organizer.logic.commands.CommandTestUtil.DESCRIPTION_DESC_EXAM;
@@ -28,24 +28,24 @@ import static seedu.organizer.logic.commands.CommandTestUtil.VALID_PRIORITY_STUD
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.organizer.testutil.TypicalTasks.EXAM;
-import static seedu.organizer.testutil.TypicalTasks.GROCERY;
-import static seedu.organizer.testutil.TypicalTasks.INTERVIEWPREP;
+//import static seedu.organizer.testutil.TypicalTasks.GROCERY;
+//import static seedu.organizer.testutil.TypicalTasks.INTERVIEWPREP;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 import static seedu.organizer.testutil.TypicalTasks.MAKEPRESENT;
 import static seedu.organizer.testutil.TypicalTasks.STUDY;
 
 import org.junit.Test;
+//import seedu.organizer.commons.core.Messages;
 
-import seedu.organizer.commons.core.Messages;
 import seedu.organizer.commons.core.index.Index;
 import seedu.organizer.logic.commands.AddCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
-import seedu.organizer.model.tag.Tag;
-import seedu.organizer.model.task.Deadline;
-import seedu.organizer.model.task.Name;
-import seedu.organizer.model.task.Priority;
+//import seedu.organizer.model.tag.Tag;
+//import seedu.organizer.model.task.Deadline;
+//import seedu.organizer.model.task.Name;
+//import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.testutil.TaskBuilder;

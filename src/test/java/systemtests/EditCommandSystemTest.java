@@ -3,7 +3,7 @@
 package systemtests;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+//import static org.junit.Assert.assertTrue;
 
 import static seedu.organizer.logic.commands.CommandTestUtil.DEADLINE_DESC_REVISION;
 import static seedu.organizer.logic.commands.CommandTestUtil.DEADLINE_DESC_STUDY;
@@ -225,7 +225,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
     }
 
     /**
-     * Performs the same verification as {@code //assertCommandSuccess(String, Model, String, Index)} and in addition,<br>
+     * Performs the same verification as {@code assertCommandSuccess(String, Model, String, Index)} and in addition,<br>
      * 1. Asserts that result display box displays the success message of executing {@code EditCommand}.<br>
      * 2. Asserts that the model related components are updated to reflect the task at index {@code toEdit} being
      * updated to values specified {@code editedTask}.<br>

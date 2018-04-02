@@ -2,9 +2,9 @@
 
 package systemtests;
 
-import static org.junit.Assert.assertTrue;
-import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
-import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+//import static org.junit.Assert.assertTrue;
+//import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
+//import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.logic.commands.DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS;
 import static seedu.organizer.testutil.TestUtil.getLastIndex;
 import static seedu.organizer.testutil.TestUtil.getMidIndex;
@@ -159,7 +159,7 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
     }
 
     /**
-     * Performs the same verification as {@code //assertCommandSuccess(String, Model, String)} except that the browser url
+     * Performs the same verification as {@code assertCommandSuccess(String, Model, String)} except that the browser url
      * and selected card are expected to update accordingly depending on the card at {@code expectedSelectedCardIndex}.
      *
      * @see DeleteCommandSystemTest#//assertCommandSuccess(String, Model, String)
