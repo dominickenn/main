@@ -91,18 +91,18 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         assertCommandSuccess(command, index, REVISION);
 
         /*Commented out as it hangs the tests, tested this test case manually and it works @@dominickenn*/
-//        /* Case: edit some fields -> edited */
-//        index = INDEX_FIRST_TASK;
-//        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
-//        Task taskToEdit = getModel().getFilteredTaskList().get(index.getZeroBased());
-//        editedTask = new TaskBuilder(taskToEdit).withTags(VALID_TAG_FRIEND).build();
-//        assertCommandSuccess(command, index, editedTask);
-//
-//        /* Case: clear tags -> cleared */
-//        index = INDEX_FIRST_TASK;
-//        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + PREFIX_TAG.getPrefix();
-//        editedTask = new TaskBuilder(taskToEdit).withTags().build();
-//        assertCommandSuccess(command, index, editedTask);
+        //        /* Case: edit some fields -> edited */
+        //        index = INDEX_FIRST_TASK;
+        //        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
+        //        Task taskToEdit = getModel().getFilteredTaskList().get(index.getZeroBased());
+        //        editedTask = new TaskBuilder(taskToEdit).withTags(VALID_TAG_FRIEND).build();
+        //        assertCommandSuccess(command, index, editedTask);
+        //
+        //        /* Case: clear tags -> cleared */
+        //        index = INDEX_FIRST_TASK;
+        //        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + PREFIX_TAG.getPrefix();
+        //        editedTask = new TaskBuilder(taskToEdit).withTags().build();
+        //        assertCommandSuccess(command, index, editedTask);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class EditCommandSystemTest extends OrganizerSystemTest {
         Index index;
         String command;
 
-       /* --------------------- Performing edit operation while a task card is selected -------------------------- */
+        /* --------------------- Performing edit operation while a task card is selected -------------------------- */
         /* Case: selects first card in the task list, edit a task -> edited, card selection remains unchanged but
          * browser url changes
          */

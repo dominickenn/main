@@ -29,21 +29,15 @@ import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.organizer.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.organizer.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.organizer.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import seedu.organizer.logic.commands.AddCommand;
-import seedu.organizer.model.Model;
-import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Deadline;
 import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Priority;
 import seedu.organizer.model.task.Task;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
-import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.TaskBuilder;
 
 public class AddCommandParserTest {

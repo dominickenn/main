@@ -6,8 +6,6 @@ import static seedu.organizer.model.ModelManager.getCurrentlyLoggedInUser;
 import org.junit.Before;
 import org.junit.Test;
 
-import seedu.organizer.logic.CommandHistory;
-import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.user.User;
@@ -15,8 +13,8 @@ import seedu.organizer.model.user.User;
 //@@author dominickenn
 public class LogoutCommandTest {
 
-    Model model = new ModelManager();
-    User user = new User("admin", "admin");
+    private Model model = new ModelManager();
+    private User user = new User("admin", "admin");
 
     @Before
     public void setUp() throws Exception {

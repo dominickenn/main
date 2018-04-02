@@ -25,7 +25,6 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
 import seedu.organizer.model.UserPrefs;
-import seedu.organizer.model.util.SampleDataUtil;
 import seedu.organizer.storage.JsonUserPrefsStorage;
 import seedu.organizer.storage.OrganizerStorage;
 import seedu.organizer.storage.Storage;
