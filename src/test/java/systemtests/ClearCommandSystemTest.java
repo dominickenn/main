@@ -2,13 +2,13 @@
 
 package systemtests;
 
-//import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_SPRING;
 
 import org.junit.Test;
 
 import seedu.organizer.commons.core.index.Index;
-//import seedu.organizer.logic.commands.ClearCommand;
+import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.RedoCommand;
 import seedu.organizer.logic.commands.UndoCommand;
 import seedu.organizer.model.Model;
