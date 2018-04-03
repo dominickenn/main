@@ -52,7 +52,7 @@ public class User {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof User // instanceof handles nulls
-                && this.username.equals(((User) other).username) // state check
+                && this.username.equals(((User) other).username)); // state check
     }
 
     @Override

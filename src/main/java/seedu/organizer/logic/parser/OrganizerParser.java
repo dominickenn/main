@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.organizer.logic.commands.AddCommand;
+import seedu.organizer.logic.commands.AddQuestionAnswerCommand;
 import seedu.organizer.logic.commands.AddSubtaskCommand;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.Command;
@@ -202,6 +203,9 @@ public class OrganizerParser {
 
         case NextMonthCommand.COMMAND_ALIAS:
             return new NextMonthCommand();
+
+        case AddQuestionAnswerCommand.COMMAND_WORD:
+            return new AddQuestionAnswerCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

@@ -10,6 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import seedu.organizer.commons.exceptions.IllegalValueException;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
+import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.UserWithQuestionAnswer;
 
 /**
  * An Immutable Organizer that is serializable to XML format
@@ -41,7 +43,15 @@ public class XmlSerializableOrganizer {
         this();
         tasks.addAll(src.getTaskList().stream().map(XmlAdaptedTask::new).collect(Collectors.toList()));
         tags.addAll(src.getTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
-        users.addAll(src.getUserList().stream().map(XmlAdaptedUser::new).collect(Collectors.toList()));
+        //@@author dominickenn
+        users.addAll(src.getUserList().stream().map(user -> {
+            if (user instanceof UserWithQuestionAnswer) {
+                return new XmlAdaptedUser((UserWithQuestionAnswer) user);
+            } else {
+                return new XmlAdaptedUser(user);
+            }
+        }).collect(Collectors.toList()));
+        //@@author
     }
 
     /**
@@ -59,7 +69,11 @@ public class XmlSerializableOrganizer {
             organizer.addTask(p.toModelType());
         }
         for (XmlAdaptedUser u : users) {
-            organizer.addUser(u.toModelType());
+            if (u.isUserWithQuestionAnswer()) {
+                organizer.addUser(u.toUserQuestionAnswerModelType());
+            } else {
+                organizer.addUser(u.toUserModelType());
+            }
         }
         return organizer;
     }

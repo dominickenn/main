@@ -1,22 +1,21 @@
 package seedu.organizer.model.user;
 
-//@@author dominickenn
-
 import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
+//@@author dominickenn
 /**
  * A user class with a question-answer for password retrieval
  */
 public class UserWithQuestionAnswer extends User {
 
     public static final String MESSAGE_QUESTION_ANSWER_CONSTRAINTS =
-            "Questions and answers can take any values, and can be blank";
+            "Questions and answers can take any values, but cannot be blank";
 
     /*
      * The first character must not be a whitespace, otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String QUESTION_VALIDATION_REGEX = ".*";
-    public static final String ANSWER_VALIDATION_REGEX = ".*";
+    public static final String QUESTION_VALIDATION_REGEX = "^(?=\\s*\\S).*$";
+    public static final String ANSWER_VALIDATION_REGEX = "^(?=\\s*\\S).*$";
 
     public final String question;
     public final String answer;

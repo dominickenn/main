@@ -1,6 +1,7 @@
 package seedu.organizer.model;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.UniqueUserList;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.UserWithQuestionAnswer;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
@@ -107,6 +109,19 @@ public class Organizer implements ReadOnlyOrganizer {
     public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
         requireNonNull(user);
         users.setCurrentLoggedInUser(user);
+    }
+
+    /**
+     * Replaces a user with another user in users
+     */
+    public void updateUserToUserWithQuestionAnswer(
+            User toRemove, UserWithQuestionAnswer toAdd) {
+        requireAllNonNull(toRemove, toAdd);
+        try {
+            users.updateUserToUserWithQuestionAnswer(toRemove, toAdd);
+        } catch (UserNotFoundException e) {
+            throw new AssertionError("User does not exist");
+        }
     }
 
     public void logout() {

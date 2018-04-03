@@ -18,6 +18,7 @@ import seedu.organizer.model.task.TaskByUserPredicate;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.User;
+import seedu.organizer.model.user.UserWithQuestionAnswer;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
@@ -54,10 +55,6 @@ public class ModelManager extends ComponentManager implements Model {
         this(new Organizer(), new UserPrefs());
     }
 
-    public static User getCurrentlyLoggedInUser() {
-        return currentlyLoggedInUser;
-    }
-
     @Override
     public void resetData(ReadOnlyOrganizer newData) {
         organizer.resetData(newData);
@@ -88,6 +85,11 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author dominickenn
+
+    public static User getCurrentlyLoggedInUser() {
+        return currentlyLoggedInUser;
+    }
+
     @Override
     public synchronized void addUser(User user) throws DuplicateUserException {
         organizer.addUser(user);
@@ -107,6 +109,13 @@ public class ModelManager extends ComponentManager implements Model {
         organizer.logout();
         currentlyLoggedInUser = organizer.getCurrentLoggedInUser();
         updateFilteredTaskList(PREDICATE_SHOW_NO_TASKS);
+        indicateOrganizerChanged();
+    }
+
+    @Override
+    public synchronized void addQuestionAnswerToUser(User toRemove, UserWithQuestionAnswer toAdd) {
+        requireAllNonNull(toRemove, toAdd);
+        organizer.updateUserToUserWithQuestionAnswer(toRemove, toAdd);
         indicateOrganizerChanged();
     }
 
