@@ -21,15 +21,15 @@ import seedu.organizer.model.user.exceptions.UserNotFoundException;
 //author dominickenn
 public class AddQuestionAnswerCommandParserTest {
 
-    private Model model = new ModelManager();
-
-    private String VALID_QUESTION = PREFIX_QUESTION + "valid question";
-    private String VALID_ANSWER = PREFIX_ANSWER + "valid answer";
-    private String INVALID_QUESTION = PREFIX_QUESTION + "";
-    private String INVALID_ANSWER = PREFIX_ANSWER + "";
-
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddQuestionAnswerCommand.MESSAGE_USAGE);
+
+    private Model model = new ModelManager();
+
+    private String validQuestion = PREFIX_QUESTION + "valid question";
+    private String validAnswer = PREFIX_ANSWER + "valid answer";
+    private String invalidQuestion = PREFIX_QUESTION + "";
+    private String invalidAnswer = PREFIX_ANSWER + "";
 
     private AddQuestionAnswerCommandParser parser = new AddQuestionAnswerCommandParser();
 
@@ -52,13 +52,13 @@ public class AddQuestionAnswerCommandParserTest {
         // no question
         assertParseFailure(parser,
                 AddQuestionAnswerCommand.COMMAND_WORD
-                        + " " + VALID_ANSWER,
+                        + " " + validAnswer,
                 MESSAGE_INVALID_FORMAT);
 
         // no answer
         assertParseFailure(parser,
                 AddQuestionAnswerCommand.COMMAND_WORD
-                        + " " +VALID_QUESTION,
+                        + " " + validQuestion,
                 MESSAGE_INVALID_FORMAT);
 
         // no question and answer
@@ -71,15 +71,15 @@ public class AddQuestionAnswerCommandParserTest {
     public void parse_invalidValue_failure() {
         assertParseFailure(parser,
                 AddQuestionAnswerCommand.COMMAND_WORD + " "
-                + VALID_QUESTION + " " + INVALID_ANSWER,
+                + validQuestion + " " + invalidAnswer,
                 MESSAGE_QUESTION_ANSWER_CONSTRAINTS); // invalid answer
         assertParseFailure(parser,
                 AddQuestionAnswerCommand.COMMAND_WORD + " "
-                + INVALID_QUESTION + " " + VALID_ANSWER,
+                + invalidQuestion + " " + validAnswer,
                 MESSAGE_QUESTION_ANSWER_CONSTRAINTS); // invalid question
         assertParseFailure(parser,
                 AddQuestionAnswerCommand.COMMAND_WORD + " "
-                + INVALID_QUESTION + " " + VALID_ANSWER,
+                + invalidQuestion + " " + validAnswer,
                 MESSAGE_QUESTION_ANSWER_CONSTRAINTS); // invalid question and answer
     }
 
@@ -87,7 +87,7 @@ public class AddQuestionAnswerCommandParserTest {
     public void parse_allValuesValid_success() {
         assertParseSuccess(parser,
                 AddQuestionAnswerCommand.COMMAND_WORD + " "
-                + VALID_QUESTION + " " + VALID_ANSWER,
+                + validQuestion + " " + validAnswer,
                 new AddQuestionAnswerCommand("valid question", "valid answer"));
     }
 }

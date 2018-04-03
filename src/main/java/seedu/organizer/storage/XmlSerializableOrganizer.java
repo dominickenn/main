@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import seedu.organizer.commons.exceptions.IllegalValueException;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
-import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.UserWithQuestionAnswer;
 
 /**

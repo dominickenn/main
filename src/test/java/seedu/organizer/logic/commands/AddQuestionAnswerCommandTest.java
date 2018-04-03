@@ -21,15 +21,16 @@ import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 //@@author dominickenn
 /**
- * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for AddQuestionAnswerCommand.
+ * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand)
+ * and unit tests for AddQuestionAnswerCommand.
  */
 public class AddQuestionAnswerCommandTest {
 
     private Model model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
-    String username = "admin";
-    String password = "admin";
-    String question = "are cats cool?";
-    String answer = "of course!";
+    private String username = "admin";
+    private String password = "admin";
+    private String question = "are cats cool?";
+    private String answer = "of course!";
 
     @Before
     public void setUp() {
