@@ -741,42 +741,43 @@ b. Require developers to download those libraries manually (this creates extra w
 
 *Target user profile*:
 
-* busy university students who has many tasks to keep track of, and are reasonably comfortable using CLI apps
-* is taking many modules, and is part of various student organizations and activities
-* prefers a digital organizer over a physical organizer
-* requires help in monitoring the numerous tasks and their levels of importance
-* would like assistance for the planning of tasks
-* is forgetful, and requires constant reminders
-* prefers desktop apps over other types
-* can type fast
-* prefers typing over mouse input
+* Busy university students who have many tasks to keep track of.
+* Takes many modules, is part of various student organizations, and has many activities.
+* Prefers a digital organizer over a physical organizer.
+* Requires help in monitoring numerous tasks and their levels of importance.
+* Would like assistance in task planning.
+* Is forgetful, and requires constant reminders.
+* Prefers desktop apps over other types.
+* Is reasonably comfortable with CLI apps.
+* Can type fast.
+* Prefers typing over mouse input.
 
 *Value proposition*:
 
-Helps busy university students keep track of their tasks and priorities
+Help busy university students keep track of their tasks and priorities.
 
 *Feature contribution*:
 
 * Agus Sentosa Hermawan
 ** Major : Subtasks parameter
-*** Allows tasks to be split into subtasks for better management
+*** Allows tasks to be split into subtasks for better management.
 ** Minor : Toggle command
-*** Allows tasks to be marked as completed
+*** Allows tasks to be marked as completed.
 * Dominic Kenn Lim
 ** Major : User login
-*** Allows multiple users to access their private tasks within the same machine
+*** Allows multiple users to access their private tasks within the same machine.
 ** Minor : Priority autosorting and autoupdate
-*** Allows application to automatically manage task priority levels so that the user does not have to
+*** Allows application to automatically manage task priority levels so that the user does not have to.
 * Natania Djohaari
 ** Major : Recurring Tasks
-*** Helps users automatically create tasks that are recurring
-** Minor : RemoveTag method
-*** Allows application to remove a specific tag from all tasks
+*** Helps users automatically create tasks that are recurring.
+** Minor : Date completed parameter
+*** Allows users to view what date the task has been completed on.
 * Yeo Guek Ling
 ** Major : Calendar
-*** Allows users to be able to have a more concise view of task deadlines
+*** Allows users to be able to have a more concise view of task deadlines.
 ** Minor : Find deadline / description command
-*** Allows users to be able to search the organizer for tasks even when they have forgotten the task's name
+*** Allows users to be able to search the organizer for tasks even when they have forgotten the task's name.
 
 [appendix]
 == User Stories
