@@ -876,8 +876,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* *`|user who has a user account |retrieve my password |login to my account if I forget my password
 |=======================================================================
 
-_{More to be added}_
-
 [appendix]
 == Use Cases
 
