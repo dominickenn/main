@@ -974,7 +974,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 .. Download the jar file and copy into an empty folder.
 .. Double-click the jar file. +
-   Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   Expected: Shows the GUI with an empty task list. The window size may not be optimum.
 
 . Saving window preferences
 
