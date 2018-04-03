@@ -1,5 +1,6 @@
 package seedu.organizer.model.user;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 
 //@@author dominickenn
@@ -43,6 +44,8 @@ public class UserWithQuestionAnswer extends User {
     public UserWithQuestionAnswer(String username, String password, String question, String answer) {
         super(username, password);
         requireAllNonNull(question, answer);
+        checkArgument(isValidQuestion(question), MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
+        checkArgument(isValidAnswer(answer), MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
         this.question = question;
         this.answer = answer;
     }

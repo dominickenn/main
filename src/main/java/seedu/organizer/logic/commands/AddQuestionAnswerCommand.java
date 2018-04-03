@@ -72,7 +72,7 @@ public class AddQuestionAnswerCommand extends UndoableCommand {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditCommand)) {
+        if (!(other instanceof AddQuestionAnswerCommand)) {
             return false;
         }
 
