@@ -14,6 +14,7 @@ import seedu.organizer.logic.commands.AddSubtaskCommand;
 import seedu.organizer.logic.commands.AnswerCommand;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.Command;
+import seedu.organizer.logic.commands.CurrentMonthCommand;
 import seedu.organizer.logic.commands.DeleteCommand;
 import seedu.organizer.logic.commands.DeleteSubtaskCommand;
 import seedu.organizer.logic.commands.EditCommand;
@@ -220,6 +221,12 @@ public class OrganizerParser {
 
         case AddQuestionAnswerCommand.COMMAND_WORD:
             return new AddQuestionAnswerCommandParser().parse(arguments);
+
+        case CurrentMonthCommand.COMMAND_WORD:
+            return new CurrentMonthCommand();
+
+        case CurrentMonthCommand.COMMAND_ALIAS:
+            return new CurrentMonthCommand();
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
