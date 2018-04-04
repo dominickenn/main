@@ -1,7 +1,5 @@
 package seedu.organizer.logic.commands;
 
-//@@author dominickenn
-
 import static seedu.organizer.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_ANSWER;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
@@ -10,6 +8,7 @@ import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.UserWithQuestionAnswer;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
+//@@author dominickenn
 /**
  * Answer a question correctly to retrieve a user's password.
  */
