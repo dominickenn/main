@@ -22,11 +22,11 @@ import seedu.organizer.model.user.exceptions.DuplicateUserException;
  */
 public class AnswerCommandTest {
 
-    private Model model;
-    private AnswerCommand answerCommand;
-
     @Rule
     public final ExpectedException exception = ExpectedException.none();
+
+    private Model model;
+    private AnswerCommand answerCommand;
 
     @Before
     public void setUp() {
@@ -40,25 +40,25 @@ public class AnswerCommandTest {
     }
 
     @Test
-    public void execute_existingUser_NoQuestion() throws Exception {
+    public void execute_existingUser_noQuestion() throws Exception {
         assertCommandSuccess(answerCommand,
                 String.format(AnswerCommand.MESSAGE_NO_QUESTION, "admin"));
     }
 
     @Test
-    public void execute_existingUser_Answer() throws Exception {
+    public void execute_existingUser_answer() throws Exception {
         UserWithQuestionAnswer editedUser = new UserWithQuestionAnswer(
                 "admin",
                 "admin",
                 "question?",
                 "answer");
-        model.addQuestionAnswerToUser(ADMIN_USER,editedUser);
+        model.addQuestionAnswerToUser(ADMIN_USER, editedUser);
         assertCommandSuccess(answerCommand,
                 String.format(AnswerCommand.MESSAGE_SUCCESS, "admin"));
     }
 
     @Test
-    public void execute_nonexistingUser_NoSuchUserFound() {
+    public void execute_nonExistingUser_noSuchUserFound() {
         answerCommand = new AnswerCommand("noSuchUser", "answer");
         assertCommandFailure(answerCommand);
     }

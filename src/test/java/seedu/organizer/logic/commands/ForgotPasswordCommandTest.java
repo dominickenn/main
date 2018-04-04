@@ -17,18 +17,17 @@ import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.user.UserWithQuestionAnswer;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
-import seedu.organizer.model.user.exceptions.UserNotFoundException;
 
 /**
  * Contains unit tests for ForgotPasswordCommand.
  */
 public class ForgotPasswordCommandTest {
 
-    private Model model;
-    private ForgotPasswordCommand forgotPasswordCommand;
-
     @Rule
     public final ExpectedException exception = ExpectedException.none();
+
+    private Model model;
+    private ForgotPasswordCommand forgotPasswordCommand;
 
     @Before
     public void setUp() {
@@ -42,25 +41,25 @@ public class ForgotPasswordCommandTest {
     }
 
     @Test
-    public void execute_existingUser_NoQuestion() throws Exception {
+    public void execute_existingUser_noQuestion() throws Exception {
         assertCommandSuccess(forgotPasswordCommand,
                 String.format(ForgotPasswordCommand.MESSAGE_NO_QUESTION, "admin"));
     }
 
     @Test
-    public void execute_existingUser_Question() throws Exception {
+    public void execute_existingUser_question() throws Exception {
         UserWithQuestionAnswer editedUser = new UserWithQuestionAnswer(
                 "admin",
                 "admin",
                 "question?",
                 "answer");
-        model.addQuestionAnswerToUser(ADMIN_USER,editedUser);
+        model.addQuestionAnswerToUser(ADMIN_USER, editedUser);
         assertCommandSuccess(forgotPasswordCommand,
                 String.format(ForgotPasswordCommand.MESSAGE_SUCCESS, "question?"));
     }
 
     @Test
-    public void execute_nonexistingUser_NoSuchUserFound() {
+    public void execute_nonexistingUser_noSuchUserFound() {
         forgotPasswordCommand = new ForgotPasswordCommand("noSuchUser");
         assertCommandFailure(forgotPasswordCommand);
     }
