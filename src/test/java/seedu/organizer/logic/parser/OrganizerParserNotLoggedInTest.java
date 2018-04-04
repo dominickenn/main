@@ -2,66 +2,30 @@ package seedu.organizer.logic.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_ANSWER;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_PASSWORD;
 import static seedu.organizer.logic.parser.CliSyntax.PREFIX_USERNAME;
-import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import seedu.organizer.logic.commands.AddCommand;
-import seedu.organizer.logic.commands.AddSubtaskCommand;
 import seedu.organizer.logic.commands.AnswerCommand;
-import seedu.organizer.logic.commands.ClearCommand;
-import seedu.organizer.logic.commands.CurrentMonthCommand;
-import seedu.organizer.logic.commands.DeleteCommand;
-import seedu.organizer.logic.commands.DeleteSubtaskCommand;
-import seedu.organizer.logic.commands.EditCommand;
 import seedu.organizer.logic.commands.ExitCommand;
-import seedu.organizer.logic.commands.FindDeadlineCommand;
-import seedu.organizer.logic.commands.FindDescriptionCommand;
-import seedu.organizer.logic.commands.FindMultipleFieldsCommand;
-import seedu.organizer.logic.commands.FindNameCommand;
 import seedu.organizer.logic.commands.ForgotPasswordCommand;
-import seedu.organizer.logic.commands.HelpCommand;
-import seedu.organizer.logic.commands.HistoryCommand;
-import seedu.organizer.logic.commands.ListCommand;
 import seedu.organizer.logic.commands.LoginCommand;
-import seedu.organizer.logic.commands.NextMonthCommand;
-import seedu.organizer.logic.commands.PreviousMonthCommand;
-import seedu.organizer.logic.commands.RedoCommand;
-import seedu.organizer.logic.commands.SelectCommand;
 import seedu.organizer.logic.commands.SignUpCommand;
-import seedu.organizer.logic.commands.ToggleCommand;
-import seedu.organizer.logic.commands.ToggleSubtaskCommand;
-import seedu.organizer.logic.commands.UndoCommand;
-import seedu.organizer.logic.commands.util.EditTaskDescriptor;
-import seedu.organizer.logic.parser.exceptions.ParseException;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
-import seedu.organizer.model.subtask.Subtask;
-import seedu.organizer.model.task.DeadlineContainsKeywordsPredicate;
-import seedu.organizer.model.task.DescriptionContainsKeywordsPredicate;
-import seedu.organizer.model.task.MultipleFieldsContainsKeywordsPredicate;
-import seedu.organizer.model.task.NameContainsKeywordsPredicate;
-import seedu.organizer.model.task.Task;
 import seedu.organizer.model.user.User;
-import seedu.organizer.testutil.EditTaskDescriptorBuilder;
-import seedu.organizer.testutil.TaskBuilder;
-import seedu.organizer.testutil.TaskUtil;
 
 //@@author dominickenn
-public class OrganizerParser_NotLoggedIn_Test {
+/**
+ * Performs OrganizerParser tests when no user is logged in
+ */
+public class OrganizerParserNotLoggedInTest {
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 

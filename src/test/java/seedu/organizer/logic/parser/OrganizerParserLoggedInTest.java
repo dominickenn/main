@@ -55,14 +55,16 @@ import seedu.organizer.model.task.DescriptionContainsKeywordsPredicate;
 import seedu.organizer.model.task.MultipleFieldsContainsKeywordsPredicate;
 import seedu.organizer.model.task.NameContainsKeywordsPredicate;
 import seedu.organizer.model.task.Task;
-import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;
 import seedu.organizer.testutil.TaskBuilder;
 import seedu.organizer.testutil.TaskUtil;
 
-public class Organizer_LoggedIn_Test {
+/**
+ * Performs OrganizerParser tests when a user is logged in
+ */
+public class OrganizerParserLoggedInTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
