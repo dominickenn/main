@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import seedu.organizer.logic.commands.AddCommand;
 import seedu.organizer.logic.commands.AddQuestionAnswerCommand;
 import seedu.organizer.logic.commands.AddSubtaskCommand;
+import seedu.organizer.logic.commands.AnswerCommand;
 import seedu.organizer.logic.commands.ClearCommand;
 import seedu.organizer.logic.commands.Command;
 import seedu.organizer.logic.commands.DeleteCommand;
@@ -83,6 +84,12 @@ public class OrganizerParser {
 
             case ForgotPasswordCommand.COMMAND_ALIAS:
                 return new ForgotPasswordCommandParser().parse(arguments);
+
+            case AnswerCommand.COMMAND_WORD:
+                return new AnswerCommandParser().parse(arguments);
+
+            case AnswerCommand.COMMAND_ALIAS:
+                return new AnswerCommandParser().parse(arguments);
 
             case ExitCommand.COMMAND_WORD:
                 return new ExitCommand();
