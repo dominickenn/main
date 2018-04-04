@@ -50,6 +50,9 @@ public interface Model {
     /** Updates a User with QuestionAnswer */
     void addQuestionAnswerToUser(User toRemove, UserWithQuestionAnswer toAdd);
 
+    /** Returns a user with the {@code username} */
+    User getUserByUsername(String username) throws UserNotFoundException;
+
     /**
      * Replaces the given task {@code target} with {@code editedTask}.
      *

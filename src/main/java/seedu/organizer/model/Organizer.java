@@ -139,6 +139,11 @@ public class Organizer implements ReadOnlyOrganizer {
         requireNonNull(user);
         tasks.deleteUserTasks(user);
     }
+
+    public User getUserbyUsername(String username) throws UserNotFoundException {
+        requireNonNull(username);
+        return users.getUserByUsername(username);
+    }
     //@@author
 
     //// task-level operations

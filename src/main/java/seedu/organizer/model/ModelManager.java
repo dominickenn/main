@@ -124,6 +124,12 @@ public class ModelManager extends ComponentManager implements Model {
         organizer.deleteUserTasks(getCurrentlyLoggedInUser());
         indicateOrganizerChanged();
     }
+
+    @Override
+    public User getUserByUsername(String username) throws UserNotFoundException {
+        requireNonNull(username);
+        return organizer.getUserbyUsername(username);
+    }
     //@@author
 
     @Override
