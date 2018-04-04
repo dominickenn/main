@@ -21,6 +21,7 @@ import seedu.organizer.logic.commands.FindDeadlineCommand;
 import seedu.organizer.logic.commands.FindDescriptionCommand;
 import seedu.organizer.logic.commands.FindMultipleFieldsCommand;
 import seedu.organizer.logic.commands.FindNameCommand;
+import seedu.organizer.logic.commands.ForgotPasswordCommand;
 import seedu.organizer.logic.commands.HelpCommand;
 import seedu.organizer.logic.commands.HistoryCommand;
 import seedu.organizer.logic.commands.ListCommand;
@@ -76,6 +77,12 @@ public class OrganizerParser {
 
             case LoginCommand.COMMAND_ALIAS:
                 return new LoginCommandParser().parse(arguments);
+
+            case ForgotPasswordCommand.COMMAND_WORD:
+                return new ForgotPasswordCommandParser().parse(arguments);
+
+            case ForgotPasswordCommand.COMMAND_ALIAS:
+                return new ForgotPasswordCommandParser().parse(arguments);
 
             case ExitCommand.COMMAND_WORD:
                 return new ExitCommand();
