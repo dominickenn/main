@@ -126,6 +126,12 @@ public class LoginCommandTest {
         }
 
         @Override
+        public User getUserByUsername(String username) throws UserNotFoundException {
+            fail("This method should not be called");
+            return null;
+        }
+
+        @Override
         public void addTask(Task task) throws DuplicateTaskException {
             fail("This method should not be called.");
         }
