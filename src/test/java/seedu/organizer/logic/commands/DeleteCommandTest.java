@@ -7,7 +7,7 @@ import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandFailur
 import static seedu.organizer.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.organizer.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.organizer.logic.commands.CommandTestUtil.prepareUndoCommand;
-import static seedu.organizer.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.organizer.logic.commands.CommandTestUtil.showTaskAtIndex;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_SECOND_TASK;
 import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
@@ -70,7 +70,7 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() throws Exception {
-        showPersonAtIndex(model, INDEX_FIRST_TASK);
+        showTaskAtIndex(model, INDEX_FIRST_TASK);
 
         Task taskToDelete = model.getFilteredTaskList().get(INDEX_FIRST_TASK.getZeroBased());
         DeleteCommand deleteCommand = prepareCommand(INDEX_FIRST_TASK);
@@ -86,7 +86,7 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showPersonAtIndex(model, INDEX_FIRST_TASK);
+        showTaskAtIndex(model, INDEX_FIRST_TASK);
 
         Index outOfBoundIndex = INDEX_SECOND_TASK;
         // ensures that outOfBoundIndex is still in bounds of organizer book list
@@ -149,7 +149,7 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = prepareCommand(INDEX_FIRST_TASK);
         Model expectedModel = new ModelManager(model.getOrganizer(), new UserPrefs());
         expectedModel.loginUser(ADMIN_USER);
-        showPersonAtIndex(model, INDEX_SECOND_TASK);
+        showTaskAtIndex(model, INDEX_SECOND_TASK);
         Task taskToDelete = model.getFilteredTaskList().get(INDEX_FIRST_TASK.getZeroBased());
         // delete -> deletes second task in unfiltered task list / first task in filtered task list
         deleteCommand.execute();
