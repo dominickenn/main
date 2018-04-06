@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import seedu.organizer.model.task.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.organizer.testutil.TaskBuilder;
 
 //@@author guekling

@@ -52,11 +52,11 @@ import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.subtask.Subtask;
+import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.predicates.DeadlineContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.MultipleFieldsContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.NameContainsKeywordsPredicate;
-import seedu.organizer.model.task.Task;
 import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;
@@ -260,22 +260,30 @@ public class OrganizerParserLoggedInTest {
         assertTrue(parser.parseCommand(ListCommand.COMMAND_ALIAS) instanceof ListCommand);
         assertTrue(parser.parseCommand(ListCommand.COMMAND_ALIAS + " 3") instanceof ListCommand);
     }
-    
+
     //@@author dominickenn
     @Test
     public void parseCommand_listUncompletedTasks() throws Exception {
-        assertTrue(parser.parseCommand(ListUncompletedTasksCommand.COMMAND_WORD) instanceof ListUncompletedTasksCommand);
-        assertTrue(parser.parseCommand(ListUncompletedTasksCommand.COMMAND_WORD + " 3") instanceof ListUncompletedTasksCommand);
-        assertTrue(parser.parseCommand(ListUncompletedTasksCommand.COMMAND_ALIAS) instanceof ListUncompletedTasksCommand);
-        assertTrue(parser.parseCommand(ListUncompletedTasksCommand.COMMAND_ALIAS + " 3") instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_WORD) instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_WORD + " 3") instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_ALIAS) instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_ALIAS + " 3") instanceof ListUncompletedTasksCommand);
     }
 
     @Test
     public void parseCommand_listCompletedTasks() throws Exception {
-        assertTrue(parser.parseCommand(ListCompletedTasksCommand.COMMAND_WORD) instanceof ListCompletedTasksCommand);
-        assertTrue(parser.parseCommand(ListCompletedTasksCommand.COMMAND_WORD + " 3") instanceof ListCompletedTasksCommand);
-        assertTrue(parser.parseCommand(ListCompletedTasksCommand.COMMAND_ALIAS) instanceof ListCompletedTasksCommand);
-        assertTrue(parser.parseCommand(ListCompletedTasksCommand.COMMAND_ALIAS + " 3") instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_WORD) instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_WORD + " 3") instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_ALIAS) instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_ALIAS + " 3") instanceof ListCompletedTasksCommand);
     }
     //@@author
 

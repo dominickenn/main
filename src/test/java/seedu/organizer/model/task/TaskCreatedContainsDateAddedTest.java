@@ -12,17 +12,12 @@ import java.util.HashSet;
 import org.junit.Test;
 
 import seedu.organizer.model.tag.Tag;
-import seedu.organizer.model.task.Deadline;
-import seedu.organizer.model.task.Description;
-import seedu.organizer.model.task.Name;
-import seedu.organizer.model.task.Priority;
-import seedu.organizer.model.task.Task;
 
 //@@author dominickenn
 /**\
  * Tests whether a DateAdded is automatically created upon Task creation
  */
-public class TaskCreatedContainsDateAdded {
+public class TaskCreatedContainsDateAddedTest {
 
     @Test
     public void createTaskContainsDateAdded() {
