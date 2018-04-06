@@ -27,6 +27,7 @@ import seedu.organizer.logic.commands.ForgotPasswordCommand;
 import seedu.organizer.logic.commands.HelpCommand;
 import seedu.organizer.logic.commands.HistoryCommand;
 import seedu.organizer.logic.commands.ListCommand;
+import seedu.organizer.logic.commands.ListCompletedTasksCommand;
 import seedu.organizer.logic.commands.ListUncompletedTasksCommand;
 import seedu.organizer.logic.commands.LoginCommand;
 import seedu.organizer.logic.commands.LogoutCommand;
@@ -198,6 +199,12 @@ public class OrganizerParser {
 
         case ListUncompletedTasksCommand.COMMAND_ALIAS:
             return new ListUncompletedTasksCommand();
+
+        case ListCompletedTasksCommand.COMMAND_WORD:
+            return new ListCompletedTasksCommand();
+
+        case ListCompletedTasksCommand.COMMAND_ALIAS:
+            return new ListCompletedTasksCommand();
 
         case HistoryCommand.COMMAND_WORD:
             return new HistoryCommand();
