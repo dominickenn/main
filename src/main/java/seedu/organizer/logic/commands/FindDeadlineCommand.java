@@ -1,6 +1,6 @@
 package seedu.organizer.logic.commands;
 
-import seedu.organizer.model.task.DeadlineContainsKeywordsPredicate;
+import seedu.organizer.model.task.predicates.DeadlineContainsKeywordsPredicate;
 
 //@@author guekling
 /**

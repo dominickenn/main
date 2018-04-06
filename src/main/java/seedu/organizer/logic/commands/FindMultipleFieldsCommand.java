@@ -1,6 +1,6 @@
 package seedu.organizer.logic.commands;
 
-import seedu.organizer.model.task.MultipleFieldsContainsKeywordsPredicate;
+import seedu.organizer.model.task.predicates.MultipleFieldsContainsKeywordsPredicate;
 
 //@@author guekling
 /**

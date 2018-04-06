@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 
+import seedu.organizer.model.task.predicates.TaskByUserPredicate;
 import seedu.organizer.model.user.User;
 import seedu.organizer.testutil.TaskBuilder;
 
