@@ -6,7 +6,7 @@ import static seedu.organizer.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.organizer.logic.commands.DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS;
 import static seedu.organizer.testutil.TestUtil.getLastIndex;
 import static seedu.organizer.testutil.TestUtil.getMidIndex;
-import static seedu.organizer.testutil.TestUtil.getPerson;
+import static seedu.organizer.testutil.TestUtil.getTask;
 import static seedu.organizer.testutil.TypicalIndexes.INDEX_FIRST_TASK;
 import static seedu.organizer.testutil.TypicalTasks.KEYWORD_MATCHING_REVISION;
 
@@ -33,14 +33,14 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
         /* Case: delete the first task in the list, command with leading spaces and trailing spaces -> deleted */
         Model expectedModel = getModel();
         String command = "     " + DeleteCommand.COMMAND_WORD + "      " + INDEX_FIRST_TASK.getOneBased() + "       ";
-        Task deletedTask = removePerson(expectedModel, INDEX_FIRST_TASK);
+        Task deletedTask = removeTask(expectedModel, INDEX_FIRST_TASK);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedTask);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
 
         /* Case: delete the last task in the list -> deleted */
         Model modelBeforeDeletingLast = getModel();
-        Index lastPersonIndex = getLastIndex(modelBeforeDeletingLast);
-        assertCommandSuccess(lastPersonIndex);
+        Index lastTaskIndex = getLastIndex(modelBeforeDeletingLast);
+        assertCommandSuccess(lastTaskIndex);
 
         /* Case: undo deleting the last task in the list -> last task restored */
         command = UndoCommand.COMMAND_WORD;
@@ -49,13 +49,13 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
 
         /* Case: redo deleting the last task in the list -> last task deleted again */
         command = RedoCommand.COMMAND_WORD;
-        removePerson(modelBeforeDeletingLast, lastPersonIndex);
+        removeTask(modelBeforeDeletingLast, lastTaskIndex);
         expectedResultMessage = RedoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, modelBeforeDeletingLast, expectedResultMessage);
 
         /* Case: delete the middle task in the list -> deleted */
-        Index middlePersonIndex = getMidIndex(getModel());
-        assertCommandSuccess(middlePersonIndex);
+        Index middleTaskIndex = getMidIndex(getModel());
+        assertCommandSuccess(middleTaskIndex);
 
         /* ------------------ Performing delete operation while a filtered list is being shown ---------------------- */
 
@@ -82,7 +82,7 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
         Index expectedIndex = Index.fromZeroBased(selectedIndex.getZeroBased() - 1);
         selectTask(selectedIndex);
         command = DeleteCommand.COMMAND_WORD + " " + selectedIndex.getOneBased();
-        deletedTask = removePerson(expectedModel, selectedIndex);
+        deletedTask = removeTask(expectedModel, selectedIndex);
         expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedTask);
         assertCommandSuccess(command, expectedModel, expectedResultMessage, expectedIndex);
 
@@ -117,8 +117,8 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
      *
      * @return the removed task
      */
-    private Task removePerson(Model model, Index index) {
-        Task targetTask = getPerson(model, index);
+    private Task removeTask(Model model, Index index) {
+        Task targetTask = getTask(model, index);
         try {
             model.deleteTask(targetTask);
         } catch (TaskNotFoundException pnfe) {
@@ -135,7 +135,7 @@ public class DeleteCommandSystemTest extends OrganizerSystemTest {
      */
     private void assertCommandSuccess(Index toDelete) {
         Model expectedModel = getModel();
-        Task deletedTask = removePerson(expectedModel, toDelete);
+        Task deletedTask = removeTask(expectedModel, toDelete);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedTask);
 
         assertCommandSuccess(

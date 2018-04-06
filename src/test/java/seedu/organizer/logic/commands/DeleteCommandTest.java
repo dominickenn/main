@@ -79,7 +79,7 @@ public class DeleteCommandTest {
 
         Model expectedModel = new ModelManager(model.getOrganizer(), new UserPrefs());
         expectedModel.deleteTask(taskToDelete);
-        showNoPerson(expectedModel);
+        showNoTask(expectedModel);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -110,7 +110,7 @@ public class DeleteCommandTest {
         deleteCommand.execute();
         undoRedoStack.push(deleteCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered task list to show all persons
+        // undo -> reverts organizer back to previous state and filtered task list to show all tasks
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // redo -> same first task deleted again
@@ -142,7 +142,7 @@ public class DeleteCommandTest {
      * 4. Redo the deletion. This ensures {@code RedoCommand} deletes the task object regardless of indexing.
      */
     @Test
-    public void executeUndoRedo_validIndexFilteredList_samePersonDeleted() throws Exception {
+    public void executeUndoRedo_validIndexFilteredList_sameTaskDeleted() throws Exception {
         UndoRedoStack undoRedoStack = new UndoRedoStack();
         UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
         RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
@@ -155,7 +155,7 @@ public class DeleteCommandTest {
         deleteCommand.execute();
         undoRedoStack.push(deleteCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered task list to show all persons
+        // undo -> reverts organizer back to previous state and filtered task list to show all tasks
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         expectedModel.deleteTask(taskToDelete);
@@ -202,7 +202,7 @@ public class DeleteCommandTest {
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
-    private void showNoPerson(Model model) {
+    private void showNoTask(Model model) {
         model.updateFilteredTaskList(p -> false);
 
         assertTrue(model.getFilteredTaskList().isEmpty());

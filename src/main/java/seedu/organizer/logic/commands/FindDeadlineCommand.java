@@ -4,7 +4,7 @@ import seedu.organizer.model.task.predicates.DeadlineContainsKeywordsPredicate;
 
 //@@author guekling
 /**
- * Finds and lists all persons in PrioriTask whose deadline contains any of the argument keywords.
+ * Finds and lists all tasks in PrioriTask whose deadline contains any of the argument keywords.
  * Keyword should be in the format of YYYY-MM-DD.
  */
 public class FindDeadlineCommand extends Command {

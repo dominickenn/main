@@ -46,7 +46,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_TAG_FRIENDS = "friends";
-    public static final String VALID_TAG_UNUSED = "unused"; // do not use this tag when creating a person
+    public static final String VALID_TAG_UNUSED = "unused"; // do not use this tag when creating a task
 
     public static final String NAME_DESC_EXAM = " " + PREFIX_NAME + VALID_NAME_EXAM;
     public static final String NAME_DESC_STUDY = " " + PREFIX_NAME + VALID_NAME_STUDY;
@@ -157,7 +157,7 @@ public class CommandTestUtil {
     /**
      * Deletes the first task in {@code model}'s filtered list from {@code model}'s organizer book.
      */
-    public static void deleteFirstPerson(Model model) {
+    public static void deleteFirstTask(Model model) {
         Task firstTask = model.getFilteredTaskList().get(0);
         try {
             model.deleteTask(firstTask);

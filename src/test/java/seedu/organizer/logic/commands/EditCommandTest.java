@@ -71,16 +71,16 @@ public class EditCommandTest {
 
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() throws Exception {
-        Index indexLastPerson = Index.fromOneBased(model.getFilteredTaskList().size());
-        Task lastTask = model.getFilteredTaskList().get(indexLastPerson.getZeroBased());
+        Index indexLastTask = Index.fromOneBased(model.getFilteredTaskList().size());
+        Task lastTask = model.getFilteredTaskList().get(indexLastTask.getZeroBased());
 
-        TaskBuilder personInList = new TaskBuilder(lastTask);
-        Task editedTask = personInList.withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_STUDY)
+        TaskBuilder taskInList = new TaskBuilder(lastTask);
+        Task editedTask = taskInList.withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_STUDY)
                 .withTags(VALID_TAG_HUSBAND).build();
 
         EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder().withName(VALID_NAME_STUDY)
                 .withPriority(VALID_PRIORITY_STUDY).withTags(VALID_TAG_HUSBAND).build();
-        EditCommand editCommand = prepareCommand(indexLastPerson, descriptor);
+        EditCommand editCommand = prepareCommand(indexLastTask, descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
 
@@ -191,7 +191,7 @@ public class EditCommandTest {
         editCommand.execute();
         undoRedoStack.push(editCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered task list to show all persons
+        // undo -> reverts organizer back to previous state and filtered task list to show all tasks
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // redo -> same first task edited again
@@ -240,7 +240,7 @@ public class EditCommandTest {
         editCommand.execute();
         undoRedoStack.push(editCommand);
 
-        // undo -> reverts addressbook back to previous state and filtered task list to show all persons
+        // undo -> reverts organizer back to previous state and filtered task list to show all tasks
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         expectedModel.updateTask(taskToEdit, editedTask);

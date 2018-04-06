@@ -105,7 +105,7 @@ public abstract class OrganizerSystemTest {
     }
 
     public TaskListPanelHandle getTaskListPanel() {
-        return mainWindowHandle.getPersonListPanel();
+        return mainWindowHandle.getTaskListPanel();
     }
 
     public MainMenuHandle getMainMenu() {
@@ -138,7 +138,7 @@ public abstract class OrganizerSystemTest {
     }
 
     /**
-     * Displays all persons in the organizer book.
+     * Displays all tasks in the organizer book.
      */
     protected void showAllTasks() {
         executeCommand(ListCommand.COMMAND_WORD);
@@ -146,7 +146,7 @@ public abstract class OrganizerSystemTest {
     }
 
     /**
-     * Displays all persons with any parts of their names matching {@code keyword} (case-insensitive).
+     * Displays all tasks with any parts of their names matching {@code keyword} (case-insensitive).
      */
     protected void showTasksWithName(String keyword) {
         executeCommand(FindNameCommand.COMMAND_WORD + " " + keyword);
@@ -162,7 +162,7 @@ public abstract class OrganizerSystemTest {
     }
 
     /**
-     * Deletes all persons in the organizer book.
+     * Deletes all tasks in the organizer book.
      */
     protected void deleteAllTasks() {
         executeCommand(ClearCommand.COMMAND_WORD);
@@ -172,7 +172,7 @@ public abstract class OrganizerSystemTest {
     /**
      * Asserts that the {@code CommandBox} displays {@code expectedCommandInput}, the {@code ResultDisplay} displays
      * {@code expectedResultMessage}, the model and storage contains the same task objects as {@code expectedModel}
-     * and the task list panel displays the persons in the model correctly.
+     * and the task list panel displays the tasks in the model correctly.
      */
     protected void assertApplicationDisplaysExpected(String expectedCommandInput, String expectedResultMessage,
                                                      Model expectedModel) {
@@ -299,7 +299,7 @@ public abstract class OrganizerSystemTest {
     /**
      * Asserts that the sync status in the status bar was changed to the timing of
      * {@code ClockRule#getInjectedClock()}, and total tasks was changed to match the total
-     * number of persons in the address book, while the save location remains the same.
+     * number of tasks in the organizer, while the save location remains the same.
      */
     protected void assertStatusBarChangedExceptSaveLocation() {
         StatusBarFooterHandle handle = getStatusBarFooter();

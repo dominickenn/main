@@ -34,6 +34,6 @@ public class ModelHelper {
      * Returns a predicate that evaluates to true if this {@code Task} equals to {@code other}.
      */
     private static Predicate<Task> getPredicateMatching(Task other) {
-        return person -> person.equals(other);
+        return task -> task.equals(other);
     }
 }

@@ -29,9 +29,9 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
         assertCommandSuccess(command, INDEX_FIRST_TASK);
 
         /* Case: select the last card in the task list -> selected */
-        Index personCount = Index.fromOneBased(getTypicalTasks().size());
-        command = SelectCommand.COMMAND_WORD + " " + personCount.getOneBased();
-        assertCommandSuccess(command, personCount);
+        Index taskCount = Index.fromOneBased(getTypicalTasks().size());
+        command = SelectCommand.COMMAND_WORD + " " + taskCount.getOneBased();
+        assertCommandSuccess(command, taskCount);
 
         /* Case: undo previous selection -> rejected */
         command = UndoCommand.COMMAND_WORD;
@@ -44,7 +44,7 @@ public class SelectCommandSystemTest extends OrganizerSystemTest {
         assertCommandFailure(command, expectedResultMessage);
 
         /* Case: select the middle card in the task list -> selected */
-        Index middleIndex = Index.fromOneBased(personCount.getOneBased() / 2);
+        Index middleIndex = Index.fromOneBased(taskCount.getOneBased() / 2);
         command = SelectCommand.COMMAND_WORD + " " + middleIndex.getOneBased();
         assertCommandSuccess(command, middleIndex);
 
