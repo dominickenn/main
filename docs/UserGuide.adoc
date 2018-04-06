@@ -400,6 +400,13 @@ Different commands for listing different tasks. +
 [format-title]#Format:# `uncompleted`
 ====
 
+==== Listing all completed tasks : `completed` or `com` `[since v1.5]`
+
+[.format]
+====
+[format-title]#Format:# `completed`
+====
+
 === Locating tasks `[since v1.2]`
 
 Depending on the suffix (or lack of) at the end of the `find` command, you can find tasks whose names, descriptions and/or deadlines contain any of the given keywords. +
@@ -865,6 +872,7 @@ e.g. [example-no-box]#`delete 3`#
 e.g. [example-no-box]#`edit 1 p/9 d/2018-12-30`#
 * *List* : [format-no-box]#`list`#
 * *List all uncompleted* : [format-no-box]#`uncompleted`#
+* *List all completed* : [format-no-box]#`completed`#
 * *Find* : [format-no-box]#`find KEYWORD [MORE_KEYWORDS]` or `f KEYWORD [MORE_KEYWORDS]`# +
 e.g. [example-no-box]#`find CS2103 update 2018-03-17`#
 ** *Find Name* : [format-no-box]#`findn KEYWORD [MORE_KEYWORDS]` or `fn KEYWORD [MORE_KEYWORDS]`# +
