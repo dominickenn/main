@@ -98,7 +98,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
+    public synchronized void loginUser(User user)
+            throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
         organizer.loginUser(user);
         currentlyLoggedInUser = organizer.getCurrentLoggedInUser();
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);

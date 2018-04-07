@@ -107,7 +107,8 @@ public class Organizer implements ReadOnlyOrganizer {
     /**
      * Sets currentLoggedInUser of the organizer
      */
-    public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
+    public void loginUser(User user)
+            throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
         requireNonNull(user);
         users.setCurrentLoggedInUser(user);
     }
