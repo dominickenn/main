@@ -1,4 +1,3 @@
-/*
 package systemtests;
 
 import static org.junit.Assert.assertEquals;
@@ -18,11 +17,9 @@ import seedu.organizer.logic.commands.SelectCommand;
 //import seedu.organizer.ui.CalendarPanel;
 import seedu.organizer.ui.StatusBarFooter;
 
-*/
 /**
  * A system test class for the help window, which contains interaction with other UI components.
- *//*
-
+ */
 public class HelpCommandSystemTest extends OrganizerSystemTest {
     private static final String ERROR_MESSAGE = "ATTENTION!!!! : On some computers, this test may fail when run on "
             + "non-headless mode as FxRobot#clickOn(Node, MouseButton...) clicks on the wrong location. We suspect "
@@ -75,11 +72,9 @@ public class HelpCommandSystemTest extends OrganizerSystemTest {
         assertNotEquals(StatusBarFooter.SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
     }
 
-    */
-/**
+    /**
      * Asserts that the help window is open, and closes it after checking.
-     *//*
-
+     */
     private void assertHelpWindowOpen() {
         assertTrue(ERROR_MESSAGE, HelpWindowHandle.isWindowPresent());
         guiRobot.pauseForHuman();
@@ -88,14 +83,11 @@ public class HelpCommandSystemTest extends OrganizerSystemTest {
         getMainWindowHandle().focus();
     }
 
-    */
-/**
+    /**
      * Asserts that the help window isn't open.
-     *//*
-
+     */
     private void assertHelpWindowNotOpen() {
         assertFalse(ERROR_MESSAGE, HelpWindowHandle.isWindowPresent());
     }
 
 }
-*/
