@@ -1,5 +1,8 @@
 package seedu.organizer.ui;
 
+import static seedu.organizer.commons.core.GuiSettings.DEFAULT_HEIGHT;
+import static seedu.organizer.commons.core.GuiSettings.DEFAULT_WIDTH;
+
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -142,14 +145,18 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.setTitle(appTitle);
     }
 
+    //@@author dominickenn
     /**
      * Sets the default size based on user preferences.
      */
     private void setWindowDefaultSize(UserPrefs prefs) {
-        primaryStage.setHeight(prefs.getGuiSettings().getWindowHeight());
-        primaryStage.setWidth(prefs.getGuiSettings().getWindowWidth());
+        double userPrefHeight = prefs.getGuiSettings().getWindowHeight();
+        double userPrefWidth = prefs.getGuiSettings().getWindowWidth();
 
+        primaryStage.setHeight(userPrefHeight < DEFAULT_HEIGHT ? DEFAULT_HEIGHT : userPrefHeight);
+        primaryStage.setWidth(userPrefWidth < DEFAULT_WIDTH ? DEFAULT_WIDTH : userPrefWidth);
     }
+    //@@author
 
     //@@author dominickenn
     /**
