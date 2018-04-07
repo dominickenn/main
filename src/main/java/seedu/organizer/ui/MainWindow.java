@@ -69,6 +69,7 @@ public class MainWindow extends UiPart<Stage> {
         // Configure the UI
         setTitle(config.getAppTitle());
         setWindowDefaultSize(prefs);
+        setWindowDefaultCoordinates(prefs);
 
         setAccelerators();
         registerAsAnEventHandler(this);
@@ -147,11 +148,30 @@ public class MainWindow extends UiPart<Stage> {
     private void setWindowDefaultSize(UserPrefs prefs) {
         primaryStage.setHeight(prefs.getGuiSettings().getWindowHeight());
         primaryStage.setWidth(prefs.getGuiSettings().getWindowWidth());
+
+    }
+
+    //@@author dominickenn
+    /**
+     * Sets the default position based on user preferences
+     * If window was minimized during closure in previous session, set screen to center
+     */
+    private void setWindowDefaultCoordinates(UserPrefs prefs) {
+        double xCoordinate;
+        double yCoordinate;
+
         if (prefs.getGuiSettings().getWindowCoordinates() != null) {
-            primaryStage.setX(prefs.getGuiSettings().getWindowCoordinates().getX());
-            primaryStage.setY(prefs.getGuiSettings().getWindowCoordinates().getY());
+            xCoordinate = prefs.getGuiSettings().getWindowCoordinates().getX();
+            yCoordinate = prefs.getGuiSettings().getWindowCoordinates().getY();
+            if (xCoordinate < 0 && yCoordinate < 0) { // If window was minimized
+                primaryStage.centerOnScreen();
+            } else {
+                primaryStage.setX(xCoordinate);
+                primaryStage.setY(yCoordinate);
+            }
         }
     }
+    //@@author
 
     /**
      * Returns the current size and the position of the main Window.
