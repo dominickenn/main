@@ -93,7 +93,7 @@ public class ParserUtil {
         requireNonNull(name);
         String trimmedUsername = name.trim();
         if (!User.isValidUsername(trimmedUsername)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
         }
         return name;
     }
@@ -117,7 +117,7 @@ public class ParserUtil {
         requireNonNull(password);
         String trimmedPassword = password.trim();
         if (!User.isValidPassword(trimmedPassword)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
         }
         return password;
     }

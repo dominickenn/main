@@ -83,8 +83,11 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public User toUserModelType() throws IllegalValueException {
-        if (!User.isValidUsername(username) || !User.isValidPassword(password)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+        if (!User.isValidUsername(username)) {
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
+        }
+        if (!User.isValidPassword(password)) {
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
         }
         return new User(username, password);
     }
@@ -95,8 +98,11 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public UserWithQuestionAnswer toUserQuestionAnswerModelType() throws IllegalValueException {
-        if (!User.isValidUsername(username) || !User.isValidPassword(password)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+        if (!User.isValidUsername(username)) {
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
+        }
+        if (!User.isValidPassword(password)) {
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
         }
         if (!UserWithQuestionAnswer.isValidQuestion(question)
                 || !UserWithQuestionAnswer.isValidAnswer(answer)) {
