@@ -104,9 +104,11 @@ public class XmlAdaptedUser {
         if (!User.isValidPassword(password)) {
             throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
         }
-        if (!UserWithQuestionAnswer.isValidQuestion(question)
-                || !UserWithQuestionAnswer.isValidAnswer(answer)) {
-            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
+        if (!UserWithQuestionAnswer.isValidAnswer(answer)) {
+            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_ANSWER_CONSTRAINTS);
+        }
+        if (!UserWithQuestionAnswer.isValidQuestion(question)) {
+            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_CONSTRAINTS);
         }
         return new UserWithQuestionAnswer(username, password, question, answer);
     }
