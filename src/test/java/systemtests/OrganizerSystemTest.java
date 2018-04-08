@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 //import static seedu.organizer.ui.CalendarPanel.DEFAULT_PAGE;
 //import static seedu.organizer.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.organizer.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
-import static seedu.organizer.ui.StatusBarFooter.TOTAL_TASKS_STATUS;
+import static seedu.organizer.ui.StatusBarFooter.CURRENT_USER_STATUS_UPDATED;
 //import static seedu.organizer.ui.UiPart.FXML_FILE_FOLDER;
 import static seedu.organizer.ui.testutil.GuiTestAssert.assertListMatching;
 
@@ -179,7 +179,7 @@ public abstract class OrganizerSystemTest {
     private void rememberStates() {
         StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
         statusBarFooterHandle.rememberSaveLocation();
-        statusBarFooterHandle.rememberTotalTasksStatus();
+        statusBarFooterHandle.rememberCurrentUserStatus();
         statusBarFooterHandle.rememberSyncStatus();
     }
 
@@ -203,7 +203,7 @@ public abstract class OrganizerSystemTest {
     protected void assertStatusBarUnchanged() {
         StatusBarFooterHandle handle = getStatusBarFooter();
         assertFalse(handle.isSaveLocationChanged());
-        assertFalse(handle.isTotalTasksStatusChanged());
+        assertFalse(handle.isCurrentUserStatusChanged());
         //Does not apply as login occurs first
         //assertFalse(handle.isSyncStatusChanged());
     }
@@ -220,7 +220,7 @@ public abstract class OrganizerSystemTest {
         String expectedSyncStatus = String.format(SYNC_STATUS_UPDATED, timestamp);
         assertEquals(expectedSyncStatus, handle.getSyncStatus());
         assertFalse(handle.isSaveLocationChanged());
-        assertFalse(handle.isTotalTasksStatusChanged());
+        assertFalse(handle.isCurrentUserStatusChanged());
     }
 
     /**
@@ -236,8 +236,8 @@ public abstract class OrganizerSystemTest {
             assertEquals("./" + testApp.getStorageSaveLocation(), getStatusBarFooter().getSaveLocation());
             //Does not apply as login occurs first
             //assertEquals(SYNC_STATUS_INITIAL, getStatusBarFooter().getSyncStatus());
-            assertEquals(String.format(TOTAL_TASKS_STATUS, getModel().getOrganizer().getCurrentUserTaskList().size()),
-                getStatusBarFooter().getTotalTasksStatus());
+            assertEquals(String.format(CURRENT_USER_STATUS_UPDATED, getModel().getOrganizer().getCurrentUserTaskList().size()),
+                getStatusBarFooter().getCurrentUserStatus());
         } catch (Exception e) {
             throw new AssertionError("Starting state is wrong.", e);
         }
@@ -256,7 +256,7 @@ public abstract class OrganizerSystemTest {
         assertEquals(expectedSyncStatus, handle.getSyncStatus());
 
         final int totalTasks = testApp.getModel().getOrganizer().getTaskList().size();
-        assertEquals(String.format(TOTAL_TASKS_STATUS, totalTasks), handle.getTotalTasksStatus());
+        assertEquals(String.format(CURRENT_USER_STATUS_UPDATED, totalTasks), handle.getCurrentUserStatus());
 
         assertFalse(handle.isSaveLocationChanged());
     }

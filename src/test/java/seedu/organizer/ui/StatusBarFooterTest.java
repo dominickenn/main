@@ -5,7 +5,7 @@ import static seedu.organizer.testutil.EventsUtil.postNow;
 import static seedu.organizer.testutil.TypicalTasks.GROCERY;
 import static seedu.organizer.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.organizer.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
-import static seedu.organizer.ui.StatusBarFooter.TOTAL_TASKS_STATUS;
+import static seedu.organizer.ui.StatusBarFooter.CURRENT_USER_STATUS_UPDATED;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -60,13 +60,13 @@ public class StatusBarFooterTest extends GuiUnitTest {
     public void display() {
         // initial state
         assertStatusBarContent(RELATIVE_PATH + STUB_SAVE_LOCATION, SYNC_STATUS_INITIAL,
-            String.format(TOTAL_TASKS_STATUS, INITIAL_TOTAL_TASKS));
+            String.format(CURRENT_USER_STATUS_UPDATED, INITIAL_TOTAL_TASKS));
 
         // after organizer is updated
         postNow(EVENT_STUB);
         assertStatusBarContent(RELATIVE_PATH + STUB_SAVE_LOCATION,
             String.format(SYNC_STATUS_UPDATED, new Date(injectedClock.millis()).toString()),
-            String.format(TOTAL_TASKS_STATUS, EVENT_STUB.data.getCurrentUserTaskList().size()));
+            String.format(CURRENT_USER_STATUS_UPDATED, EVENT_STUB.data.getCurrentUserTaskList().size()));
     }
 
     /**
@@ -78,7 +78,7 @@ public class StatusBarFooterTest extends GuiUnitTest {
             expectedTotalTasksStatus) {
         assertEquals(expectedSaveLocation, statusBarFooterHandle.getSaveLocation());
         assertEquals(expectedSyncStatus, statusBarFooterHandle.getSyncStatus());
-        assertEquals(expectedTotalTasksStatus, statusBarFooterHandle.getTotalTasksStatus());
+        assertEquals(expectedTotalTasksStatus, statusBarFooterHandle.getCurrentUserStatus());
         guiRobot.pauseForHuman();
     }
 
