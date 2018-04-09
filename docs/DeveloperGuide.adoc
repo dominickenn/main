@@ -304,16 +304,17 @@ The command execution can affect the `Model` (e.g. adding a task) and/or raise e
 [[Design-Model]]
 === Model component
 
-The `Model` component consists of a `UniqueTaskList` and `UniqueTagList` that contains and manipulates the data within the application using an `ObservableList`. The component also includes `Task`, and its respective parameters (e.g. `Name`, `Priority`, `Date Added`, etc.).
+This component consists of a `UniqueTaskList` and `UniqueTagList` that contains and manipulates the data within the application using an `ObservableList`. The component also includes `Task`, and its respective parameters (e.g. `Name`, `Priority`, `Date Added`, etc.).
 
-The class diagram below gives an overview of the structure of the `Model` component.
+The class diagram below (refers to <<fig-ModelComponent>>) gives an overview of the structure of the `Model` component.
 
-.Structure of the Model Component
+[[fig-ModelComponent]]
+.Structure of the model component
 image::ModelClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/organizer/model/Model.java[`Model.java`]
 
-The `Model`,
+The `Model`:
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Organizer data.
