@@ -151,7 +151,7 @@ Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingA
 [NOTE]
 Having both Travis and AppVeyor ensures the application works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based).
 
-=== Getting started with developing
+=== Getting started with development
 
 When you are ready to start development:
 
@@ -165,34 +165,39 @@ PrioriTask consists of multiple components written in Java, with data being writ
 [[Design-Architecture]]
 === Architecture
 
-The *_Architecture Diagram_* given below explains the high-level design of the application.
+The *_Architecture Diagram_* given below (<<fig-ArchitectureDiagram>>) provides an overview of the high-level design of the application.
 
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
-.Architecture Diagram
+[[fig-ArchitectureDiagram]]
+.Architecture diagram
 image::Architecture.png[width="600"]
 
-Given below is a quick overview of each component. The two main components of the application includes:
+==== Primary components
 
-. `Main`, with only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
+There are two primary components of the application:
 
-.. Initializing the components in the correct sequence, and connecting them up with each other at application launch.
-.. Shutting down the components and invoking cleanup method where necessary during shut down.
+. `Main`, which contains only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for:
 
-. <<Design-Commons,*`Commons`*>>, representing a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
+.. Initializing all components in the correct sequence, and connecting them with each other at application launch.
+.. Shutting down all components and invoking the cleanup method where necessary during application shut down.
+
+. <<Design-Commons,*`Commons`*>>, contains a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
 
 .. `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design).
 .. `LogsCenter` : This class is used by many classes to write log messages to the application's log file.
 
-The rest of the application consists of four components:
+==== Secondary components
 
-. <<Design-Ui,*`UI`*>>: Represents the UI of the application
-. <<Design-Logic,*`Logic`*>>: Executes commands
-. <<Design-Model,*`Model`*>>: Holds the data of the application in-memory
-. <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk
+The rest of the application comprises of four components:
 
-Each of the four components,
+. <<Design-Ui,*`UI`*>>: Represents the UI of the application.
+. <<Design-Logic,*`Logic`*>>: Executes commands.
+. <<Design-Model,*`Model`*>>: Holds the data of the application in-memory.
+. <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
+
+Each of the four components:
 
 * Defines its _API_ in an `interface` with the same name as the Component.
 * Exposes its functionality using a `{Component Name}Manager` class.
@@ -200,7 +205,7 @@ Each of the four components,
 For example, the `Logic` component (refer to <<fig-LogicComponent>>) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
 
 [[fig-LogicComponent]]
-.Class Diagram of the Logic Component
+.Class diagram of the logic component
 image::LogicClassDiagram.png[width="800"]
 
 [.infoblock]
@@ -210,16 +215,18 @@ image::LogicClassDiagram.png[width="800"]
 [discrete]
 ==== Events-Driven nature of the design
 
-The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ (refer to <<fig-SDforDeleteTask>>) shows how the components interact in a scenario where the user issues the command `delete 1`.
 
+[[fig-SDforDeleteTask]]
 .Component interactions for `delete 1` command (part 1)
 image::SDforDeleteTask.png[width="800"]
 
 [NOTE]
 Note how the `Model` simply raises a `OrganizerChangedEvent` when the Organizer data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
-The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
+The following diagram (refer to <<fig-SDforDeleteTaskEventHandling>>) below shows how the `EventsCenter` reacts to that event. This eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
+[[fig-SDforDeleteTaskEventHandling]]
 .Component interactions for `delete 1` command (part 2)
 image::SDforDeleteTaskEventHandling.png[width="800"]
 
@@ -227,7 +234,7 @@ image::SDforDeleteTaskEventHandling.png[width="800"]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
 ====
 
-The sections below give more details of each component.
+The following sections will provide more details on each of the 4 secondary components.
 
 [[Design-Ui]]
 === UI component
@@ -323,9 +330,6 @@ The `Storage` component,
 * saves the Organizer data in XML format and reads it back.
 
 [[Design-Commons]]
-=== Common classes
-
-Classes used by multiple components are in the `seedu.organizer.commons` package. Such classes include the `EventsCenter` and `LogsCenter`.
 
 == Implementation
 
