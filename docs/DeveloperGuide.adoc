@@ -202,10 +202,10 @@ Each of the four components:
 * Defines its _API_ in an `interface` with the same name as the Component.
 * Exposes its functionality using a `{Component Name}Manager` class.
 
-For example, the `Logic` component (refer to <<fig-LogicComponent>>) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
+For example, `Logic` (refer to <<fig-LogicComponent>>) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
 
 [[fig-LogicComponent]]
-.Class diagram of the logic component
+.Class diagram of `Logic`
 image::LogicClassDiagram.png[width="800"]
 
 [.infoblock]
@@ -239,13 +239,13 @@ The following sections will provide more details on each of the 4 secondary comp
 [[Design-Ui]]
 === UI component
 
-This component consists of a `MainWindow` that is made up of numerous parts (e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`, `StatusBarFooter`, `CalendarPanel`, etc.).
+`UI` consists of a `MainWindow` that is made up of numerous parts (e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`, `StatusBarFooter`, `CalendarPanel`, etc.).
 These parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The class diagram below (refer to <<fig-UIClassDiagram>>) describes the structure of the `UI` component.
+The class diagram below (refer to <<fig-UIClassDiagram>>) describes the structure of `UI`.
 
 [[fig-UIClassDiagram]]
-.Structure of the UI component
+.Structure of `UI`
 image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/organizer/ui/Ui.java[`Ui.java`]
@@ -253,23 +253,23 @@ image::UiClassDiagram.png[width="800"]
 The JavaFX UI framework is used to build this component.
 The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`].
 
-The `UI` component:
+`UI`:
 
-* Executes user commands using the `Logic` component.
-* Binds itself to some data in the `Model` so that the UI can auto-update when data in the `Model` changes.
+* Executes user commands using `Logic`.
+* Binds itself to some data in `Model` so that the UI can auto-update when data in the `Model` changes.
 * Responds to events raised from various parts of the application and updates the UI accordingly.
 
 [[Design-Logic]]
 === Logic component
 
-This component consists of the commands and their respective parsers (if necessary).
+`Logic` consists of the commands and their respective parsers (if necessary).
 Parser classes are defined in `.java` files suffixed with _'Parser'_, and are found in the `src/main/java/logic/parser` folder.
 For example, the parser for `AddCommand` is defined in `AddCommandParser.java`.
 
-The class diagram below (refer to <<fig-LogicClassDiagram>>) gives an overview of the structure of the `Logic` component.
+The class diagram below (refer to <<fig-LogicClassDiagram>>) gives an overview of the structure of `Logic`.
 
 [[fig-LogicClassDiagram]]
-.Structure of the logic component
+.Structure of `Logic`
 image::LogicClassDiagram.png[width="800"]
 
 *API* :
@@ -279,16 +279,16 @@ There are two types of commands.
 Commands that modify the state of the organizer inherit from the `UndoableCommand` class, and are used by the undo/redo mechanism (see <<Undo/Redo feature>> for more information).
 Commands that do not modify the state of the organizer, and cannot be undone, inherit from the `Command` class instead.
 
-The class diagram below (refer to <<fig-CommandsDiagram>>) gives a more detailed overview of how the command system in the `Logic` component works. It shows the finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>.
+The class diagram below (refer to <<fig-CommandsDiagram>>) gives a more detailed overview of how the command system in `Logic` works. It shows the finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>.
 
 [[fig-CommandsDiagram]]
-.Structure of commands in the logic component
+.Structure of commands in `Logic`
 image::LogicCommandClassDiagram.png[width="800"]
 
-Given below (refer to <<fig-LogicSequenceDiagram>>) is the sequence diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below (refer to <<fig-LogicSequenceDiagram>>) is the sequence diagram for interactions within `Logic` for the `execute("delete 1")` API call.
 
 [[fig-LogicSequenceDiagram]]
-.Interactions inside the logic component for the `delete 1` command
+.Interactions inside `Logic` for the `delete 1` command
 image::DeleteTaskSdForLogic.png[width="800"]
 
 The sequence flows as such:
@@ -299,17 +299,17 @@ The sequence flows as such:
 [NOTE]
 The command execution can affect the `Model` (e.g. adding a task) and/or raise events.
 .  `CommandResult` object is created as an encapsulation of the result of the command execution.
-.  `CommandResult` object is passed to the `UI` component.
+.  `CommandResult` object is passed to `UI`.
 
 [[Design-Model]]
 === Model component
 
-This component consists of a `UniqueTaskList` and `UniqueTagList` that contains and manipulates the data within the application using an `ObservableList`. The component also includes `Task`, and its respective parameters (e.g. `Name`, `Priority`, `Date Added`, etc.).
+`Model` consists of a `UniqueTaskList` and `UniqueTagList` that contains and manipulates the data within the application using an `ObservableList`. The component also includes `Task`, and its respective parameters (e.g. `Name`, `Priority`, `Date Added`, etc.).
 
-The class diagram below (refers to <<fig-ModelComponent>>) gives an overview of the structure of the `Model` component.
+The class diagram below (refers to <<fig-ModelComponent>>) gives an overview of the structure of `Model`.
 
 [[fig-ModelComponent]]
-.Structure of the model component
+.Structure of `Model`
 image::ModelClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/organizer/model/Model.java[`Model.java`]
@@ -326,16 +326,19 @@ The `Model`:
 [[Design-Storage]]
 === Storage component
 
-The `Storage` component consists of the `XmlOrganizerStorage`, which reads data from, and writes data to, the hard disk. Data is stored in XML format, and can be retrieved from `data` > `organizer.xml`. The component also contains the `UserPrefsStorage`, which stores user preferences (e.g. the application window's preferred height and width) in a JSON file. The file is titled `preferences.json`, and can be retrieved from the main folder.
+`Storage` consists of the `XmlOrganizerStorage`, which reads data from, and writes data to, the hard disk.
+Data is stored in XML format, and can be retrieved from `data` > `organizer.xml`.
+This component also contains the `UserPrefsStorage`, which stores user preferences (e.g. the application window's preferred height and width) in a JSON file. The file is titled `preferences.json`, and can be retrieved from the main folder.
 
-The class diagram below gives an overview of the structure of the `Storage` component.
+The class diagram below (refer to <<fig-StorageClassDiagram>>) gives an overview of the structure of `Storage`.
 
-.Structure of the Storage Component
+[[fig-StorageClassDiagram]]
+.Structure of `Storage`
 image::StorageClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/organizer/storage/Storage.java[`Storage.java`]
 
-The `Storage` component,
+`Storage`:
 
 * saves `UserPref` objects in JSON format and reads it back.
 * saves the Organizer data in XML format and reads it back.
