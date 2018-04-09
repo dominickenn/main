@@ -23,32 +23,17 @@ By: `CS2103JAN2018-W13-B4`      Since: `March 2018`      Licence: `MIT`
 
 == Introduction
 
-PrioriTask is a desktop task management application. It is not just any task management application, but a combination of the to-do list, calendar and reminder features, with an added bonus of an automatic updating and sorting of your tasks based on priority levels. It helps you keep track of your tasks, while providing you with at-a-glance views of upcoming tasks by day, week or month.
+PrioriTask is a desktop task management application. It is not just any task management application, but a combination of a to-do list, calendar and reminder features, with the added bonus of an automatic updating and sorting of your tasks based on priority levels. It helps you keep track of your tasks, while providing you with at-a-glance views of upcoming tasks.
 
-PrioriTask is a fairly new application that has much room for improvement. We welcome any form of contributions to the PrioriTask project, be it from beginners or seasoned Java developers. Whether you're a new developer or an experienced contributor, this guide can serve as a helpful reference and source for information about writing code for the PrioriTask project.
-
-This developer's guide consists of the following sections.
-
-* <<Getting Started>>
-* <<Design>>
-* <<Implementation>>
-* <<Documentation>>
-* <<Testing>>
-* <<Dev Ops>>
+PrioriTask is a fairly new application that has much room for improvement. We welcome any form of contributions to the PrioriTask project, be it from beginners or seasoned Java developers. Experienced or not, this guide can serve as a helpful reference and source for information for those who hope to contribute to the project.
 
 == Getting Started
 
-This section contains information to help you get started developing for PrioriTask. The simple list below will ensure that you get up and running with the application in no time.
-
-* <<Installing prerequisites>>
-* <<Setting up the project in your computer>>
-* <<Verifying the setup>>
-* <<Configuring the project before writing code>>
-* <<Getting started with developing>>
+This section contains a list of steps to help you get started with developing for PrioriTask in no time.
 
 === Installing prerequisites
 
-Before working on PrioriTask, ensure that you have the following software installed.
+Before working on PrioriTask, ensure that you have the following software installed:
 
 . *JDK `1.8.0_60`* or later
 +
@@ -63,9 +48,9 @@ It will not work with earlier versions of Java 8.
 PrioriTask requires Gradle and JavaFX plugins. +
 IntelliJ has both plugins installed by default. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
 
-=== Setting up the project in your computer
+=== Setting up the project on your computer
 
-After you've ensured that you've met all requirements, follow the steps below to setup this project in your computer.
+Follow these steps to setup the project on your computer:
 
 [NOTE]
 The following steps are written for IntelliJ IDEA `2017.3.5` (Ultimate Edition). +
@@ -73,10 +58,11 @@ There may be slight variations in the steps if using other versions of IntelliJ.
 
 . Fork this repo, and clone the fork to your computer.
 . Open IntelliJ. You should see the welcome screen (refer to <<fig-GettingStarted1>>).
-.. If you do not see the welcome screen, select `File` > `Close Project` to close the existing project dialog first.
+[NOTE]
+If you do not see the welcome screen, select `File` > `Close Project` to close the existing project dialog before continuing.
 
 [[fig-GettingStarted1]]
-.IntelliJ's Welcome Screen
+.IntelliJ's welcome screen
 image::DeveloperGettingStarted1.png[width="600"]
 
 [start=3]
@@ -96,7 +82,7 @@ image::DeveloperGettingStarted3.png[width="600"]
 
 [start=6]
 . Fill up the necessary information as follows, and click `Next`. You will be directed to the next window.
-. Click `Next` until to reach the window to select the project SDK (refer to <<fig-GettingStarted4>>).
+. Click `Next` repeatedly, until the window to select the project SDK appears (refer to <<fig-GettingStarted4>>).
 
 [[fig-GettingStarted4]]
 .Selecting project SDK in the `Import Project` window
@@ -104,11 +90,12 @@ image::DeveloperGettingStarted4.png[width="600"]
 
 [start=8]
 . Click on the JDK `1.8` folder in the left pane and click `Next`.
-.. If you do not see a JDK `1.8` folder, click on `+` > `JDK`, and find the directory of the JDK.
+[NOTE]
+If you do not see a JDK `1.8` folder, click on `+` > `JDK`, and find the directory of the JDK.
 . Click `Next` until you reach the last window. Click `Finish` to complete the import of the project. The project will be loaded and you will be brought to the main project window (refer to <<fig-GettingStarted5>>).
 
 [[fig-GettingStarted5]]
-.Main Project Window
+.Main project window
 image::DeveloperGettingStarted5.png[width="600"]
 
 [start=10]
@@ -119,33 +106,36 @@ image::DeveloperGettingStarted5.png[width="600"]
 .`Import Module from Gradle` Window
 image::DeveloperGettingStarted6.png[width="600"]
 
+[start=12]
 . Click `OK` to accept the default settings.
 . Open the `Terminal` (select `Tool Windows` > `Terminal`) and run the command `gradlew processResources` (run `./gradlew processResources` for Mac/Linux users). It should finish with the `BUILD SUCCESSFUL` message. +
-This will generate all resources required by the application and tests.
+This generates all the resources required by the application and its tests.
 
 === Verifying the setup
 
-After setting up the project, do the following steps to verify that the project has been correctly set up.
+Follow these steps to verify that the project has been correctly set up:
 
-. Run the `seedu.organizer.MainApp` and try a few commands. You may refer to the <<UserGuide#, UserGuide.adoc>> for more information about the commands.
+. Run `seedu.organizer.MainApp` and try a few commands. You may refer to the <<UserGuide#, UserGuide.adoc>> for more information about the commands.
 . <<Testing,Run the tests>> to ensure they all pass.
 
 === Configuring the project before writing code
 
-Before you begin developing, there are a few configurations to be done to ensure that the code you write meets our project standards.
+Before you begin development, there are a few configurations to be done to ensure that the code you write meets our project standards.
 
 ==== Configuring the coding style
 
-This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.adoc[oss-generic coding standards]. IntelliJ's default style is mostly compliant with the mentioned standard, but uses a different import order.
+
+Follow these steps to ensure that your code adheres to the required coding standards:
 
 . Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (Mac).
 . Select `Editor` > `Code Style` > `Java`.
-. Click on the `Imports` tab to set the order.
+. Click on the `Imports` tab to set the import order.
+* Set `Class count to use import with '\*'` to `999`. This prevents the contraction of import statements.
+* Set `Names count to use static import with '*'` to `999`. This prevents the contraction of import statements.
+* Set the following order in `Import Layout`: `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`. Add a `<blank line>` between each `import`.
 
-* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements.
-* For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`. Add a `<blank line>` between each `import`.
-
-Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write the code.
+Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check for style-compliance as you write code.
 
 ==== Setting up CI
 
@@ -154,7 +144,7 @@ This project relies heavily on Travis to perform Continuous Integration (CI). Yo
 After setting up Travis, you can optionally set up coverage reporting for your team fork (see <<UsingCoveralls#, UsingCoveralls.adoc>>).
 
 [NOTE]
-Coverage reporting could be useful for a team repository that hosts the final version, but is not that useful for your personal fork.
+Coverage reporting could be useful for a team repository that hosts the final version, but is not particularly useful for your personal fork.
 
 Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingAppVeyor.adoc>>).
 
@@ -163,10 +153,10 @@ Having both Travis and AppVeyor ensures the application works on both Unix-based
 
 === Getting started with developing
 
-When you are ready to start developing,
+When you are ready to start development:
 
-1. Read <<Design-Architecture>> to get some sense of the overall design.
-2. Look at <<Implementation>> to find out more about the major features, and better understand how you can contribute enhancements to those features.
+1. Read <<Design-Architecture>> to get an understanding of the overall design.
+2. Read <<Implementation>> to find out more about the major features, and how you can contribute enhancements to those features.
 
 == Design
 
