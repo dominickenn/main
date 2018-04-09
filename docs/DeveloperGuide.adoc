@@ -242,15 +242,16 @@ The following sections will provide more details on each of the 4 secondary comp
 This component consists of a `MainWindow` that is made up of numerous parts (e.g.`CommandBox`, `ResultDisplay`, `TaskListPanel`, `StatusBarFooter`, `CalendarPanel`, etc.).
 These parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The class diagram below (refer to <<fig-UIClassDiagram>>) describes the structure of this component.
+The class diagram below (refer to <<fig-UIClassDiagram>>) describes the structure of the `UI` component.
 
 [[fig-UIClassDiagram]]
-.Structure of the UI Component
+.Structure of the UI component
 image::UiClassDiagram.png[width="800"]
 
 *API* : link:{repoURL}/src/main/java/seedu/organizer/ui/Ui.java[`Ui.java`]
 
-The JavaFX UI framework is used to build this component. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`].
+The JavaFX UI framework is used to build this component.
+The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`].
 
 The `UI` component:
 
@@ -261,37 +262,44 @@ The `UI` component:
 [[Design-Logic]]
 === Logic component
 
-The `Logic` component consists of the commands and their respective parsers (if necessary). For commands requiring parsers, they are defined in `.java` files prefixed with _'-Parser'_ that are in the `src/main/java/logic/parser` folder. For example, the parser for `AddCommand` is specified in `AddCommandParser.java`.
+This component consists of the commands and their respective parsers (if necessary).
+Parser classes are defined in `.java` files suffixed with _'Parser'_, and are found in the `src/main/java/logic/parser` folder.
+For example, the parser for `AddCommand` is defined in `AddCommandParser.java`.
 
-The class diagram below gives an overview of the structure of the `Logic` component.
+The class diagram below (refer to <<fig-LogicClassDiagram>>) gives an overview of the structure of the `Logic` component.
 
 [[fig-LogicClassDiagram]]
-.Structure of the Logic Component
+.Structure of the logic component
 image::LogicClassDiagram.png[width="800"]
 
 *API* :
 link:{repoURL}/src/main/java/seedu/organizer/logic/Logic.java[`Logic.java`]
 
-There are two types of commands. Commands that modify the state of the organizer inherit from the `UndoableCommand` class, to be used by the undo/redo mechanism (see <<Undo/Redo feature>> for more information). Commands that do not modify the state of the organizer, and cannot be undone, inherit from the `Command` class instead.
+There are two types of commands.
+Commands that modify the state of the organizer inherit from the `UndoableCommand` class, and are used by the undo/redo mechanism (see <<Undo/Redo feature>> for more information).
+Commands that do not modify the state of the organizer, and cannot be undone, inherit from the `Command` class instead.
 
-The class diagram below gives a more detailed overview of how the command system in the `Logic` component works. It shows the finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>.
+The class diagram below (refer to <<fig-CommandsDiagram>>) gives a more detailed overview of how the command system in the `Logic` component works. It shows the finer details concerning `XYZCommand` and `Command` in <<fig-LogicClassDiagram>>.
 
 [[fig-CommandsDiagram]]
-.Structure of Commands in the Logic Component
+.Structure of commands in the logic component
 image::LogicCommandClassDiagram.png[width="800"]
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below (refer to <<fig-LogicSequenceDiagram>>) is the sequence diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 [[fig-LogicSequenceDiagram]]
-.Interactions Inside the Logic Component for the `delete 1` Command
+.Interactions inside the logic component for the `delete 1` command
 image::DeleteTaskSdForLogic.png[width="800"]
 
-The sequence flow is as follows:
+The sequence flows as such:
 
 .  `Logic` uses the `OrganizerParser` class to parse the user command.
-.  This results in a `Command` object which is executed by the `LogicManager`.
-.  The command execution can affect the `Model` (e.g. adding a task) and/or raise events.
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `UI`.
+.  `Command` object is created.
+.  `Command` object is executed by the `LogicManager`.
+[NOTE]
+The command execution can affect the `Model` (e.g. adding a task) and/or raise events.
+.  `CommandResult` object is created as an encapsulation of the result of the command execution.
+.  `CommandResult` object is passed to the `UI` component.
 
 [[Design-Model]]
 === Model component
