@@ -937,20 +937,21 @@ The most reliable way to run tests is the third method. The first two methods mi
 *Method 1: Using IntelliJ JUnit test runner*
 
 * To run all tests, right-click on the `src/test/java` folder and choose `Run 'All Tests'`.
-* To run a subset of tests, you can right-click on a test package, test class, or a test and choose `Run 'ABC'`.
+* To run a subset of tests, right-click on a test package, test class, or a test and choose `Run 'ABC'`.
 
 *Method 2: Using Gradle*
 
-* Open a console and run the command `gradlew clean allTests` (Mac/Linux: `./gradlew clean allTests`).
+Open a console and run the command `gradlew clean allTests` (Mac/Linux: `./gradlew clean allTests`).
 
 [NOTE]
 See <<UsingGradle#, UsingGradle.adoc>> for more info on how to run tests using Gradle.
 
 *Method 3: Using Gradle (headless)*
 
-Thanks to the https://github.com/TestFX/TestFX[TestFX] library, GUI tests can be run in the _headless_ mode. In the headless mode, GUI tests do not show up on the screen. This means that the developer is free to do something else while the tests are running.
+Open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
 
-To run the tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`).
+[NOTE]
+Thanks to the https://github.com/TestFX/TestFX[TestFX] library, GUI tests can be run in the _headless_ mode. In the headless mode, GUI tests do not show up on the screen. This means that the developer is free to do something else while the tests are running.
 
 === Types of tests
 
