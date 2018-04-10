@@ -14,7 +14,6 @@ import seedu.organizer.logic.UndoRedoStack;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 

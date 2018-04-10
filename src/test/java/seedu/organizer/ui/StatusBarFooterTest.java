@@ -21,7 +21,6 @@ import org.junit.Test;
 import guitests.guihandles.StatusBarFooterHandle;
 import seedu.organizer.commons.events.model.OrganizerChangedEvent;
 import seedu.organizer.model.Organizer;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;

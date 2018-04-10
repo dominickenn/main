@@ -18,7 +18,6 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
 import seedu.organizer.model.UserPrefs;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 import seedu.organizer.storage.UserPrefsStorage;

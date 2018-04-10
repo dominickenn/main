@@ -56,7 +56,6 @@ import seedu.organizer.model.task.predicates.DeadlineContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.MultipleFieldsContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.NameContainsKeywordsPredicate;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;

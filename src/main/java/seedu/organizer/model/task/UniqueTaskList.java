@@ -155,6 +155,7 @@ public class UniqueTaskList implements Iterable<Task> {
     //@@author dominickenn
     /**
      * Sorts all tasks in uniqueTaskList according to priority
+     * Higher priority tasks are given preference
      */
     private void sortTasks() {
         internalList.sort(Task.priorityComparator());

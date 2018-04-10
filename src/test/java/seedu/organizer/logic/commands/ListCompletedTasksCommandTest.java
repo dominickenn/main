@@ -16,7 +16,6 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.task.Status;
 import seedu.organizer.model.task.predicates.TaskByStatusPredicate;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 

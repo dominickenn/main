@@ -27,7 +27,6 @@ import seedu.organizer.model.task.exceptions.DuplicateTaskException;
 import seedu.organizer.model.task.exceptions.TaskNotFoundException;
 import seedu.organizer.model.user.User;
 import seedu.organizer.model.user.UserWithQuestionAnswer;
-import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.testutil.TaskBuilder;
