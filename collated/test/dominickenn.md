@@ -1,5 +1,5 @@
 # dominickenn
-###### /java/seedu/organizer/logic/commands/AddQuestionAnswerCommandTest.java
+###### \java\seedu\organizer\logic\commands\AddQuestionAnswerCommandTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand)
@@ -20,6 +20,8 @@ public class AddQuestionAnswerCommandTest {
         } catch (UserNotFoundException e) {
             e.printStackTrace();
         } catch (CurrentlyLoggedInException e) {
+            e.printStackTrace();
+        } catch (UserPasswordWrongException e) {
             e.printStackTrace();
         }
     }
@@ -73,7 +75,7 @@ public class AddQuestionAnswerCommandTest {
     }
 }
 ```
-###### /java/seedu/organizer/logic/commands/AnswerCommandTest.java
+###### \java\seedu\organizer\logic\commands\AnswerCommandTest.java
 ``` java
 /**
  * Contains unit tests for AnswerCommand.
@@ -104,7 +106,7 @@ public class AnswerCommandTest {
     }
 
     @Test
-    public void execute_existingUser_answer() throws Exception {
+    public void execute_existingUser_success() throws Exception {
         UserWithQuestionAnswer editedUser = new UserWithQuestionAnswer(
                 "admin",
                 "admin",
@@ -118,7 +120,7 @@ public class AnswerCommandTest {
     @Test
     public void execute_nonExistingUser_noSuchUserFound() {
         answerCommand = new AnswerCommand("noSuchUser", "answer");
-        assertCommandFailure(answerCommand);
+        assertCommandFailure(answerCommand, MESSAGE_USER_DOES_NOT_EXIST);
     }
 
     /**
@@ -138,15 +140,19 @@ public class AnswerCommandTest {
      * Asserts that {@code command} is successfully executed, and<br>
      * - Exception is thrown
      */
-    protected void assertCommandFailure(AnswerCommand command) {
+    protected void assertCommandFailure(AnswerCommand command, String expectedMessage) {
         answerCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        exception.expect(AssertionError.class);
-        command.execute();
+        try {
+            command.execute();
+            fail("The expected CommandException was not thrown.");
+        } catch (CommandException e) {
+            Assert.assertEquals(expectedMessage, e.getMessage());
+        }
     }
 }
 
 ```
-###### /java/seedu/organizer/logic/commands/ForgotPasswordCommandTest.java
+###### \java\seedu\organizer\logic\commands\ForgotPasswordCommandTest.java
 ``` java
 
 import static junit.framework.TestCase.assertEquals;
@@ -236,7 +242,103 @@ public class ForgotPasswordCommandTest {
 }
 
 ```
-###### /java/seedu/organizer/logic/commands/LoginCommandTest.java
+###### \java\seedu\organizer\logic\commands\ListCompletedTasksCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for ListCompletedTasksCommand.
+ */
+public class ListCompletedTasksCommandTest {
+
+    private Model model;
+    private Model expectedModel;
+    private ListCompletedTasksCommand listCommand;
+    private TaskByStatusPredicate predicate;
+
+    @Before
+    public void setUp() {
+        Status done = new Status(true);
+        TaskByStatusPredicate predicate = new TaskByStatusPredicate(done);
+
+        model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        expectedModel = new ModelManager(model.getOrganizer(), new UserPrefs());
+        try {
+            model.loginUser(ADMIN_USER);
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            throw new AssertionError("Admin user does not exist");
+        } catch (CurrentlyLoggedInException e) {
+            throw new AssertionError("A user should not be currently logged in");
+        } catch (UserPasswordWrongException e) {
+            e.printStackTrace();
+        }
+
+        listCommand = new ListCompletedTasksCommand();
+        listCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        expectedModel.updateFilteredTaskList(predicate);
+    }
+
+    @Test
+    public void execute_listIsNotFiltered_showsSameList() {
+        assertCommandSuccess(listCommand, model, ListCompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void execute_listIsFiltered_showsCompletedTasks() {
+        showTaskAtIndex(model, INDEX_FIRST_TASK);
+        assertCommandSuccess(listCommand, model, ListCompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+}
+
+```
+###### \java\seedu\organizer\logic\commands\ListUncompletedTasksCommandTest.java
+``` java
+/**
+ * Contains integration tests (interaction with the Model) and unit tests for ListUncompletedTasksCommand.
+ */
+public class ListUncompletedTasksCommandTest {
+
+    private Model model;
+    private Model expectedModel;
+    private ListUncompletedTasksCommand listCommand;
+    private TaskByStatusPredicate predicate;
+
+    @Before
+    public void setUp() {
+        Status notDone = new Status(false);
+        TaskByStatusPredicate predicate = new TaskByStatusPredicate(notDone);
+
+        model = new ModelManager(getTypicalOrganizer(), new UserPrefs());
+        expectedModel = new ModelManager(model.getOrganizer(), new UserPrefs());
+        try {
+            model.loginUser(ADMIN_USER);
+            expectedModel.loginUser(ADMIN_USER);
+        } catch (UserNotFoundException e) {
+            throw new AssertionError("Admin user does not exist");
+        } catch (CurrentlyLoggedInException e) {
+            throw new AssertionError("A user should not be currently logged in");
+        } catch (UserPasswordWrongException e) {
+            e.printStackTrace();
+        }
+
+        listCommand = new ListUncompletedTasksCommand();
+        listCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        expectedModel.updateFilteredTaskList(predicate);
+    }
+
+    @Test
+    public void execute_listIsNotFiltered_showsSameList() {
+        assertCommandSuccess(listCommand, model, ListUncompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void execute_listIsFiltered_showsUncompletedTasks() {
+        showTaskAtIndex(model, INDEX_FIRST_TASK);
+        assertCommandSuccess(listCommand, model, ListUncompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+}
+
+```
+###### \java\seedu\organizer\logic\commands\LoginCommandTest.java
 ``` java
 public class LoginCommandTest {
 
@@ -271,9 +373,20 @@ public class LoginCommandTest {
     }
 
     @Test
+    public void execute_wrongPassword_throwsCommandException() throws Exception {
+        ModelStub modelStub = new ModelStubThrowingWrongPasswordException();
+        User invalidUser = new User("admin", "wrongPassword");
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(LoginCommand.MESSAGE_WRONG_PASSWORD);
+
+        getLoginCommandForUser(invalidUser, modelStub).execute();
+    }
+
+    @Test
     public void equals() {
         User alice = new User("alice", "alice123");
-        User bob = new User("bob", "bob123");
+        User bob = new User("bobby", "bobby123");
         LoginCommand loginAliceCommand = new LoginCommand(alice);
         LoginCommand loginBobCommand = new LoginCommand(bob);
 
@@ -313,7 +426,8 @@ public class LoginCommandTest {
         }
 
         @Override
-        public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
+        public void loginUser(User user)
+                throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
             fail("This method should not be called");
         }
 
@@ -398,6 +512,21 @@ public class LoginCommandTest {
     }
 
     /**
+     * A Model stub that always throw a UserPasswordWrongException when trying to login.
+     */
+    private class ModelStubThrowingWrongPasswordException extends ModelStub {
+        @Override
+        public void loginUser(User user) throws UserPasswordWrongException {
+            throw new UserPasswordWrongException();
+        }
+
+        @Override
+        public ReadOnlyOrganizer getOrganizer() {
+            return new Organizer();
+        }
+    }
+
+    /**
      * A Model stub that always accept login request.
      */
     private class ModelStubLoginAccepted extends ModelStub {
@@ -416,7 +545,7 @@ public class LoginCommandTest {
     }
 }
 ```
-###### /java/seedu/organizer/logic/commands/LogoutCommandTest.java
+###### \java\seedu\organizer\logic\commands\LogoutCommandTest.java
 ``` java
 public class LogoutCommandTest {
 
@@ -443,7 +572,7 @@ public class LogoutCommandTest {
     }
 }
 ```
-###### /java/seedu/organizer/logic/commands/SignUpCommandIntegrationTest.java
+###### \java\seedu\organizer\logic\commands\SignUpCommandIntegrationTest.java
 ``` java
 /**
  * Contains integration tests (interaction with the Model) for {@code SignUpCommand}.
@@ -485,7 +614,7 @@ public class SignUpCommandIntegrationTest {
 }
 
 ```
-###### /java/seedu/organizer/logic/commands/SignUpCommandTest.java
+###### \java\seedu\organizer\logic\commands\SignUpCommandTest.java
 ``` java
 public class SignUpCommandTest {
 
@@ -523,7 +652,7 @@ public class SignUpCommandTest {
     @Test
     public void equals() {
         User alice = new User("alice", "alice123");
-        User bob = new User("bob", "bob123");
+        User bob = new User("bobby", "bobby123");
         SignUpCommand signUpAliceCommand = new SignUpCommand(alice);
         SignUpCommand signUpBobCommand = new SignUpCommand(bob);
 
@@ -667,7 +796,7 @@ public class SignUpCommandTest {
 
 }
 ```
-###### /java/seedu/organizer/logic/parser/AddCommandParserTest.java
+###### \java\seedu\organizer\logic\parser\AddCommandParserTest.java
 ``` java
         // no priority
         Task expectedNoPriorityTask = new TaskBuilder().withName(VALID_NAME_EXAM)
@@ -676,7 +805,7 @@ public class SignUpCommandTest {
         assertParseSuccess(parser, NAME_DESC_EXAM + DEADLINE_DESC_EXAM + DESCRIPTION_DESC_EXAM + TAG_DESC_HUSBAND,
                 new AddCommand(expectedNoPriorityTask));
 ```
-###### /java/seedu/organizer/logic/parser/AnswerCommandParserTest.java
+###### \java\seedu\organizer\logic\parser\AnswerCommandParserTest.java
 ``` java
 public class AnswerCommandParserTest {
     private AnswerCommandParser parser = new AnswerCommandParser();
@@ -703,7 +832,7 @@ public class AnswerCommandParserTest {
     }
 }
 ```
-###### /java/seedu/organizer/logic/parser/ForgotPasswordCommandParserTest.java
+###### \java\seedu\organizer\logic\parser\ForgotPasswordCommandParserTest.java
 ``` java
 public class ForgotPasswordCommandParserTest {
     private ForgotPasswordCommandParser parser = new ForgotPasswordCommandParser();
@@ -724,16 +853,16 @@ public class ForgotPasswordCommandParserTest {
     }
 }
 ```
-###### /java/seedu/organizer/logic/parser/LoginCommandParserTest.java
+###### \java\seedu\organizer\logic\parser\LoginCommandParserTest.java
 ``` java
 public class LoginCommandParserTest {
     private LoginCommandParser parser = new LoginCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        User expectedUser = new User("bob", "bob");
+        User expectedUser = new User("bobby", "bobby");
 
-        assertParseSuccess(parser, " u/bob p/bob", new LoginCommand(expectedUser));
+        assertParseSuccess(parser, " u/bobby p/bobby", new LoginCommand(expectedUser));
     }
 
     @Test
@@ -741,26 +870,169 @@ public class LoginCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, LoginCommand.MESSAGE_USAGE);
 
         // missing username prefix
-        assertParseFailure(parser, " bob p/b0b", expectedMessage);
+        assertParseFailure(parser, " bobby p/b0bby", expectedMessage);
 
         // missing password prefix
-        assertParseFailure(parser, " u/bob b0b", expectedMessage);
+        assertParseFailure(parser, " u/bobby b0bby", expectedMessage);
 
         // all prefixes missing
-        assertParseFailure(parser, " bob b0b", expectedMessage);
+        assertParseFailure(parser, " bobby b0bby", expectedMessage);
     }
 
     @Test
     public void parse_invalidValue_failure() {
-        // invalid username
-        assertParseFailure(parser, " u/b@b p/bob", User.MESSAGE_USER_CONSTRAINTS);
+        // invalid username : contains special character
+        assertParseFailure(parser, " u/b@bby p/bobby", User.MESSAGE_USERNAME_CONSTRAINTS);
 
-        // invalid password
-        assertParseFailure(parser, " u/bob p/b@b", User.MESSAGE_USER_CONSTRAINTS);
+        // invalid password : contains special character
+        assertParseFailure(parser, " u/bobby p/b@bby", User.MESSAGE_PASSWORD_CONSTRAINTS);
+
+        // invalid username : length < 5
+        assertParseFailure(parser, " u/bobb p/bobby", User.MESSAGE_USERNAME_CONSTRAINTS);
+
+        // invalid password : length < 5
+        assertParseFailure(parser, " u/bobby p/bobb", User.MESSAGE_PASSWORD_CONSTRAINTS);
+
+        // invalid username : blank
+        assertParseFailure(parser, " u/ p/bobby", User.MESSAGE_USERNAME_CONSTRAINTS);
+
+        // invalid password : blank
+        assertParseFailure(parser, " u/bobby p/ ", User.MESSAGE_PASSWORD_CONSTRAINTS);
     }
 }
 ```
-###### /java/seedu/organizer/logic/parser/ParserUtilTest.java
+###### \java\seedu\organizer\logic\parser\OrganizerParserLoggedInTest.java
+``` java
+    @Test
+    public void parseCommand_logout() throws Exception {
+        assertTrue(parser.parseCommand(LogoutCommand.COMMAND_WORD) instanceof LogoutCommand);
+        assertTrue(parser.parseCommand(LogoutCommand.COMMAND_WORD + " 3") instanceof LogoutCommand);
+
+        assertTrue(parser.parseCommand(LogoutCommand.COMMAND_ALIAS) instanceof LogoutCommand);
+        assertTrue(parser.parseCommand(LogoutCommand.COMMAND_ALIAS + " 3") instanceof LogoutCommand);
+    }
+
+    @Test
+    public void parseCommand_addQuestionAnswer() throws Exception {
+        String question = "question";
+        String answer = "answer";
+        AddQuestionAnswerCommand command = (AddQuestionAnswerCommand)
+                parser.parseCommand(
+                        AddQuestionAnswerCommand.COMMAND_WORD + " "
+                                + PREFIX_QUESTION + question + " "
+                                + PREFIX_ANSWER + answer);
+        assertEquals(new AddQuestionAnswerCommand(question, answer), command);
+    }
+```
+###### \java\seedu\organizer\logic\parser\OrganizerParserLoggedInTest.java
+``` java
+    @Test
+    public void parseCommand_listUncompletedTasks() throws Exception {
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_WORD) instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_WORD + " 3") instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_ALIAS) instanceof ListUncompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListUncompletedTasksCommand.COMMAND_ALIAS + " 3") instanceof ListUncompletedTasksCommand);
+    }
+
+    @Test
+    public void parseCommand_listCompletedTasks() throws Exception {
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_WORD) instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_WORD + " 3") instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_ALIAS) instanceof ListCompletedTasksCommand);
+        assertTrue(parser.parseCommand(
+                ListCompletedTasksCommand.COMMAND_ALIAS + " 3") instanceof ListCompletedTasksCommand);
+    }
+```
+###### \java\seedu\organizer\logic\parser\OrganizerParserNotLoggedInTest.java
+``` java
+/**
+ * Performs OrganizerParser tests when no user is logged in
+ */
+public class OrganizerParserNotLoggedInTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private final OrganizerParser parser = new OrganizerParser();
+
+    private Model model = new ModelManager();
+    private User user = ADMIN_USER;
+    private String username = "admin";
+
+    @Test
+    public void parseCommand_signUp() throws Exception {
+        SignUpCommand command = (SignUpCommand) parser.parseCommand(
+                SignUpCommand.COMMAND_WORD + " "
+                        + PREFIX_USERNAME + "admin "
+                        + PREFIX_PASSWORD + "admin");
+        assertEquals(new SignUpCommand(user), command);
+
+        SignUpCommand commandAlias = (SignUpCommand) parser.parseCommand(
+                SignUpCommand.COMMAND_ALIAS + " "
+                        + PREFIX_USERNAME + "admin "
+                        + PREFIX_PASSWORD + "admin");
+        assertEquals(new SignUpCommand(user), commandAlias);
+    }
+
+    @Test
+    public void parseCommand_login() throws Exception {
+        LoginCommand command = (LoginCommand) parser.parseCommand(
+                LoginCommand.COMMAND_WORD + " "
+                        + PREFIX_USERNAME + "admin "
+                        + PREFIX_PASSWORD + "admin");
+        assertEquals(new LoginCommand(user), command);
+
+        LoginCommand commandAlias = (LoginCommand) parser.parseCommand(
+                LoginCommand.COMMAND_ALIAS + " "
+                        + PREFIX_USERNAME + "admin "
+                        + PREFIX_PASSWORD + "admin");
+        assertEquals(new LoginCommand(user), commandAlias);
+    }
+
+    @Test
+    public void parseCommand_forgotPassword() throws Exception {
+        ForgotPasswordCommand command = (ForgotPasswordCommand) parser.parseCommand(
+                ForgotPasswordCommand.COMMAND_WORD + " "
+                        + PREFIX_USERNAME + username);
+        assertEquals(new ForgotPasswordCommand(username), command);
+
+        ForgotPasswordCommand commandAlias = (ForgotPasswordCommand) parser.parseCommand(
+                ForgotPasswordCommand.COMMAND_ALIAS + " "
+                        + PREFIX_USERNAME + username);
+        assertEquals(new ForgotPasswordCommand(username), commandAlias);
+    }
+
+    @Test
+    public void parseCommand_answer() throws Exception {
+        String answer = "answer";
+        AnswerCommand command = (AnswerCommand) parser.parseCommand(
+                AnswerCommand.COMMAND_WORD + " "
+                        + PREFIX_USERNAME + username + " "
+                        + PREFIX_ANSWER + answer);
+        assertEquals(new AnswerCommand(username, answer), command);
+
+        AnswerCommand commandAlias = (AnswerCommand) parser.parseCommand(
+                AnswerCommand.COMMAND_ALIAS + " "
+                        + PREFIX_USERNAME + username + " "
+                        + PREFIX_ANSWER + answer);
+        assertEquals(new AnswerCommand(username, answer), commandAlias);
+    }
+
+    @Test
+    public void parseCommand_exit() throws Exception {
+        assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD) instanceof ExitCommand);
+        assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD + " 3") instanceof ExitCommand);
+    }
+}
+```
+###### \java\seedu\organizer\logic\parser\ParserUtilTest.java
 ``` java
     @Test
     public void parseUsermame_null_throwsNullPointerException() {
@@ -783,19 +1055,16 @@ public class LoginCommandParserTest {
     public void parseUsername_validValueWithoutWhitespace_returnsUsername() throws Exception {
         String expectedUsername = VALID_USERNAME;
         assertEquals(expectedUsername, ParserUtil.parseUsername(VALID_USERNAME));
-        assertEquals(Optional.of(expectedUsername), ParserUtil.parseUsername(Optional.of(VALID_USERNAME)));
     }
 
     @Test
     public void parsePassword_null_throwsNullPointerException() {
         Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parsePassword((String) null));
-        Assert.assertThrows(NullPointerException.class, () -> ParserUtil.parsePassword((Optional<String>) null));
     }
 
     @Test
     public void parsePassword_invalidValue_throwsIllegalValueException() {
         Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePassword(INVALID_PASSWORD));
-        Assert.assertThrows(IllegalValueException.class, () -> ParserUtil.parsePassword(Optional.of(INVALID_PASSWORD)));
     }
 
     @Test
@@ -807,19 +1076,18 @@ public class LoginCommandParserTest {
     public void parsePassword_validValueWithoutWhitespace_returnsPassword() throws Exception {
         String expectedPassword = VALID_PASSWORD;
         assertEquals(expectedPassword, ParserUtil.parsePassword(VALID_PASSWORD));
-        assertEquals(Optional.of(expectedPassword), ParserUtil.parsePassword(Optional.of(VALID_PASSWORD)));
     }
 ```
-###### /java/seedu/organizer/logic/parser/SignUpCommandParserTest.java
+###### \java\seedu\organizer\logic\parser\SignUpCommandParserTest.java
 ``` java
 public class SignUpCommandParserTest {
     private SignUpCommandParser parser = new SignUpCommandParser();
 
     @Test
     public void parse_allFieldsPresent_success() {
-        User expectedUser = new User("bob", "bob");
+        User expectedUser = new User("bobby", "bobby");
 
-        assertParseSuccess(parser, " u/bob p/bob", new SignUpCommand(expectedUser));
+        assertParseSuccess(parser, " u/bobby p/bobby", new SignUpCommand(expectedUser));
     }
 
     @Test
@@ -827,26 +1095,55 @@ public class SignUpCommandParserTest {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, SignUpCommand.MESSAGE_USAGE);
 
         // missing username prefix
-        assertParseFailure(parser, " bob p/b0b", expectedMessage);
+        assertParseFailure(parser, " bobby p/b0bby", expectedMessage);
 
         // missing password prefix
-        assertParseFailure(parser, " u/bob b0b", expectedMessage);
+        assertParseFailure(parser, " u/bobby b0bby", expectedMessage);
 
         // all prefixes missing
-        assertParseFailure(parser, " bob b0b", expectedMessage);
+        assertParseFailure(parser, " bobby b0bby", expectedMessage);
     }
 
     @Test
     public void parse_invalidValue_failure() {
-        // invalid username
-        assertParseFailure(parser, " u/b@b p/bob", User.MESSAGE_USER_CONSTRAINTS);
+        // invalid username : contains special character
+        assertParseFailure(parser, " u/b@bby p/bobby", User.MESSAGE_USERNAME_CONSTRAINTS);
 
-        // invalid password
-        assertParseFailure(parser, " u/bob p/b@b", User.MESSAGE_USER_CONSTRAINTS);
+        // invalid password : contains special character
+        assertParseFailure(parser, " u/bobby p/b@bby", User.MESSAGE_PASSWORD_CONSTRAINTS);
+
+        // invalid username : length < 5
+        assertParseFailure(parser, " u/bobb p/bobby", User.MESSAGE_USERNAME_CONSTRAINTS);
+
+        // invalid password : length < 5
+        assertParseFailure(parser, " u/bobby p/bobb", User.MESSAGE_PASSWORD_CONSTRAINTS);
+
+        // invalid username : blank
+        assertParseFailure(parser, " u/ p/bobby", User.MESSAGE_USERNAME_CONSTRAINTS);
+
+        // invalid password : blank
+        assertParseFailure(parser, " u/bobby p/ ", User.MESSAGE_PASSWORD_CONSTRAINTS);
     }
 }
 ```
-###### /java/seedu/organizer/model/OrganizerTest.java
+###### \java\seedu\organizer\logic\UndoRedoStackTest.java
+``` java
+    @Test
+    public void push_nonUndoableLogoutCommand_redoStackClearedAndCommandNotAdded() {
+        LogoutCommand logoutCommand = new LogoutCommand();
+
+        // non-empty redoStack
+        undoRedoStack = prepareStack(Collections.singletonList(dummyUndoableCommandOne),
+                Arrays.asList(dummyUndoableCommandOne, dummyUndoableCommandTwo));
+        undoRedoStack.push(logoutCommand);
+        assertStackStatus(Collections.emptyList(), Collections.emptyList());
+
+        // empty redoStack
+        undoRedoStack.push(logoutCommand);
+        assertStackStatus(Collections.emptyList(), Collections.emptyList());
+    }
+```
+###### \java\seedu\organizer\model\OrganizerTest.java
 ``` java
     @Test
     public void addTask_alwaysSorted() throws DuplicateTaskException {
@@ -868,7 +1165,7 @@ public class SignUpCommandParserTest {
         assertEquals(expectedOrganizer, editExam);
     }
 ```
-###### /java/seedu/organizer/model/task/DateAddedTest.java
+###### \java\seedu\organizer\model\task\DateAddedTest.java
 ``` java
 public class DateAddedTest {
 
@@ -880,40 +1177,40 @@ public class DateAddedTest {
     @Test
     public void constructor_invalidDateAdded_throwsIllegalArgumentException() {
         String invalidDateAdded = "2018";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Deadline(invalidDateAdded));
+        Assert.assertThrows(IllegalArgumentException.class, () -> new DateAdded(invalidDateAdded));
     }
 
     @Test
     public void isValidDateAdded() {
-        // null deadline
-        Assert.assertThrows(NullPointerException.class, () -> Deadline.isValidDeadline(null));
+        // null DateAdded
+        Assert.assertThrows(NullPointerException.class, () -> DateAdded.isValidDateAdded(null));
 
         // blank dateadded
-        assertTrue(Deadline.isValidDeadline("")); // empty string
-        assertFalse(Deadline.isValidDeadline(" ")); // spaces only
+        assertFalse(DateAdded.isValidDateAdded("")); // empty string
+        assertFalse(DateAdded.isValidDateAdded(" ")); // spaces only
 
         // missing parts
-        assertFalse(Deadline.isValidDeadline("2018-02")); // missing date
-        assertFalse(Deadline.isValidDeadline("12-02")); // missing year
-        assertFalse(Deadline.isValidDeadline("2019")); // missing month and date
-        assertFalse(Deadline.isValidDeadline("12")); // missing year and date
+        assertFalse(DateAdded.isValidDateAdded("2018-02")); // missing date
+        assertFalse(DateAdded.isValidDateAdded("12-02")); // missing year
+        assertFalse(DateAdded.isValidDateAdded("2019")); // missing month and date
+        assertFalse(DateAdded.isValidDateAdded("12")); // missing year and date
 
         // invalid parts
-        assertFalse(Deadline.isValidDeadline("17-12-12")); // invalid year
-        assertFalse(Deadline.isValidDeadline("2019-20-09")); // invalid month
-        assertFalse(Deadline.isValidDeadline("2016-02-40")); // invalid date
-        assertFalse(Deadline.isValidDeadline("2017-2-09")); // single numbered months should be declared '0x'
-        assertFalse(Deadline.isValidDeadline("2017-02-9")); // single numbered dates should be declared '0x'
-        assertFalse(Deadline.isValidDeadline("12-30-2017")); // wrong format of MM-DD-YYYY
-        assertFalse(Deadline.isValidDeadline("30-12-2017")); // wrong format of DD-MM-YYYY
-        assertFalse(Deadline.isValidDeadline(" 2017-08-09")); // leading space
-        assertFalse(Deadline.isValidDeadline("2017-08-09 ")); // trailing space
-        assertFalse(Deadline.isValidDeadline("2017/09/09")); // wrong symbol
+        assertFalse(DateAdded.isValidDateAdded("17-12-12")); // invalid year
+        assertFalse(DateAdded.isValidDateAdded("2019-20-09")); // invalid month
+        assertFalse(DateAdded.isValidDateAdded("2016-02-40")); // invalid date
+        assertFalse(DateAdded.isValidDateAdded("2017-2-09")); // single numbered months should be declared '0x'
+        assertFalse(DateAdded.isValidDateAdded("2017-02-9")); // single numbered dates should be declared '0x'
+        assertFalse(DateAdded.isValidDateAdded("12-30-2017")); // wrong format of MM-DD-YYYY
+        assertFalse(DateAdded.isValidDateAdded("30-12-2017")); // wrong format of DD-MM-YYYY
+        assertFalse(DateAdded.isValidDateAdded(" 2017-08-09")); // leading space
+        assertFalse(DateAdded.isValidDateAdded("2017-08-09 ")); // trailing space
+        assertFalse(DateAdded.isValidDateAdded("2017/09/09")); // wrong symbol
 
         // valid dateadded
-        assertTrue(Deadline.isValidDeadline("2018-03-11"));
-        assertTrue(Deadline.isValidDeadline("2017-02-31"));  // dates that have already passed
-        assertTrue(Deadline.isValidDeadline("3000-03-23"));   // dates in the far future
+        assertTrue(DateAdded.isValidDateAdded("2018-03-11"));
+        assertTrue(DateAdded.isValidDateAdded("2017-02-31"));  // dates that have already passed
+        assertTrue(DateAdded.isValidDateAdded("3000-03-23"));   // dates in the far future
     }
 
     @Test
@@ -924,14 +1221,56 @@ public class DateAddedTest {
     }
 }
 ```
-###### /java/seedu/organizer/model/task/TaskByUserPredicateTest.java
+###### \java\seedu\organizer\model\task\predicates\TaskByStatusPredicateTest.java
+``` java
+public class TaskByStatusPredicateTest {
+
+    @Test
+    public void equals() {
+        Status firstPredicate = new Status(true);
+        Status secondPredicate = new Status(false);
+
+        TaskByStatusPredicate firstStatusPredicate = new TaskByStatusPredicate(firstPredicate);
+        TaskByStatusPredicate secondStatusPredicate = new TaskByStatusPredicate(secondPredicate);
+
+        // same object -> returns true
+        assertTrue(firstStatusPredicate.equals(firstStatusPredicate));
+
+        // same values -> returns true
+        TaskByStatusPredicate firstStatusPredicateCopy = new TaskByStatusPredicate(firstPredicate);
+        assertTrue(firstStatusPredicate.equals(firstStatusPredicateCopy));
+
+        // different types -> returns false
+        assertFalse(firstStatusPredicate.equals(1));
+
+        // null -> returns false
+        assertFalse(firstStatusPredicate.equals(null));
+
+        // different status -> returns false
+        assertFalse(firstStatusPredicate.equals(secondStatusPredicate));
+    }
+
+    @Test
+    public void test_taskContainsStatus_returnsTrue() {
+        TaskByStatusPredicate predicate = new TaskByStatusPredicate(new Status(false));
+        assertTrue(predicate.test(new TaskBuilder().build()));
+    }
+
+    @Test
+    public void test_taskDoesNotContainStatus_returnsFalse() {
+        TaskByStatusPredicate predicate = new TaskByStatusPredicate(new Status(true));
+        assertFalse(predicate.test(new TaskBuilder().build()));
+    }
+}
+```
+###### \java\seedu\organizer\model\task\predicates\TaskByUserPredicateTest.java
 ``` java
 public class TaskByUserPredicateTest {
 
     @Test
     public void equals() {
-        User firstPredicate = new User("bob", "bob");
-        User secondPredicate = new User("mary", "mary");
+        User firstPredicate = new User("bobby", "bobby");
+        User secondPredicate = new User("mary123", "mary123");
 
         TaskByUserPredicate firstUserPredicate = new TaskByUserPredicate(firstPredicate);
         TaskByUserPredicate secondUserPredicate = new TaskByUserPredicate(secondPredicate);
@@ -949,7 +1288,7 @@ public class TaskByUserPredicateTest {
         // null -> returns false
         assertFalse(firstUserPredicate.equals(null));
 
-        // different task -> returns false
+        // different user -> returns false
         assertFalse(firstUserPredicate.equals(secondUserPredicate));
     }
 
@@ -967,12 +1306,12 @@ public class TaskByUserPredicateTest {
 }
 
 ```
-###### /java/seedu/organizer/model/task/TaskCreatedContainsDateAdded.java
+###### \java\seedu\organizer\model\task\TaskCreatedContainsDateAddedTest.java
 ``` java
 /**\
  * Tests whether a DateAdded is automatically created upon Task creation
  */
-public class TaskCreatedContainsDateAdded {
+public class TaskCreatedContainsDateAddedTest {
 
     @Test
     public void createTaskContainsDateAdded() {
@@ -984,7 +1323,7 @@ public class TaskCreatedContainsDateAdded {
 
 }
 ```
-###### /java/seedu/organizer/model/UniqueTaskListTest.java
+###### \java\seedu\organizer\model\UniqueTaskListTest.java
 ``` java
     @Test
     public void priorityAutoUpdateTest() throws DuplicateTaskException {
@@ -1029,7 +1368,7 @@ public class TaskCreatedContainsDateAdded {
         assertEquals(uniqueTaskList, expectedUniqueTaskList);
     }
 ```
-###### /java/seedu/organizer/model/UniqueUserListTest.java
+###### \java\seedu\organizer\model\UniqueUserListTest.java
 ``` java
 public class UniqueUserListTest {
     @Rule
@@ -1043,7 +1382,7 @@ public class UniqueUserListTest {
     }
 }
 ```
-###### /java/seedu/organizer/model/user/UserTest.java
+###### \java\seedu\organizer\model\user\UserTest.java
 ``` java
 public class UserTest {
 
@@ -1067,41 +1406,40 @@ public class UserTest {
     }
 
     @Test
-    public void isValidUsername() {
+    public void isValidUsername_null_throwsNullPointerException() {
         Assert.assertThrows(NullPointerException.class, () -> User.isValidUsername(null));
     }
 
     @Test
-    public void isValidPassword() {
+    public void isValidPassword_null_throwsNullPointerException() {
         Assert.assertThrows(NullPointerException.class, () -> User.isValidPassword(null));
+    }
+
+    @Test
+    public void usernameMatches_null_throwsNullPointerException() {
+        User user = new User("match1", "match1");
+        Assert.assertThrows(NullPointerException.class, () -> User.usernameMatches(user, null));
+        Assert.assertThrows(NullPointerException.class, () -> User.usernameMatches(null, user));
+        Assert.assertThrows(NullPointerException.class, () -> User.usernameMatches(null, null));
+    }
+
+    @Test
+    public void passwordMatches_null_throwsNullPointerException() {
+        User user = new User("match1", "match1");
+        Assert.assertThrows(NullPointerException.class, () -> User.passwordMatches(user, null));
+        Assert.assertThrows(NullPointerException.class, () -> User.passwordMatches(null, user));
+        Assert.assertThrows(NullPointerException.class, () -> User.passwordMatches(null, null));
     }
 
 }
 ```
-###### /java/seedu/organizer/model/user/UserWithQuestionAnswerTest.java
+###### \java\seedu\organizer\model\user\UserWithQuestionAnswerTest.java
 ``` java
 public class UserWithQuestionAnswerTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
-        Assert.assertThrows(NullPointerException.class, () -> new UserWithQuestionAnswer(null, null));
         Assert.assertThrows(NullPointerException.class, () -> new UserWithQuestionAnswer(null, null, null, null));
-    }
-
-    @Test
-    public void constructor_invalidUsername_throwsIllegalArgumentException() {
-        String invalidUsername = "";
-        String validPassword = "validPass";
-        Assert.assertThrows(IllegalArgumentException.class, () ->
-                new UserWithQuestionAnswer(invalidUsername, validPassword));
-    }
-
-    @Test
-    public void constructor_invalidPassword_throwsIllegalArgumentException() {
-        String validUsername = "validUsername";
-        String invalidPassword = "";
-        Assert.assertThrows(IllegalArgumentException.class, () ->
-                new UserWithQuestionAnswer(validUsername, invalidPassword));
     }
 
     @Test
@@ -1148,17 +1486,19 @@ public class UserWithQuestionAnswerTest {
 }
 
 ```
-###### /java/seedu/organizer/storage/XmlAdaptedUserTest.java
+###### \java\seedu\organizer\storage\XmlAdaptedUserTest.java
 ``` java
 public class XmlAdaptedUserTest {
 
     public static final String USERNAME = "Jennifer";
     public static final String PASSWORD = "Jennifer123";
+    public static final String QUESTION = "Question";
+    public static final String ANSWER = "Answer";
 
     public static final String OTHER_USERNAME = "bobby";
 
     @Test
-    public void equal_defaultconstructor() {
+    public void equal_defaultConstructor() {
         XmlAdaptedUser user = new XmlAdaptedUser(USERNAME, PASSWORD);
         XmlAdaptedUser otherUser = new XmlAdaptedUser(USERNAME, PASSWORD);
         assertEquals(user, otherUser);
@@ -1169,9 +1509,17 @@ public class XmlAdaptedUserTest {
     }
 
     @Test
-    public void equal_userconstructor() {
+    public void equal_userConstructor() {
         XmlAdaptedUser user = new XmlAdaptedUser(USERNAME, PASSWORD);
         XmlAdaptedUser otherUser = new XmlAdaptedUser(USERNAME, PASSWORD);
+        assertEquals(user, otherUser);
+        assertEquals(user, user);
+    }
+
+    @Test
+    public void equal_userWithQuestionAnswerConstructor() {
+        XmlAdaptedUser user = new XmlAdaptedUser(USERNAME, PASSWORD, QUESTION, ANSWER);
+        XmlAdaptedUser otherUser = new XmlAdaptedUser(USERNAME, PASSWORD, QUESTION, ANSWER);
         assertEquals(user, otherUser);
         assertEquals(user, user);
     }
@@ -1189,20 +1537,43 @@ public class XmlAdaptedUserTest {
                 IllegalValueException.class, () -> new XmlAdaptedUser("validusername", "").toUserModelType()
         );
     }
+
+    @Test
+    public void toModel_invalidQuestion() {
+        Assert.assertThrows(
+                IllegalValueException.class, () -> new XmlAdaptedUser(
+                        "validusername",
+                        "validpassword",
+                        "",
+                        "valid answer").toUserQuestionAnswerModelType()
+        );
+    }
+
+    @Test
+    public void toModel_invalidAnswer() {
+        Assert.assertThrows(
+                IllegalValueException.class, () -> new XmlAdaptedUser(
+                        "validusername",
+                        "validpassword",
+                        "validquestion",
+                        "").toUserQuestionAnswerModelType()
+        );
+    }
 }
 ```
-###### /java/systemtests/ClearCommandSystemTest.java
+###### \java\systemtests\ClearCommandSystemTest.java
 ``` java
     */
 /**
- * Executes {@code command} and verifies that the command box displays an empty string, the result display
- * box displays {@code ClearCommand#MESSAGE_SUCCESS} and the model related components equal to an empty model.
- * These verifications are done by
- * {@code OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
- * Also verifies that the command box has the default style class and the status bar's sync status changes.
- * Also verifies that the {@code expectedResultMessage} is displayed
- * @see OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
- *//*
+     * Executes {@code command} and verifies that the command box displays an empty string, the result display
+     * box displays {@code ClearCommand#MESSAGE_SUCCESS} and the model related components equal to an empty model.
+     * These verifications are done by
+     * {@code OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)}.<br>
+     * Also verifies that the command box has the default style class and the status bar's sync status changes.
+     * Also verifies that the {@code expectedResultMessage} is displayed
+     * @see OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
+     *//*
+
     public void assertCommandSuccess(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
         expectedModel.deleteCurrentUserTasks();

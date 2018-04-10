@@ -20,7 +20,7 @@ import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 
-//@@author dominicekenn
+//@@author dominickenn
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCompletedTasksCommand.
  */

@@ -1,5 +1,18 @@
 # dominickenn
-###### /java/seedu/organizer/logic/commands/AddQuestionAnswerCommand.java
+###### \java\seedu\organizer\logic\CommandHistory.java
+``` java
+    /**
+     * Clears the command history
+     * Used in logout command so that users cannot access each other's history
+     * Used in login command so that any commands entered before login cannot be accessed
+     */
+    public void clear() {
+        userInputHistory.clear();
+    }
+    //@@authop
+}
+```
+###### \java\seedu\organizer\logic\commands\AddQuestionAnswerCommand.java
 ``` java
 /**
  * Adds a question-answer to the currently logged in user.
@@ -8,8 +21,8 @@ public class AddQuestionAnswerCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "addqa";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a question and answer to the current user."
-            + "Existing values will be overwritten by the input values.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a question answer set to the current user."
+            + "The existing question answer set will be overwritten by the input values.\n"
             + "Parameters: "
             + PREFIX_QUESTION + "QUESTION "
             + PREFIX_ANSWER + "ANSWER\n"
@@ -17,7 +30,7 @@ public class AddQuestionAnswerCommand extends UndoableCommand {
             + PREFIX_QUESTION + "What cats do you like? "
             + PREFIX_ANSWER + "All cats ";
 
-    public static final String MESSAGE_ADD_QUESTION_ANSWER_SUCCESS = "Added question and answer to user: %1$s";
+    public static final String MESSAGE_ADD_QUESTION_ANSWER_SUCCESS = "Added question answer set to user: %1$s";
 
     private User userToEdit;
     private UserWithQuestionAnswer editedUser;
@@ -46,12 +59,11 @@ public class AddQuestionAnswerCommand extends UndoableCommand {
      */
     private UserWithQuestionAnswer createEditedUser() {
         requireNonNull(userToEdit);
-        UserWithQuestionAnswer user = new UserWithQuestionAnswer(
+        return new UserWithQuestionAnswer(
                 userToEdit.username,
                 userToEdit.password,
                 question,
                 answer);
-        return user;
     }
 
     @Override
@@ -76,7 +88,7 @@ public class AddQuestionAnswerCommand extends UndoableCommand {
 }
 
 ```
-###### /java/seedu/organizer/logic/commands/AnswerCommand.java
+###### \java\seedu\organizer\logic\commands\AnswerCommand.java
 ``` java
 /**
  * Answer a question correctly to retrieve a user's password.
@@ -97,6 +109,7 @@ public class AnswerCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Answer correct!\nPassword: %1$s";
     public static final String MESSAGE_NO_QUESTION = "User %1$s does not have a question";
     public static final String MESSAGE_WRONG_ANSWER = "Answer is incorrect";
+    public static final String MESSAGE_USER_DOES_NOT_EXIST = "User does not exist";
 
     private String username;
     private String answer;
@@ -108,12 +121,12 @@ public class AnswerCommand extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    public CommandResult execute() throws CommandException {
         User user;
         try {
             user = model.getUserByUsername(username);
         } catch (UserNotFoundException e) {
-            throw new AssertionError("User does not exist");
+            throw new CommandException(MESSAGE_USER_DOES_NOT_EXIST);
         }
         if (user instanceof UserWithQuestionAnswer) {
             String answer = ((UserWithQuestionAnswer) user).answer;
@@ -145,7 +158,7 @@ public class AnswerCommand extends Command {
     }
 }
 ```
-###### /java/seedu/organizer/logic/commands/ForgotPasswordCommand.java
+###### \java\seedu\organizer\logic\commands\ForgotPasswordCommand.java
 ``` java
 /**
  * Finds a user in PrioriTask with the given username.
@@ -195,7 +208,55 @@ public class ForgotPasswordCommand extends Command {
 }
 
 ```
-###### /java/seedu/organizer/logic/commands/LoginCommand.java
+###### \java\seedu\organizer\logic\commands\ListCompletedTasksCommand.java
+``` java
+
+import seedu.organizer.model.task.Status;
+import seedu.organizer.model.task.predicates.TaskByStatusPredicate;
+
+/**
+ * Lists all completed tasks in the organizer to the user.
+ */
+public class ListCompletedTasksCommand extends Command {
+
+    public static final String COMMAND_WORD = "completed";
+    public static final String COMMAND_ALIAS = "com";
+
+    public static final String MESSAGE_SUCCESS = "Listed all completed tasks";
+
+
+    @Override
+    public CommandResult execute() {
+        Status notDone = new Status(true);
+        TaskByStatusPredicate uncompletedStatusPredicate = new TaskByStatusPredicate(notDone);
+        model.updateFilteredTaskList(uncompletedStatusPredicate);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+```
+###### \java\seedu\organizer\logic\commands\ListUncompletedTasksCommand.java
+``` java
+/**
+ * Lists all uncompleted tasks in the organizer to the user.
+ */
+public class ListUncompletedTasksCommand extends Command {
+
+    public static final String COMMAND_WORD = "uncompleted";
+    public static final String COMMAND_ALIAS = "uncom";
+
+    public static final String MESSAGE_SUCCESS = "Listed all uncompleted tasks";
+
+
+    @Override
+    public CommandResult execute() {
+        Status notDone = new Status(false);
+        TaskByStatusPredicate uncompletedStatusPredicate = new TaskByStatusPredicate(notDone);
+        model.updateFilteredTaskList(uncompletedStatusPredicate);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+```
+###### \java\seedu\organizer\logic\commands\LoginCommand.java
 ``` java
 /**
  * Adds a user to the organizer.
@@ -216,6 +277,7 @@ public class LoginCommand extends Command {
     public static final String MESSAGE_SUCCESS = "User log in successful : %1$s";
     public static final String MESSAGE_USER_NOT_FOUND = "This user does not exist";
     public static final String MESSAGE_CURRENTLY_LOGGED_IN = "A user is currently loggd in";
+    public static final String MESSAGE_WRONG_PASSWORD = "Wrong password";
 
     private final User toLogin;
 
@@ -232,13 +294,15 @@ public class LoginCommand extends Command {
         requireNonNull(model);
         try {
             model.loginUser(toLogin);
+            history.clear();
             return new CommandResult(String.format(MESSAGE_SUCCESS, toLogin));
         } catch (UserNotFoundException unf) {
             throw new CommandException(MESSAGE_USER_NOT_FOUND);
         } catch (CurrentlyLoggedInException cli) {
             throw new CommandException(MESSAGE_CURRENTLY_LOGGED_IN);
+        } catch (UserPasswordWrongException e) {
+            throw new CommandException(MESSAGE_WRONG_PASSWORD);
         }
-
     }
 
     @Override
@@ -250,7 +314,7 @@ public class LoginCommand extends Command {
 }
 
 ```
-###### /java/seedu/organizer/logic/commands/LogoutCommand.java
+###### \java\seedu\organizer\logic\commands\LogoutCommand.java
 ``` java
 /**
  * Logout from organizer.
@@ -266,17 +330,18 @@ public class LogoutCommand extends Command {
     @Override
     public CommandResult execute() {
         model.logout();
+        history.clear();
         return new CommandResult(MESSAGE_LOGOUT_ACKNOWLEDGEMENT);
     }
 
 }
 ```
-###### /java/seedu/organizer/logic/commands/SignUpCommand.java
+###### \java\seedu\organizer\logic\commands\SignUpCommand.java
 ``` java
 /**
  * Adds a user to the organizer.
  */
-public class SignUpCommand extends UndoableCommand {
+public class SignUpCommand extends Command {
 
     public static final String COMMAND_WORD = "signup";
     public static final String COMMAND_ALIAS = "su";
@@ -303,7 +368,7 @@ public class SignUpCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult execute() throws CommandException {
         requireNonNull(model);
         try {
             model.addUser(toAdd);
@@ -322,7 +387,7 @@ public class SignUpCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/organizer/logic/parser/AddCommandParser.java
+###### \java\seedu\organizer\logic\parser\AddCommandParser.java
 ``` java
             Priority priority;
             if (arePrefixesPresent(argMultimap, PREFIX_PRIORITY)) {
@@ -332,7 +397,7 @@ public class SignUpCommand extends UndoableCommand {
             }
             Deadline deadline = ParserUtil.parseDeadline(argMultimap.getValue(PREFIX_DEADLINE)).get();
 ```
-###### /java/seedu/organizer/logic/parser/AddQuestionAnswerCommandParser.java
+###### \java\seedu\organizer\logic\parser\AddQuestionAnswerCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new AddQuestionAnswerCommand object
@@ -372,7 +437,7 @@ public class AddQuestionAnswerCommandParser implements Parser<AddQuestionAnswerC
 }
 
 ```
-###### /java/seedu/organizer/logic/parser/AnswerCommandParser.java
+###### \java\seedu\organizer\logic\parser\AnswerCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new AnswerCommand object
@@ -411,7 +476,7 @@ public class AnswerCommandParser implements Parser<AnswerCommand> {
 }
 
 ```
-###### /java/seedu/organizer/logic/parser/ForgotPasswordCommandParser.java
+###### \java\seedu\organizer\logic\parser\ForgotPasswordCommandParser.java
 ``` java
 
 import static seedu.organizer.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
@@ -424,7 +489,7 @@ import seedu.organizer.logic.commands.ForgotPasswordCommand;
 import seedu.organizer.logic.parser.exceptions.ParseException;
 
 ```
-###### /java/seedu/organizer/logic/parser/ForgotPasswordCommandParser.java
+###### \java\seedu\organizer\logic\parser\ForgotPasswordCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new ForgotPasswordCommand object
@@ -461,7 +526,7 @@ public class ForgotPasswordCommandParser implements Parser<ForgotPasswordCommand
     }
 }
 ```
-###### /java/seedu/organizer/logic/parser/LoginCommandParser.java
+###### \java\seedu\organizer\logic\parser\LoginCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new LoginCommand object
@@ -504,7 +569,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
 
 }
 ```
-###### /java/seedu/organizer/logic/parser/ParserUtil.java
+###### \java\seedu\organizer\logic\parser\ParserUtil.java
 ``` java
     /**
      * Parses a {@code String username} into a {@code String}.
@@ -516,7 +581,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
         requireNonNull(name);
         String trimmedUsername = name.trim();
         if (!User.isValidUsername(trimmedUsername)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
         }
         return name;
     }
@@ -540,7 +605,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
         requireNonNull(password);
         String trimmedPassword = password.trim();
         if (!User.isValidPassword(trimmedPassword)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
         }
         return password;
     }
@@ -564,7 +629,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
         requireNonNull(question);
         String trimmedQuestion = question.trim();
         if (!UserWithQuestionAnswer.isValidQuestion(trimmedQuestion)) {
-            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
+            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_CONSTRAINTS);
         }
         return question;
     }
@@ -588,7 +653,7 @@ public class LoginCommandParser implements Parser<LoginCommand> {
         requireNonNull(answer);
         String trimmedAnswer = answer.trim();
         if (!UserWithQuestionAnswer.isValidAnswer(trimmedAnswer)) {
-            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
+            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_ANSWER_CONSTRAINTS);
         }
         return answer;
     }
@@ -601,8 +666,32 @@ public class LoginCommandParser implements Parser<LoginCommand> {
         requireNonNull(answer);
         return answer.isPresent() ? Optional.of(parseAnswer(answer.get())) : Optional.empty();
     }
+
+    /**
+     * Parses a {@code String priority} into a {@code Priority}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code priority} is invalid.
+     */
+    public static Priority parsePriority(String priority) throws IllegalValueException {
+        requireNonNull(priority);
+        String trimmedPriority = priority.trim();
+        if (!Priority.isValidPriority(trimmedPriority)) {
+            throw new IllegalValueException(Priority.MESSAGE_PRIORITY_CONSTRAINTS);
+        }
+        return new Priority(trimmedPriority);
+    }
+
+    /**
+     * Parses a {@code Optional<String> priority} into an {@code Optional<Priority>} if {@code priority} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Priority> parsePriority(Optional<String> priority) throws IllegalValueException {
+        requireNonNull(priority);
+        return priority.isPresent() ? Optional.of(parsePriority(priority.get())) : Optional.empty();
+    }
 ```
-###### /java/seedu/organizer/logic/parser/SignUpCommandParser.java
+###### \java\seedu\organizer\logic\parser\SignUpCommandParser.java
 ``` java
 /**
  * Parses input arguments and creates a new SignUpCommand object
@@ -645,7 +734,23 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
 
 }
 ```
-###### /java/seedu/organizer/model/ModelManager.java
+###### \java\seedu\organizer\logic\UndoRedoStack.java
+``` java
+            if (command instanceof LogoutCommand) {
+                this.reset();
+            }
+```
+###### \java\seedu\organizer\logic\UndoRedoStack.java
+``` java
+    /**
+     * Resets undoRedoStack
+     */
+    public void reset() {
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();
+    }
+```
+###### \java\seedu\organizer\model\ModelManager.java
 ``` java
 
     public static User getCurrentlyLoggedInUser() {
@@ -659,7 +764,8 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
     }
 
     @Override
-    public synchronized void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
+    public synchronized void loginUser(User user)
+            throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
         organizer.loginUser(user);
         currentlyLoggedInUser = organizer.getCurrentLoggedInUser();
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
@@ -672,6 +778,7 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
         currentlyLoggedInUser = organizer.getCurrentLoggedInUser();
         updateFilteredTaskList(PREDICATE_SHOW_NO_TASKS);
         indicateOrganizerChanged();
+
     }
 
     @Override
@@ -693,13 +800,13 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
         return organizer.getUserbyUsername(username);
     }
 ```
-###### /java/seedu/organizer/model/Organizer.java
+###### \java\seedu\organizer\model\Organizer.java
 ``` java
     public void setUsers(List<User> users) {
         this.users.setUsers(users);
     }
 ```
-###### /java/seedu/organizer/model/Organizer.java
+###### \java\seedu\organizer\model\Organizer.java
 ``` java
     //// user=level operations
     /**
@@ -713,7 +820,8 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
     /**
      * Sets currentLoggedInUser of the organizer
      */
-    public void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException {
+    public void loginUser(User user)
+            throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException {
         requireNonNull(user);
         users.setCurrentLoggedInUser(user);
     }
@@ -735,6 +843,7 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
         users.setCurrentLoggedInUserToNull();
     }
 
+    @Override
     public User getCurrentLoggedInUser() {
         return users.getCurrentLoggedInUser();
     }
@@ -752,11 +861,11 @@ public class SignUpCommandParser implements Parser<SignUpCommand> {
         return users.getUserByUsername(username);
     }
 ```
-###### /java/seedu/organizer/model/task/DateAdded.java
+###### \java\seedu\organizer\model\task\DateAdded.java
 ``` java
 /**
- * Represents a Task's dateAdded in the organizer book.
- * Guarantees: immutable; is valid as declared in {@link #isValidDeadline(String)}
+ * Represents a Task's dateAdded in the organizer.
+ * Guarantees: immutable; is valid as declared in {@link #isValidDateAdded(String)}
  */
 public class DateAdded {
 
@@ -774,17 +883,17 @@ public class DateAdded {
     /**
      * Constructs an {@code DateAdded}.
      *
-     * @param dateadded A valid date.
+     * @param dateAdded A valid date.
      */
-    public DateAdded(String dateadded) {
-        requireNonNull(dateadded);
-        checkArgument(isValidDateAdded(dateadded), MESSAGE_DATEADDED_CONSTRAINTS);
+    public DateAdded(String dateAdded) {
+        requireNonNull(dateAdded);
+        checkArgument(isValidDateAdded(dateAdded), MESSAGE_DATEADDED_CONSTRAINTS);
         //temporary fix for xml file bug due to PrioriTask's dependence on the current date
-        if (dateadded.equals("current_date")) {
+        if (dateAdded.equals("current_date")) {
             this.date = LocalDate.now();
         } else {
             //actual code that is run when tests are not running
-            this.date = LocalDate.parse(dateadded);
+            this.date = LocalDate.parse(dateAdded);
         }
     }
 
@@ -812,8 +921,8 @@ public class DateAdded {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Deadline // instanceof handles nulls
-                && this.date.equals(((Deadline) other).date)); // state check
+                || (other instanceof DateAdded // instanceof handles nulls
+                && this.date.equals(((DateAdded) other).date)); // state check
     }
 
     @Override
@@ -822,7 +931,66 @@ public class DateAdded {
     }
 }
 ```
-###### /java/seedu/organizer/model/task/Priority.java
+###### \java\seedu\organizer\model\task\predicates\TaskByStatusPredicate.java
+``` java
+
+import java.util.function.Predicate;
+
+import seedu.organizer.model.task.Status;
+import seedu.organizer.model.task.Task;
+
+/**
+ * Tests that a {@code Task}'s {@code Status} matches the given status.
+ */
+public class TaskByStatusPredicate implements Predicate<Task> {
+
+    private final Status status;
+
+    public TaskByStatusPredicate(Status status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean test(Task task) {
+        return task.getStatus().equals(status);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TaskByStatusPredicate // instanceof handles nulls
+                && this.status.equals(((TaskByStatusPredicate) other).status)); // state check
+    }
+}
+
+```
+###### \java\seedu\organizer\model\task\predicates\TaskByUserPredicate.java
+``` java
+/**
+ * Tests that a {@code Task}'s {@code User} matches the given user.
+ */
+public class TaskByUserPredicate implements Predicate<Task> {
+
+    private final User user;
+
+    public TaskByUserPredicate(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public boolean test(Task task) {
+        return task.getUser().equals(user);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TaskByUserPredicate // instanceof handles nulls
+                && this.user.equals(((TaskByUserPredicate) other).user)); // state check
+    }
+}
+```
+###### \java\seedu\organizer\model\task\Priority.java
 ``` java
 /**
  * Represents a Task's priority level in the organizer.
@@ -876,7 +1044,7 @@ public class Priority {
 
 }
 ```
-###### /java/seedu/organizer/model/task/Task.java
+###### \java\seedu\organizer\model\task\Task.java
 ``` java
     /**
      * @return a Task comparator based on priority
@@ -892,33 +1060,7 @@ public class Priority {
     }
 }
 ```
-###### /java/seedu/organizer/model/task/TaskByUserPredicate.java
-``` java
-/**
- * Tests that a {@code Task}'s {@code User} matches the given user.
- */
-public class TaskByUserPredicate implements Predicate<Task> {
-
-    private final User user;
-
-    public TaskByUserPredicate(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public boolean test(Task task) {
-        return task.getUser().equals(user);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof TaskByUserPredicate // instanceof handles nulls
-                && this.user.equals(((TaskByUserPredicate) other).user)); // state check
-    }
-}
-```
-###### /java/seedu/organizer/model/task/UniqueTaskList.java
+###### \java\seedu\organizer\model\task\UniqueTaskList.java
 ``` java
     /**
      * Adds a task to the list.
@@ -936,7 +1078,7 @@ public class TaskByUserPredicate implements Predicate<Task> {
         sortTasks();
     }
 ```
-###### /java/seedu/organizer/model/task/UniqueTaskList.java
+###### \java\seedu\organizer\model\task\UniqueTaskList.java
 ``` java
     /**
      * Deletes all tasks by {@code user} from internalList
@@ -948,7 +1090,7 @@ public class TaskByUserPredicate implements Predicate<Task> {
         internalList.removeAll(tasksToDelete);
     }
 ```
-###### /java/seedu/organizer/model/task/UniqueTaskList.java
+###### \java\seedu\organizer\model\task\UniqueTaskList.java
 ``` java
     /**
      * Returns a list of tasks by a user as an unmodifiable {@code ObservableList}
@@ -959,7 +1101,7 @@ public class TaskByUserPredicate implements Predicate<Task> {
         return FXCollections.unmodifiableObservableList(filteredList);
     }
 ```
-###### /java/seedu/organizer/model/task/UniqueTaskList.java
+###### \java\seedu\organizer\model\task\UniqueTaskList.java
 ``` java
     /**
      * Sorts all tasks in uniqueTaskList according to priority
@@ -988,7 +1130,7 @@ public class TaskByUserPredicate implements Predicate<Task> {
         long dayDifferenceAddedToDeadline = Duration.between(dateAdded.atStartOfDay(),
                                                             deadline.atStartOfDay()).toDays();
 
-        if (dateAdded.isEqual(LocalDate.now())) {
+        if (dateAdded.isEqual(LocalDate.now()) && dayDifferenceCurrentToDeadline >= 0) {
             newTask = new Task(task.getName(), task.getPriority(), task.getDeadline(), task.getDateAdded(),
                     task.getDateCompleted(), task.getDescription(), task.getStatus(), task.getTags(),
                     task.getSubtasks(), task.getUser());
@@ -1025,7 +1167,7 @@ public class TaskByUserPredicate implements Predicate<Task> {
     }
 
 ```
-###### /java/seedu/organizer/model/user/exceptions/CurrentlyLoggedInException.java
+###### \java\seedu\organizer\model\user\exceptions\CurrentlyLoggedInException.java
 ``` java
 /**
  * Signals that a user is currently logged in
@@ -1036,7 +1178,7 @@ public class CurrentlyLoggedInException extends Exception {
     }
 }
 ```
-###### /java/seedu/organizer/model/user/exceptions/DuplicateUserException.java
+###### \java\seedu\organizer\model\user\exceptions\DuplicateUserException.java
 ``` java
 /**
  * Signals that an operation would have violated the 'no duplicates' property of the list.
@@ -1047,7 +1189,7 @@ public class DuplicateUserException extends DuplicateDataException {
     }
 }
 ```
-###### /java/seedu/organizer/model/user/exceptions/UserNotFoundException.java
+###### \java\seedu\organizer\model\user\exceptions\UserNotFoundException.java
 ``` java
 /**
  * Signals that an operation could not find the user
@@ -1058,7 +1200,18 @@ public class UserNotFoundException extends Exception {
     }
 }
 ```
-###### /java/seedu/organizer/model/user/UniqueUserList.java
+###### \java\seedu\organizer\model\user\exceptions\UserPasswordWrongException.java
+``` java
+/**
+ * Signals that the user's username matches but password does not
+ */
+public class UserPasswordWrongException extends Exception {
+    public UserPasswordWrongException() {
+        super("Wrong password");
+    }
+}
+```
+###### \java\seedu\organizer\model\user\UniqueUserList.java
 ``` java
 /**
  * A list of users that enforces no nulls and uniqueness between its elements.
@@ -1091,15 +1244,40 @@ public class UniqueUserList implements Iterable<User> {
     /**
      * Sets currentLoggedInUser to user
      */
-    public void setCurrentLoggedInUser(User userToLogIn) throws UserNotFoundException, CurrentlyLoggedInException {
+    public void setCurrentLoggedInUser(User userToLogIn)
+            throws UserNotFoundException,
+            CurrentlyLoggedInException,
+            UserPasswordWrongException {
+
         requireNonNull(userToLogIn);
         if (currentLoggedInUser != null) {
             throw new CurrentlyLoggedInException();
         }
-        if (!internalList.contains(userToLogIn)) {
+
+        User userFound = null;
+        for (User user : internalList) {
+            userFound = attemptToMatchUser(userToLogIn, user);
+        }
+        if (userFound == null) {
             throw new UserNotFoundException();
         }
         this.currentLoggedInUser = userToLogIn;
+    }
+
+    /**
+     * Attempts to match {@code userToLogin} and {@code user}
+     * Both password and username have to match before a user is returned
+     */
+    private User attemptToMatchUser(User userToLogIn, User user) throws UserPasswordWrongException {
+        User userFound = null;
+        if (usernameMatches(user, userToLogIn)) {
+            if (passwordMatches(user, userToLogIn)) {
+                userFound = user;
+            } else {
+                throw new UserPasswordWrongException();
+            }
+        }
+        return userFound;
     }
 
     public void setCurrentLoggedInUserToNull() {
@@ -1217,16 +1395,6 @@ public class UniqueUserList implements Iterable<User> {
                 && this.internalList.equals(((UniqueUserList) other).internalList));
     }
 
-    /**
-     * Returns true if the element in this list is equal to the elements in {@code other}.
-     * The elements do not have to be in the same order.
-     */
-    public boolean equalsOrderInsensitive(UniqueUserList other) {
-        assert CollectionUtil.elementsAreUnique(internalList);
-        assert CollectionUtil.elementsAreUnique(other.internalList);
-        return this == other || new HashSet<>(this.internalList).equals(new HashSet<>(other.internalList));
-    }
-
     @Override
     public int hashCode() {
         assert CollectionUtil.elementsAreUnique(internalList);
@@ -1235,7 +1403,7 @@ public class UniqueUserList implements Iterable<User> {
 
 }
 ```
-###### /java/seedu/organizer/model/user/User.java
+###### \java\seedu\organizer\model\user\User.java
 ``` java
 /**
  * Represents a User in the organizer.
@@ -1245,10 +1413,14 @@ public class UniqueUserList implements Iterable<User> {
  */
 public class User {
 
-    public static final String MESSAGE_USER_CONSTRAINTS = "Username and password should be alphanumeric"
-                                                            + " and must not contain spaces";
-    public static final String USERNAME_VALIDATION_REGEX = "\\p{Alnum}+";
-    public static final String PASSWORD_VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String MESSAGE_USERNAME_CONSTRAINTS = "Username should be alphanumeric, "
+                                                            + "be at least of length 5, "
+                                                            + "and must not contain spaces";
+    public static final String MESSAGE_PASSWORD_CONSTRAINTS = "Password should be alphanumeric"
+            + ", be at least of length 5, "
+            + " and must not contain spaces";
+    public static final String USERNAME_VALIDATION_REGEX = "\\p{Alnum}{5,}+";
+    public static final String PASSWORD_VALIDATION_REGEX = "\\p{Alnum}{5,}+";
 
     public final String username;
     public final String password;
@@ -1261,8 +1433,8 @@ public class User {
      */
     public User(String username, String password) {
         requireNonNull(username, password);
-        checkArgument(isValidUsername(username), MESSAGE_USER_CONSTRAINTS);
-        checkArgument(isValidPassword(password), MESSAGE_USER_CONSTRAINTS);
+        checkArgument(isValidUsername(username), MESSAGE_USERNAME_CONSTRAINTS);
+        checkArgument(isValidPassword(password), MESSAGE_PASSWORD_CONSTRAINTS);
         this.username = username;
         this.password = password;
     }
@@ -1281,6 +1453,27 @@ public class User {
         return test.matches(PASSWORD_VALIDATION_REGEX);
     }
 
+    /**
+     * Used in login feature
+     * Used to check if two users' username matches
+     */
+    public static boolean usernameMatches(User user1, User user2) {
+        requireAllNonNull(user1, user2);
+        return user1.username.equals(user2.username);
+    }
+
+    /**
+     * Used in login feature
+     * Used to check if two users' password matches
+     */
+    public static boolean passwordMatches(User user1, User user2) {
+        requireAllNonNull(user1, user2);
+        return user1.password.equals(user2.password);
+    }
+
+    /**
+     * Used to ensure no duplicate users, since users with the same username are considered duplicates
+     */
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
@@ -1302,15 +1495,17 @@ public class User {
 
 }
 ```
-###### /java/seedu/organizer/model/user/UserWithQuestionAnswer.java
+###### \java\seedu\organizer\model\user\UserWithQuestionAnswer.java
 ``` java
 /**
  * A user class with a question-answer for password retrieval
  */
 public class UserWithQuestionAnswer extends User {
 
-    public static final String MESSAGE_QUESTION_ANSWER_CONSTRAINTS =
-            "Questions and answers can take any values, but cannot be blank";
+    public static final String MESSAGE_QUESTION_CONSTRAINTS =
+            "Questions can take any values, but cannot be blank";
+    public static final String MESSAGE_ANSWER_CONSTRAINTS =
+            "Answers can take any values, but cannot be blank";
 
     /*
      * The first character must not be a whitespace, otherwise " " (a blank string) becomes a valid input.
@@ -1326,26 +1521,14 @@ public class UserWithQuestionAnswer extends User {
      *
      * @param username A valid username.
      * @param password A valid password.
-     */
-    public UserWithQuestionAnswer(String username, String password) {
-        super(username, password);
-        question = null;
-        answer = null;
-    }
-
-    /**
-     * Constructs a {@code UserWithQuestionAnswer}.
-     *
-     * @param username A valid username.
-     * @param password A valid password.
      * @param question A valid question.
      * @param answer A valid answer.
      */
     public UserWithQuestionAnswer(String username, String password, String question, String answer) {
         super(username, password);
         requireAllNonNull(question, answer);
-        checkArgument(isValidQuestion(question), MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
-        checkArgument(isValidAnswer(answer), MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
+        checkArgument(isValidQuestion(question), MESSAGE_QUESTION_CONSTRAINTS);
+        checkArgument(isValidAnswer(answer), MESSAGE_ANSWER_CONSTRAINTS);
         this.question = question;
         this.answer = answer;
     }
@@ -1365,7 +1548,7 @@ public class UserWithQuestionAnswer extends User {
     }
 }
 ```
-###### /java/seedu/organizer/storage/XmlAdaptedUser.java
+###### \java\seedu\organizer\storage\XmlAdaptedUser.java
 ``` java
 /**
  * JAXB-friendly adapted version of the Tag.
@@ -1442,8 +1625,11 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public User toUserModelType() throws IllegalValueException {
-        if (!User.isValidUsername(username) || !User.isValidPassword(password)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+        if (!User.isValidUsername(username)) {
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
+        }
+        if (!User.isValidPassword(password)) {
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
         }
         return new User(username, password);
     }
@@ -1454,12 +1640,17 @@ public class XmlAdaptedUser {
      * @throws IllegalValueException if there were any data constraints violated in the adapted task
      */
     public UserWithQuestionAnswer toUserQuestionAnswerModelType() throws IllegalValueException {
-        if (!User.isValidUsername(username) || !User.isValidPassword(password)) {
-            throw new IllegalValueException(User.MESSAGE_USER_CONSTRAINTS);
+        if (!User.isValidUsername(username)) {
+            throw new IllegalValueException(User.MESSAGE_USERNAME_CONSTRAINTS);
         }
-        if (!UserWithQuestionAnswer.isValidQuestion(question)
-                || !UserWithQuestionAnswer.isValidAnswer(answer)) {
-            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_ANSWER_CONSTRAINTS);
+        if (!User.isValidPassword(password)) {
+            throw new IllegalValueException(User.MESSAGE_PASSWORD_CONSTRAINTS);
+        }
+        if (!UserWithQuestionAnswer.isValidAnswer(answer)) {
+            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_ANSWER_CONSTRAINTS);
+        }
+        if (!UserWithQuestionAnswer.isValidQuestion(question)) {
+            throw new IllegalValueException(UserWithQuestionAnswer.MESSAGE_QUESTION_CONSTRAINTS);
         }
         return new UserWithQuestionAnswer(username, password, question, answer);
     }
@@ -1483,7 +1674,7 @@ public class XmlAdaptedUser {
     }
 }
 ```
-###### /java/seedu/organizer/storage/XmlSerializableOrganizer.java
+###### \java\seedu\organizer\storage\XmlSerializableOrganizer.java
 ``` java
         users.addAll(src.getUserList().stream().map(user -> {
             if (user instanceof UserWithQuestionAnswer) {
@@ -1492,4 +1683,39 @@ public class XmlAdaptedUser {
                 return new XmlAdaptedUser(user);
             }
         }).collect(Collectors.toList()));
+```
+###### \java\seedu\organizer\ui\MainWindow.java
+``` java
+    /**
+     * Sets the default size based on user preferences.
+     */
+    private void setWindowDefaultSize(UserPrefs prefs) {
+        double userPrefHeight = prefs.getGuiSettings().getWindowHeight();
+        double userPrefWidth = prefs.getGuiSettings().getWindowWidth();
+
+        primaryStage.setHeight(userPrefHeight < DEFAULT_HEIGHT ? DEFAULT_HEIGHT : userPrefHeight);
+        primaryStage.setWidth(userPrefWidth < DEFAULT_WIDTH ? DEFAULT_WIDTH : userPrefWidth);
+    }
+```
+###### \java\seedu\organizer\ui\MainWindow.java
+``` java
+    /**
+     * Sets the default position based on user preferences
+     * If window was minimized during closure in previous session, set screen to center
+     */
+    private void setWindowDefaultCoordinates(UserPrefs prefs) {
+        double xCoordinate;
+        double yCoordinate;
+
+        if (prefs.getGuiSettings().getWindowCoordinates() != null) {
+            xCoordinate = prefs.getGuiSettings().getWindowCoordinates().getX();
+            yCoordinate = prefs.getGuiSettings().getWindowCoordinates().getY();
+            if (xCoordinate < 0 && yCoordinate < 0) { // If window was minimized
+                primaryStage.centerOnScreen();
+            } else {
+                primaryStage.setX(xCoordinate);
+                primaryStage.setY(yCoordinate);
+            }
+        }
+    }
 ```
