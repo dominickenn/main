@@ -56,6 +56,7 @@ import seedu.organizer.model.task.predicates.DeadlineContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.DescriptionContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.MultipleFieldsContainsKeywordsPredicate;
 import seedu.organizer.model.task.predicates.NameContainsKeywordsPredicate;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 import seedu.organizer.testutil.EditTaskDescriptorBuilder;
@@ -78,12 +79,12 @@ public class OrganizerParserLoggedInTest {
     public void setUp() {
         try {
             model.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
     }
 

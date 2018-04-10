@@ -29,6 +29,7 @@ import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.subtask.Subtask;
 import seedu.organizer.model.task.Name;
 import seedu.organizer.model.task.Task;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 

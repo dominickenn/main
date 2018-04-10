@@ -15,6 +15,7 @@ import seedu.organizer.logic.LogicManager;
 import seedu.organizer.logic.commands.ListCommand;
 import seedu.organizer.model.Model;
 import seedu.organizer.model.ModelManager;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.DuplicateUserException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;

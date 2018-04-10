@@ -18,6 +18,7 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.Organizer;
 import seedu.organizer.model.ReadOnlyOrganizer;
 import seedu.organizer.model.UserPrefs;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 import seedu.organizer.storage.UserPrefsStorage;
@@ -101,12 +102,12 @@ public class TestApp extends MainApp {
         Model copy = new ModelManager((model.getOrganizer()), new UserPrefs());
         try {
             copy.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
         ModelHelper.setFilteredList(copy, model.getFilteredTaskList());
         return copy;
@@ -140,12 +141,12 @@ public class TestApp extends MainApp {
     public void loginAdmin() {
         try {
             model.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
     }
 }

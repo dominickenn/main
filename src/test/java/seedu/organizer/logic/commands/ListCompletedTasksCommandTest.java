@@ -16,6 +16,7 @@ import seedu.organizer.model.ModelManager;
 import seedu.organizer.model.UserPrefs;
 import seedu.organizer.model.task.Status;
 import seedu.organizer.model.task.predicates.TaskByStatusPredicate;
+import seedu.organizer.model.user.exceptions.CurrentlyLoggedInException;
 import seedu.organizer.model.user.exceptions.UserNotFoundException;
 import seedu.organizer.model.user.exceptions.UserPasswordWrongException;
 
@@ -28,7 +29,6 @@ public class ListCompletedTasksCommandTest {
     private Model model;
     private Model expectedModel;
     private ListCompletedTasksCommand listCommand;
-    private TaskByStatusPredicate predicate;
 
     @Before
     public void setUp() {
@@ -40,12 +40,12 @@ public class ListCompletedTasksCommandTest {
         try {
             model.loginUser(ADMIN_USER);
             expectedModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            throw new AssertionError("Admin user does not exist");
-        } catch (CurrentlyLoggedInException e) {
-            throw new AssertionError("A user should not be currently logged in");
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
 
         listCommand = new ListCompletedTasksCommand();
@@ -54,7 +54,7 @@ public class ListCompletedTasksCommandTest {
     }
 
     @Test
-    public void execute_listIsNotFiltered_showsSameList() {
+    public void execute_listIsNotFiltered_showsCompletedTasks() {
         assertCommandSuccess(listCommand, model, ListCompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
     }
 

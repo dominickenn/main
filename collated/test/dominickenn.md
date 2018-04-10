@@ -17,12 +17,12 @@ public class AddQuestionAnswerCommandTest {
     public void setUp() {
         try {
             model.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        } catch (CurrentlyLoggedInException e) {
-            e.printStackTrace();
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
     }
 
@@ -93,8 +93,8 @@ public class AnswerCommandTest {
         model = new ModelManager();
         try {
             model.addUser(ADMIN_USER);
-        } catch (DuplicateUserException e) {
-            e.printStackTrace();
+        } catch (DuplicateUserException du) {
+            throw new AssertionError("There should not be any duplicate users");
         }
         answerCommand = new AnswerCommand("admin", "answer");
     }
@@ -154,23 +154,6 @@ public class AnswerCommandTest {
 ```
 ###### \java\seedu\organizer\logic\commands\ForgotPasswordCommandTest.java
 ``` java
-
-import static junit.framework.TestCase.assertEquals;
-import static seedu.organizer.testutil.TypicalTasks.ADMIN_USER;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import seedu.organizer.logic.CommandHistory;
-import seedu.organizer.logic.UndoRedoStack;
-import seedu.organizer.logic.commands.exceptions.CommandException;
-import seedu.organizer.model.Model;
-import seedu.organizer.model.ModelManager;
-import seedu.organizer.model.user.UserWithQuestionAnswer;
-import seedu.organizer.model.user.exceptions.DuplicateUserException;
-
 /**
  * Contains unit tests for ForgotPasswordCommand.
  */
@@ -187,8 +170,8 @@ public class ForgotPasswordCommandTest {
         model = new ModelManager();
         try {
             model.addUser(ADMIN_USER);
-        } catch (DuplicateUserException e) {
-            e.printStackTrace();
+        } catch (DuplicateUserException du) {
+            throw new AssertionError("There should not be any duplicate users");
         }
         forgotPasswordCommand = new ForgotPasswordCommand("admin");
     }
@@ -220,11 +203,8 @@ public class ForgotPasswordCommandTest {
     /**
      * Asserts that {@code command} is successfully executed, and<br>
      * - the command feedback is equal to {@code expectedMessage}<br>
-     *
-     * @throws CommandException If an error occurs during command execution.
      */
-    protected void assertCommandSuccess(ForgotPasswordCommand command, String expectedMessage)
-            throws CommandException {
+    protected void assertCommandSuccess(ForgotPasswordCommand command, String expectedMessage) {
         forgotPasswordCommand.setData(model, new CommandHistory(), new UndoRedoStack());
         CommandResult commandResult = command.execute();
         assertEquals(expectedMessage, commandResult.feedbackToUser);
@@ -252,7 +232,6 @@ public class ListCompletedTasksCommandTest {
     private Model model;
     private Model expectedModel;
     private ListCompletedTasksCommand listCommand;
-    private TaskByStatusPredicate predicate;
 
     @Before
     public void setUp() {
@@ -264,12 +243,12 @@ public class ListCompletedTasksCommandTest {
         try {
             model.loginUser(ADMIN_USER);
             expectedModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            throw new AssertionError("Admin user does not exist");
-        } catch (CurrentlyLoggedInException e) {
-            throw new AssertionError("A user should not be currently logged in");
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
 
         listCommand = new ListCompletedTasksCommand();
@@ -278,7 +257,7 @@ public class ListCompletedTasksCommandTest {
     }
 
     @Test
-    public void execute_listIsNotFiltered_showsSameList() {
+    public void execute_listIsNotFiltered_showsCompletedTasks() {
         assertCommandSuccess(listCommand, model, ListCompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
@@ -312,12 +291,12 @@ public class ListUncompletedTasksCommandTest {
         try {
             model.loginUser(ADMIN_USER);
             expectedModel.loginUser(ADMIN_USER);
-        } catch (UserNotFoundException e) {
-            throw new AssertionError("Admin user does not exist");
-        } catch (CurrentlyLoggedInException e) {
-            throw new AssertionError("A user should not be currently logged in");
-        } catch (UserPasswordWrongException e) {
-            e.printStackTrace();
+        } catch (UserNotFoundException unf) {
+            throw new AssertionError("Admin user should exist");
+        } catch (CurrentlyLoggedInException cli) {
+            throw new AssertionError("No user should be currently logged in");
+        } catch (UserPasswordWrongException upw) {
+            throw new AssertionError("Admin user password should not be wrong");
         }
 
         listCommand = new ListUncompletedTasksCommand();
@@ -326,7 +305,7 @@ public class ListUncompletedTasksCommandTest {
     }
 
     @Test
-    public void execute_listIsNotFiltered_showsSameList() {
+    public void execute_listIsNotFiltered_showsUncompletedTasks() {
         assertCommandSuccess(listCommand, model, ListUncompletedTasksCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
@@ -352,7 +331,7 @@ public class LoginCommandTest {
     }
 
     @Test
-    public void execute_userAcceptedByModel_addSuccessful() throws Exception {
+    public void execute_userAcceptedByModel_loginSuccessful() throws Exception {
         ModelStubLoginAccepted modelStub = new ModelStubLoginAccepted();
         User validUser = new User("david", "david123");
 
@@ -374,7 +353,7 @@ public class LoginCommandTest {
 
     @Test
     public void execute_wrongPassword_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingWrongPasswordException();
+        ModelStub modelStub = new ModelStubThrowingUserPasswordWrongException();
         User invalidUser = new User("admin", "wrongPassword");
 
         thrown.expect(CommandException.class);
@@ -398,7 +377,7 @@ public class LoginCommandTest {
         assertTrue(loginAliceCommand.equals(loginAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(loginAliceCommand.equals(1));
+        assertFalse(loginAliceCommand.equals(new SignUpCommand(alice)));
 
         // null -> returns false
         assertFalse(loginAliceCommand.equals(null));
@@ -514,7 +493,7 @@ public class LoginCommandTest {
     /**
      * A Model stub that always throw a UserPasswordWrongException when trying to login.
      */
-    private class ModelStubThrowingWrongPasswordException extends ModelStub {
+    private class ModelStubThrowingUserPasswordWrongException extends ModelStub {
         @Override
         public void loginUser(User user) throws UserPasswordWrongException {
             throw new UserPasswordWrongException();
@@ -527,7 +506,7 @@ public class LoginCommandTest {
     }
 
     /**
-     * A Model stub that always accept login request.
+     * A Model stub that always accepts a login request.
      */
     private class ModelStubLoginAccepted extends ModelStub {
         final ArrayList<User> users = new ArrayList<>();
@@ -664,7 +643,7 @@ public class SignUpCommandTest {
         assertTrue(signUpAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(signUpAliceCommand.equals(1));
+        assertFalse(signUpAliceCommand.equals(new LoginCommand(alice)));
 
         // null -> returns false
         assertFalse(signUpAliceCommand.equals(null));
@@ -829,6 +808,18 @@ public class AnswerCommandParserTest {
 
         // missing all prefixes
         assertParseFailure(parser, " admin answer", expectedMessage);
+
+        // missing username
+        assertParseFailure(parser, "u/ a/answer", expectedMessage);
+
+        // missing answer
+        assertParseFailure(parser, "u/admin a/", expectedMessage);
+
+        // missing all fields
+        assertParseFailure(parser, "u/ a/", expectedMessage);
+
+        // no arguments
+        assertParseFailure(parser, "", expectedMessage);
     }
 }
 ```
@@ -840,7 +831,6 @@ public class ForgotPasswordCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         String expectedUsername = "admin";
-
         assertParseSuccess(parser, " u/admin", new ForgotPasswordCommand(expectedUsername));
     }
 
@@ -850,6 +840,12 @@ public class ForgotPasswordCommandParserTest {
 
         // missing username prefix
         assertParseFailure(parser, " admin", expectedMessage);
+
+        // missing username
+        assertParseFailure(parser, "u/ ", expectedMessage);
+
+        // missing arguments
+        assertParseFailure(parser, "", expectedMessage);
     }
 }
 ```
@@ -877,6 +873,15 @@ public class LoginCommandParserTest {
 
         // all prefixes missing
         assertParseFailure(parser, " bobby b0bby", expectedMessage);
+
+        // missing username
+        assertParseFailure(parser, "u/ p/b0bby", expectedMessage);
+
+        // missing password
+        assertParseFailure(parser, "u/bobby p/ ", expectedMessage);
+
+        // missing fields
+        assertParseFailure(parser, "u/ p/ ", expectedMessage);
     }
 
     @Test
@@ -963,6 +968,7 @@ public class OrganizerParserNotLoggedInTest {
     private final OrganizerParser parser = new OrganizerParser();
 
     private Model model = new ModelManager();
+
     private User user = ADMIN_USER;
     private String username = "admin";
 
@@ -1102,6 +1108,15 @@ public class SignUpCommandParserTest {
 
         // all prefixes missing
         assertParseFailure(parser, " bobby b0bby", expectedMessage);
+
+        // missing username
+        assertParseFailure(parser, "u/ p/b0bby", expectedMessage);
+
+        // missing password
+        assertParseFailure(parser, "u/bobby p/ ", expectedMessage);
+
+        // missing fields
+        assertParseFailure(parser, "u/ p/ ", expectedMessage);
     }
 
     @Test
@@ -1320,7 +1335,6 @@ public class TaskCreatedContainsDateAddedTest {
                 new HashSet<Tag>());
         assertNotNull(task.getDateAdded());
     }
-
 }
 ```
 ###### \java\seedu\organizer\model\UniqueTaskListTest.java
@@ -1331,7 +1345,7 @@ public class TaskCreatedContainsDateAddedTest {
         UniqueTaskList expectedUniqueTaskList = new UniqueTaskList();
         LocalDate currentDate = LocalDate.now();
 
-        //CurrentDate equals to AddedDate
+        // CurrentDate equals to AddedDate and not before Deadline
         Task taskCurrentDateEqualsToAddedDate = new TaskBuilder().withDeadline("2999-01-01")
                                             .withDateAdded(currentDate.toString()).build();
         Task expectedTaskCurrentDateEqualsToAddedDate = new TaskBuilder().withDeadline("2999-01-01")
@@ -1341,10 +1355,11 @@ public class TaskCreatedContainsDateAddedTest {
         expectedUniqueTaskList.add(expectedTaskCurrentDateEqualsToAddedDate);
         assertEquals(uniqueTaskList, expectedUniqueTaskList);
 
+        // Reset lists
         uniqueTaskList = new UniqueTaskList();
         expectedUniqueTaskList = new UniqueTaskList();
 
-        //CurrentDate before Deadline
+        // CurrentDate before Deadline
         Task taskCurrentDateBeforeDeadline = new TaskBuilder().withDeadline("2035-01-01")
                 .withDateAdded("1900-01-01").build();
         Task expectedTaskCurrentDateBeforeDeadline = new TaskBuilder().withDeadline("2035-01-01")
@@ -1354,10 +1369,11 @@ public class TaskCreatedContainsDateAddedTest {
         expectedUniqueTaskList.add(expectedTaskCurrentDateBeforeDeadline);
         assertEquals(uniqueTaskList, expectedUniqueTaskList);
 
+        // Reset lists
         uniqueTaskList = new UniqueTaskList();
         expectedUniqueTaskList = new UniqueTaskList();
 
-        //CurrentDate after Deadline
+        // CurrentDate after Deadline
         Task taskCurrentDateAfterDeadline = new TaskBuilder().withDeadline("1999-01-01")
                 .withDateAdded("1950-01-01").build();
         Task expectedTaskCurrentDateAfterDeadline = new TaskBuilder().withDeadline("1999-01-01")
@@ -1430,7 +1446,6 @@ public class UserTest {
         Assert.assertThrows(NullPointerException.class, () -> User.passwordMatches(null, user));
         Assert.assertThrows(NullPointerException.class, () -> User.passwordMatches(null, null));
     }
-
 }
 ```
 ###### \java\seedu\organizer\model\user\UserWithQuestionAnswerTest.java
@@ -1563,8 +1578,7 @@ public class XmlAdaptedUserTest {
 ```
 ###### \java\systemtests\ClearCommandSystemTest.java
 ``` java
-    */
-/**
+    /**
      * Executes {@code command} and verifies that the command box displays an empty string, the result display
      * box displays {@code ClearCommand#MESSAGE_SUCCESS} and the model related components equal to an empty model.
      * These verifications are done by
@@ -1572,8 +1586,7 @@ public class XmlAdaptedUserTest {
      * Also verifies that the command box has the default style class and the status bar's sync status changes.
      * Also verifies that the {@code expectedResultMessage} is displayed
      * @see OrganizerSystemTest#assertApplicationDisplaysExpected(String, String, Model)
-     *//*
-
+     */
     public void assertCommandSuccess(String command, String expectedResultMessage) {
         Model expectedModel = getModel();
         expectedModel.deleteCurrentUserTasks();
