@@ -3,6 +3,7 @@ package seedu.organizer.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.organizer.model.recurrence.exceptions.TaskAlreadyRecurredException;
 import seedu.organizer.model.tag.Tag;
 import seedu.organizer.model.task.Task;
 import seedu.organizer.model.task.exceptions.DuplicateTaskException;
@@ -40,7 +41,7 @@ public interface Model {
     void addUser(User user) throws DuplicateUserException;
 
     /** Login a user */
-    void loginUser(User user) throws UserNotFoundException, CurrentlyLoggedInException, UserPasswordWrongException;
+    void loginUser(User user) throws UserNotFoundException, UserPasswordWrongException, CurrentlyLoggedInException;
 
     /** Logout from organizer */
     void logout();
@@ -73,6 +74,10 @@ public interface Model {
      */
     void updateFilteredTaskList(Predicate<Task> predicate);
 
+    //@@author natania
     /** Removes the given {@code tag} from all {@code Task}s. */
     void deleteTag(Tag tag);
+
+    /** Recurs the given task for the given number of times */
+    void recurTask(Task task, int times) throws DuplicateTaskException, TaskAlreadyRecurredException;
 }
