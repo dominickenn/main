@@ -50,7 +50,7 @@ import seedu.organizer.testutil.TaskBuilder;
 
 public class AddCommandParserTest {
 
-    Model model = new ModelManager();
+    private Model model = new ModelManager();
     private AddCommandParser parser = new AddCommandParser();
 
     @Before
@@ -68,7 +68,7 @@ public class AddCommandParserTest {
             throw new AssertionError("Admin user password should not be wrong");
         }
     }
-    
+
     @Test
     public void parse_allFieldsPresent_success() {
         Task expectedTask = new TaskBuilder().withName(VALID_NAME_STUDY).withPriority(VALID_PRIORITY_STUDY)
