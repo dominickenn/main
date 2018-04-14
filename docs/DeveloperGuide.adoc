@@ -1250,6 +1250,9 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
+[NOTE]
+If the window size is smaller than the default height and width, the window size will be reset to default upon app re-launch.
+
 === User management
 
 . Signing up
