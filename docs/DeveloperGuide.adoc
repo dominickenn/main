@@ -1294,24 +1294,12 @@ If the window size is smaller than the default height and width, the window size
 .. Test case: `answer u/admin a/yes` +
    Expected: Password retrieval successful. Password of 'admin' shown in the status message. Status bar remains the same.
 
-=== Deleting a task
+=== Task Management
 
-. Deleting a task while all tasks are listed
+. Natania add your recurring task testing here
 
-.. Prerequisites: List all tasks using the `list` command. Multiple tasks in the list.
-.. Test case: `delete 1` +
-   Expected: First task is deleted from the list. Details of the deleted task is shown in the status message. Timestamp in the status bar is updated.
-.. Test case: `delete 0` +
-   Expected: No task is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
-   Expected: Similar to previous.
+. Agus add your subtask testing here
 
-_{ more test cases ... }_
+=== Calendar
 
-=== Saving data
-
-. Dealing with missing/corrupted data files
-
-.. _{explain how to simulate a missing/corrupted file and the expected behavior}_
-
-_{ more test cases ... }_
+. Guek Ling add your calendar testing here.
